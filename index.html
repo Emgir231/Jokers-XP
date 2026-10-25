@@ -95,6 +95,8 @@ h1,h2,h3,p{margin:0}
 
 /* Accueil */
 .hero{display:flex;align-items:flex-end;justify-content:space-between;padding:calc(env(safe-area-inset-top) + 26px) 0 14px}
+.hbtns{display:flex;align-items:center;gap:10px;flex:none}
+.hbtns .icon{margin:0}
 .hero h1{font-size:36px;font-weight:900;letter-spacing:-.5px}
 .hero p{color:var(--soft);font-weight:700;margin-top:2px}
 .banner{display:block;width:100%;text-align:left;border:0;border-radius:18px;padding:12px 14px;margin:6px 0 4px;
@@ -1151,6 +1153,84 @@ body[data-theme=girly] .wheel .wi.empty{background:transparent;box-shadow:none;b
 #cworld{transform-origin:0 0}
 #cworld.gridshow{background-image:linear-gradient(to right,var(--line-2) 1px,transparent 1px),linear-gradient(to bottom,var(--line-2) 1px,transparent 1px);background-size:5% 6.6667%}
 .cframe{cursor:grab}
+
+
+/* ===== Mode présentation ===== */
+#presscreen{position:fixed;inset:0;z-index:90;display:none;flex-direction:column;background:var(--bg);color:var(--ink);overflow:hidden}
+#presscreen.open{display:flex}
+body.press-open .sheet,body.press-open .backdrop{z-index:95}
+.phead{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:calc(env(safe-area-inset-top,0px) + 14px) 18px 10px}
+.phead b{display:block;font-size:22px}
+.phead span{font-size:14px;color:var(--soft)}
+.pbtns{display:flex;gap:8px}
+.pbody{flex:1;min-height:0;display:flex;gap:18px;padding:0 18px calc(env(safe-area-inset-bottom,0px) + 18px)}
+.pbody.land{flex-direction:row}
+.pbody.port{flex-direction:column;overflow-y:auto;max-width:520px;width:100%;margin:0 auto}
+.ppodium{display:flex;align-items:flex-end;justify-content:center;gap:10px;flex:0 0 42%;min-width:0}
+.pbody.port .ppodium{flex:none;width:100%}
+.pstep{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:4px;padding:12px 8px;border-radius:16px;background:var(--surface);border:1px solid var(--line-2);min-width:0;text-align:center}
+.pstep b{font-size:18px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pstep span{font-size:15px;font-weight:700;color:var(--primary)}
+.pstep small{font-size:12px;color:var(--soft)}
+.pstep.s1{min-height:62%;background:var(--primary);color:var(--acc-ink);border-color:var(--primary)}
+.pstep.s1 span,.pstep.s1 small{color:var(--acc-ink)}
+.pstep.s2{min-height:46%}
+.pstep.s3{min-height:36%}
+.pstep.empty{visibility:hidden}
+.plist{flex:1;min-width:0;overflow-y:auto;display:flex;flex-direction:column;gap:6px}
+.prow{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:14px;background:var(--surface);border:1px solid var(--line)}
+.prow.abs{opacity:.4;filter:grayscale(1)}
+.pname{flex:1;min-width:0;font-weight:600;font-size:17px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pxp{font-size:14px;color:var(--soft);white-space:nowrap}
+.pxp b{font-size:18px;color:var(--ink)}
+.pm{display:flex;gap:6px;flex:none}
+.pm .rb{width:42px;height:42px;font-size:20px}
+
+/* ===== Plan de classe en paysage (tablette, ordinateur) : plan à gauche, bac et actions à droite ===== */
+.cplay{display:block}
+.cpside{margin-top:10px}
+@media (orientation:landscape) and (min-height:600px){
+  .cplay{display:grid;grid-template-columns:minmax(0,1fr) minmax(230px,300px);gap:16px;align-items:start}
+  .cpside{margin-top:0;position:sticky;top:8px}
+  .cpside .cpbac{margin-top:0;max-height:calc(100dvh - 220px);overflow-y:auto}
+  .cframe{width:min(100%,calc((100dvh - 230px) * 4 / 3));margin-left:auto;margin-right:auto}
+  .pgrid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .pzone{min-height:96px}
+}
+
+/* ===== Mode présentation : plan simplifié (lecture seule) ===== */
+.pbody.plan{display:block;overflow:hidden}
+.pplanwrap{height:100%;display:flex;align-items:center;justify-content:center}
+.pplan4{width:100%;display:flex;align-items:center;justify-content:center}
+.pplanbox{position:relative;width:100%;aspect-ratio:4/3;border:1px solid var(--line-2);border-radius:18px;background:var(--surface-2,var(--surface));overflow:hidden}
+.pitem{position:absolute;box-sizing:border-box;background:var(--surface);border:2px solid var(--line-2);border-radius:var(--radius,14px);display:flex;align-items:center;justify-content:center;padding:4px}
+.pitem.circle{border-radius:50%}
+.pitem.board,.pitem.desk{background:transparent;border-style:dashed}
+.pin2{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;max-width:100%;overflow:hidden;text-align:center}
+.pchip2{display:inline-block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:2px 7px;border-radius:999px;background:var(--primary);color:var(--acc-ink);font-weight:700;font-size:13px}
+.pfix{font-size:13px;font-weight:700;color:var(--soft)}
+.pplangrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;width:100%}
+.pplz{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:10px;min-height:110px;display:flex;flex-direction:column;gap:8px}
+.pplzh{display:flex;align-items:baseline;justify-content:space-between}
+.pplzh b{font-size:20px}
+.pplzh small{font-size:13px;color:var(--soft)}
+.pplzb{display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start}
+@media (orientation:landscape) and (min-height:600px){
+  .pplan4{height:100%}
+  .pplanbox{width:min(100%,calc((100dvh - 150px) * 4 / 3))}
+  .pplangrid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+
+/* ===== Tutoriel : un écran à la fois, aéré, couleur d'accentuation ===== */
+.tchips{display:flex;gap:8px;flex-wrap:wrap;margin:4px 0 14px}
+.tchip{border:1px solid var(--line-2);background:transparent;color:var(--ink);border-radius:999px;padding:8px 14px;font:inherit;font-size:14px;font-weight:600}
+.tchip.on{background:var(--primary);border-color:var(--primary);color:var(--acc-ink)}
+.tintro{margin:0 2px 14px;font-size:13px;letter-spacing:.04em;color:var(--acc-txt);font-weight:700;text-transform:uppercase}
+.tlist{display:flex;flex-direction:column;gap:12px}
+.tcard{display:flex;gap:14px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px 16px 16px 14px}
+.tnum{flex:none;min-width:36px;height:36px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;background:var(--primary);color:var(--acc-ink);font-size:13px;font-weight:800;letter-spacing:.02em}
+.tcard h3{margin:2px 0 6px;font-size:16px;font-weight:700;color:var(--ink);line-height:1.3}
+.tcard p{margin:0;font-size:14px;line-height:1.65;color:var(--soft)}
 </style>
 </head>
 <body>
@@ -1261,6 +1341,7 @@ function costFor(s, k, ch) {
 /* ============ Utilitaires ============ */
 const $ = id => document.getElementById(id);
 const ICONS = {
+  screen: '<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>',
   timer: '<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9.5 2.5h5M12 2.5V5"/>',
   plus: '<path d="M12 5v14M5 12h14"/>',
   x: '<path d="M6 6l12 12M18 6L6 18"/>',
@@ -1566,6 +1647,7 @@ function render() {
   $('app').innerHTML = view.name === 'home' ? homeHTML() : classHTML();
   if (view.name === 'class') renderList();
   applyFlash();
+  if (pressCid) renderPress();
 }
 
 function backupBanner() {
@@ -1597,7 +1679,7 @@ function homeHTML() {
   const nbStu = state.classes.reduce((a, c) => a + c.students.length, 0);
   const hs = state.homeSort || 'level';
   let h = `<header class="hero"><div><h1>Mes classes</h1><p>${state.classes.length} classe${state.classes.length > 1 ? 's' : ''}, ${nbStu} élève${nbStu > 1 ? 's' : ''}<span id="sync-badge">${syncBadgeText()}</span></p></div>
-    <button class="icon" onclick="openTimer()" aria-label="Minuteur">${ico('timer')}</button><button class="icon" onclick="openSettings()" aria-label="Réglages">${ico('sliders')}</button></header>${backupBanner()}`;
+    <div class="hbtns"><button class="icon" onclick="openTimer()" aria-label="Minuteur">${ico('timer')}</button><button class="icon" onclick="openPresentationHome()" aria-label="Mode présentation">${ico('screen')}</button><button class="icon" onclick="openSettings()" aria-label="Réglages">${ico('sliders')}</button></div></header>${backupBanner()}`;
   if (!state.classes.length) {
     h += `<div class="empty"><div class="big">${ico('book')}</div>Aucune classe pour le moment.<br>Crée la première pour commencer.</div>`;
   } else {
@@ -3038,11 +3120,17 @@ function openSettings() {
     ${row(ico('info'), 'Aide et tutoriel', 'Accueil, classe, élève, réglages', 'tuto')}
     ${row(ico('flask'), "Classe d'essai", '30 élèves fictifs pour tester', 'demo')}`);
 }
-const TUTO = [["Accueil", [["Minuteur", "Le bouton minuteur, en haut à droite de l'accueil, ouvre un écran plein. Choisis une durée (1, 5, 10, 15, 20 ou 30 minutes, ou une durée libre), puis touche Démarrer. Quand le temps est écoulé, l'écran clignote et le son retentit jusqu'à ce que tu touches Arrêter le son. Le minuteur continue si tu quittes l'écran, tant que l'appli reste ouverte ; si l'iPhone se verrouille, le signal peut arriver avec un léger retard."], ["Les classes", "Chaque classe est une carte colorée, groupée par niveau (5e, 4e, 3e, Autre). Touche une carte pour ouvrir la classe. Le bouton ••• ouvre les options de la classe."], ["Trier", "Les boutons Par niveau, A–Z et XP gagnés changent l'ordre. Le tri affiché à l'ouverture se choisit dans Réglages, Accueil et tri."], ["Créer une classe", "Touche « Nouvelle classe » en bas. Donne le nom, le niveau et le professeur principal. Tu peux ensuite importer ou ajouter les élèves."], ["Colonnes", "Le nombre de colonnes (1, 2 ou 3) se règle dans Réglages, Apparence. Sur grand écran, la page s'élargit."], ["Rappels", "Une bannière rappelle la sauvegarde du jour, puis une fois par semaine de supprimer les anciennes sauvegardes dans Fichiers."], ["Raccourci de thème", "Touche cinq fois de suite dans le vide (hors des classes et des boutons) en moins de 2 secondes : le thème passe sur Ubuntu, le style par défaut. Touche de nouveau cinq fois : tu retrouves le thème que tu avais avant."]]], ["Classe", [["Podium et recherche", "Les trois premiers apparaissent en haut. La barre « Chercher un élève » filtre la liste par nom ou prénom."], ["Trier et filtrer", "Le menu de tri propose A–Z, Îlot, XP, Cartes et Discrets. « Discrets » place en haut les élèves qui ont le moins participé pendant la séance en cours (la demi-journée de la dernière attribution d'XP). « Filtrer » affiche les élèves d'une étiquette."], ["Barre d'outils", "Élève : ajouter un élève. Import : importer une liste. Appel : marquer les absents du jour. XP classe : donner ou retirer des XP à toute la classe, absents exclus. Tirage : tirage au sort des élèves. Histo : l'historique de la classe. Plan : placer les élèves par îlot."], ["Une ligne élève", "Touche le nom pour ouvrir la fiche. Les boutons + et − donnent ou retirent des XP selon une condition. Un appui long d'une seconde sur la ligne ouvre la roue rapide : huit cartes apparaissent autour de ton doigt, quatre au-dessus et quatre en dessous. Glisse vers une carte : elle s'éclaire. Relâche pour lancer l'action. La page ne défile pas pendant la roue. Les cartes reprennent l'habillage du style choisi, comme les cartes de classe."], ["Annuler", "Après une action, un message reste 4 secondes avec « Annuler ». Passé ce délai, corrige avec un retrait ou un gain, et garde une trace dans l'historique."], ["Tirage au sort", "Le bouton Tirage ouvre la liste des élèves de la classe, avec une case à cocher pour chacun. Les absents du jour sont décochés par défaut ; tu peux recocher ou décocher qui tu veux. Touche Tirer au sort : un nom défile puis s'arrête sur une carte à la couleur d'accentuation. « Tirer un autre » continue sans répéter un élève déjà tiré. Quand tout le monde est passé, un message l'indique, avec un bouton pour recommencer. Les élèves déjà tirés sont mémorisés sur cet appareil, pour la classe, et restent exclus d'un tirage à l'autre. Une heure après le premier tirage, l'appli te propose de les garder ou de réinitialiser les noms. « Réinitialiser les noms » est aussi disponible dans la liste."], ["Étiqueter", "Le mode Étiqueter applique une étiquette (PAI, PAP…) à plusieurs élèves à la fois. « Tous » et « Aucun » sélectionnent en un geste."], ["Plan de classe", "Le bouton Plan ouvre le plan de la classe. Avec la formule actuelle, il regroupe les élèves en îlots A à F. Avec la formule personnalisée (Réglages, Personnalisation, Formule du plan), tu composes le plan : la barre d'outils ajoute des tables carrées, rectangulaires ou rondes, un tableau et un bureau, à faire glisser sur le plan. Touche un élément pour le sélectionner, puis déplace-le, redimensionne-le avec la poignée du coin, fais-le pivoter avec la poignée du haut, ou supprime-le avec la croix. Les élèves se glissent dans les tables (plusieurs par table) ; ceux qui ne sont assis nulle part attendent dans le bac « Non placés ». Une fois le plan au point, touche « Valider » : il est verrouillé pour éviter les déplacements accidentels. « Modifier » le déverrouille. Tu peux exporter le plan en image ou l'imprimer en PDF. Pour travailler sur une grande salle, utilise les boutons + et − pour zoomer, et Tout voir pour revenir à la vue complète. Quand le plan est dézoomé, les élèves s'affichent par leur prénom ; en cas de doublon, on ajoute l'initiale du nom, puis davantage de lettres si nécessaire. Le bouton Aimanté cale les éléments sur un quadrillage pour aligner les rangées ; Libre désactive ce calage. Sélection multiple te permet de toucher plusieurs éléments, pour les déplacer, les dupliquer ou les supprimer ensemble. Dupliquer crée une copie décalée à côté de l'élément choisi. Pour te déplacer dans un plan zoomé, fais glisser une zone vide. Avec la formule personnalisée, les lettres d'îlots n'apparaissent plus devant les prénoms. Elles restent enregistrées : repasse à la formule actuelle pour les retrouver."], ["Options de la classe", "••• permet de modifier la classe, de passer au chapitre suivant, de défaire le passage, d'exporter un PDF (période et style au choix) et de supprimer la classe."], ["Chapitres", "Passer au chapitre suivant archive un bilan (XP, gains, retraits, achats, cartes utilisées). Les XP ne changent jamais. Deux cases décident si les cartes en attente sont marquées utilisées et si les compteurs « par chapitre » repartent à zéro."]]], ["Élève", [["Solde et total", "Le solde est l'XP disponible, le total l'XP gagné depuis le début. La jauge sous le nom montre la progression vers 8, 22 puis 50 XP."], ["Gagner ou retirer des XP", "Choisis une condition pour gagner des XP. Les conditions à gain limité par chapitre se donnent depuis la fiche, et peuvent aussi être placées sur la roue rapide. Le retrait demande un montant et un motif facultatif, et réduit aussi le total."], ["Cartes", "L'achat de carte se fait ici. Une carte de rang inférieur sur la même ligne propose son tarif réduit. Le remboursement et le marquage « utilisée » sont aussi ici. L'appui maintenu sur un badge de carte affiche son nom."], ["Absence et oubli", "Absent ou présent pour la journée. L'oubli d'affaires bloque le gain d'XP pendant 30, 45, 60 ou 90 minutes (durée réglable), sans retirer d'XP ; la jauge affiche le temps restant."], ["Étiquettes et notes", "Ajoute des étiquettes (PAI, PAP…) et des notes libres. Elles sont repliables et synchronisées."], ["Historique", "Tous les événements de l'élève : gains, retraits, achats, absences, oublis. La liste s'affiche par tranches de 80 événements ; « Voir plus » charge la suite."]]], ["Réglages", [["Sauvegarde", "Exporte un fichier (enregistre-le dans Fichiers, dans un dossier « Jokers sauvegardes »). Importe un fichier pour restaurer. Trois copies automatiques restent dans l'appli. Le contrôle de cohérence signale les anomalies sans rien modifier."], ["Mode Purge", "Supprime toutes les classes et tous les élèves, après confirmation. Les étiquettes, les cartes ajoutées et les réglages sont conservés. Une purge est définitive."], ["Étiquettes", "Modifie les quinze étiquettes : nom, icône, couleur."], ["Conditions d'XP", "Modifie les conditions : nom, XP et limite par chapitre (0 = sans limite). Les conditions peuvent être placées sur la roue rapide dans Réglages, Outils, Roue rapide."], ["Accueil et tri", "Choisis le tri affiché à l'ouverture de l'accueil : par niveau, A–Z ou XP gagnés."], ["Roue rapide", "Dans Réglages, Personnalisation, choisis les actions des huit cartes : quatre en haut, quatre en bas. Une carte vide reste visible, en pointillé, et n'est pas cliquable. Actions possibles : une condition d'XP, un retrait d'XP, la présence (absent ou présent), l'oubli d'affaires, ou annuler la dernière action. Réinitialiser rétablit la configuration de départ, commune à toutes les classes."], ["Son du minuteur", "Choisis le son de fin de minuteur parmi quatre sons intégrés à l'appli : Bip, Cloche, Carillon et Tonalité douce. Touche un son pour l'écouter, puis choisis-le. Ce choix vaut pour tous les minuteurs. Tu peux aussi régler la puissance sonore, du niveau 1 (très doux) au niveau 5 (très fort)."], ["Formule du plan", "Choisis la formule du plan de classe, pour toutes les classes : la formule actuelle (îlots A à F) ou la formule personnalisée (tables, tableau, bureau, élèves placés librement)."], ["Apparence", "Choisis le style : Ubuntu (par défaut), Éducatif, Vero, Cockpit ou Girly. Vero se règle en sombre ou en clair. Tu peux aussi choisir le mode clair, sombre, sombre pur ou automatique, le thème au démarrage, le nom des styles, la couleur d'accentuation (palettes, code hexa ou couleur personnalisée) et le nombre de colonnes."], ["Classe d'essai", "Ajoute une classe fictive de 30 élèves avec un historique, pour essayer l'appli sans risque."], ["Synchronisation", "Sur claude.ai, les données se synchronisent avec ton compte. Sur le site GitHub, la synchronisation n'est pas disponible : l'appli reste locale."]]]];
+const TUTO = [["Accueil", [["Minuteur", "Le bouton minuteur, en haut à droite de l'accueil, ouvre un écran plein. Choisis une durée (1, 5, 10, 15, 20 ou 30 minutes, ou une durée libre), puis touche Démarrer. Quand le temps est écoulé, l'écran clignote et le son retentit jusqu'à ce que tu touches Arrêter le son. Le minuteur continue si tu quittes l'écran, tant que l'appli reste ouverte ; si l'iPhone se verrouille, le signal peut arriver avec un léger retard."], ["Mode présentation", "Le bouton écran, dans l'en-tête de l'accueil, entre le minuteur et les réglages, ouvre le mode présentation pour projeter une classe. Il affiche le podium des trois premiers, le total des XP de la classe et la liste de tous les élèves par leur prénom (avec des lettres du nom en plus en cas de doublon). Les élèves absents du jour sont grisés. Les boutons + et − ajoutent ou retirent des XP, comme dans la liste de classe. Notes, étiquettes et historique n'apparaissent jamais. L'écran reste allumé tant que le mode est ouvert, si l'appareil le permet. Le bouton Format portrait affiche la vue en portrait pour un usage ponctuel ; sur les appareils qui le permettent, l'orientation est aussi verrouillée. Le bouton Minuteur ouvre le minuteur. Le bouton Plan affiche un plan simplifié de la classe, en lecture seule, sans commandes ni bannières : la disposition des tables et les noms des élèves. Un second appui revient à la liste. Quitter ferme le mode."], ["Les classes", "Chaque classe est une carte colorée, groupée par niveau (5e, 4e, 3e, Autre). Touche une carte pour ouvrir la classe. Le bouton ••• ouvre les options de la classe."], ["Trier", "Les boutons Par niveau, A–Z et XP gagnés changent l'ordre. Le tri affiché à l'ouverture se choisit dans Réglages, Accueil et tri."], ["Créer une classe", "Touche « Nouvelle classe » en bas. Donne le nom, le niveau et le professeur principal. Tu peux ensuite importer ou ajouter les élèves."], ["Colonnes", "Le nombre de colonnes (1, 2 ou 3) se règle dans Réglages, Apparence. Sur grand écran, la page s'élargit."], ["Rappels", "Une bannière rappelle la sauvegarde du jour, puis une fois par semaine de supprimer les anciennes sauvegardes dans Fichiers."], ["Raccourci de thème", "Touche cinq fois de suite dans le vide (hors des classes et des boutons) en moins de 2 secondes : le thème passe sur Ubuntu, le style par défaut. Touche de nouveau cinq fois : tu retrouves le thème que tu avais avant."]]], ["Classe", [["Podium et recherche", "Les trois premiers apparaissent en haut. La barre « Chercher un élève » filtre la liste par nom ou prénom."], ["Trier et filtrer", "Le menu de tri propose A–Z, Îlot, XP, Cartes et Discrets. « Discrets » place en haut les élèves qui ont le moins participé pendant la séance en cours (la demi-journée de la dernière attribution d'XP). « Filtrer » affiche les élèves d'une étiquette."], ["Barre d'outils", "Élève : ajouter un élève. Import : importer une liste. Appel : marquer les absents du jour. XP classe : donner ou retirer des XP à toute la classe, absents exclus. Tirage : tirage au sort des élèves. Histo : l'historique de la classe. Plan : placer les élèves par îlot."], ["Une ligne élève", "Touche le nom pour ouvrir la fiche. Les boutons + et − donnent ou retirent des XP selon une condition. Un appui long d'une seconde sur la ligne ouvre la roue rapide : huit cartes apparaissent autour de ton doigt, quatre au-dessus et quatre en dessous. Glisse vers une carte : elle s'éclaire. Relâche pour lancer l'action. La page ne défile pas pendant la roue. Les cartes reprennent l'habillage du style choisi, comme les cartes de classe."], ["Annuler", "Après une action, un message reste 4 secondes avec « Annuler ». Passé ce délai, corrige avec un retrait ou un gain, et garde une trace dans l'historique."], ["Tirage au sort", "Le bouton Tirage ouvre la liste des élèves de la classe, avec une case à cocher pour chacun. Les absents du jour sont décochés par défaut ; tu peux recocher ou décocher qui tu veux. Touche Tirer au sort : un nom défile puis s'arrête sur une carte à la couleur d'accentuation. « Tirer un autre » continue sans répéter un élève déjà tiré. Quand tout le monde est passé, un message l'indique, avec un bouton pour recommencer. Les élèves déjà tirés sont mémorisés sur cet appareil, pour la classe, et restent exclus d'un tirage à l'autre. Une heure après le premier tirage, l'appli te propose de les garder ou de réinitialiser les noms. « Réinitialiser les noms » est aussi disponible dans la liste."], ["Étiqueter", "Le mode Étiqueter applique une étiquette (PAI, PAP…) à plusieurs élèves à la fois. « Tous » et « Aucun » sélectionnent en un geste."], ["Plan de classe", "Le bouton Plan ouvre le plan de la classe. Avec la formule actuelle, il regroupe les élèves en îlots A à F. Avec la formule personnalisée (Réglages, Personnalisation, Formule du plan), tu composes le plan : la barre d'outils ajoute des tables carrées, rectangulaires ou rondes, un tableau et un bureau, à faire glisser sur le plan. Touche un élément pour le sélectionner, puis déplace-le, redimensionne-le avec la poignée du coin, fais-le pivoter avec la poignée du haut, ou supprime-le avec la croix. Les élèves se glissent dans les tables (plusieurs par table) ; ceux qui ne sont assis nulle part attendent dans le bac « Non placés ». Une fois le plan au point, touche « Valider » : il est verrouillé pour éviter les déplacements accidentels. « Modifier » le déverrouille. Tu peux exporter le plan en image ou l'imprimer en PDF. Pour travailler sur une grande salle, utilise les boutons + et − pour zoomer, et Tout voir pour revenir à la vue complète. Quand le plan est dézoomé, les élèves s'affichent par leur prénom ; en cas de doublon, on ajoute l'initiale du nom, puis davantage de lettres si nécessaire. Le bouton Aimanté cale les éléments sur un quadrillage pour aligner les rangées ; Libre désactive ce calage. Sélection multiple te permet de toucher plusieurs éléments, pour les déplacer, les dupliquer ou les supprimer ensemble. Dupliquer crée une copie décalée à côté de l'élément choisi. Pour te déplacer dans un plan zoomé, fais glisser une zone vide. Avec la formule personnalisée, les lettres d'îlots n'apparaissent plus devant les prénoms. Elles restent enregistrées : repasse à la formule actuelle pour les retrouver."], ["Options de la classe", "••• permet de modifier la classe, de passer au chapitre suivant, de défaire le passage, d'exporter un PDF (période et style au choix) et de supprimer la classe."], ["Chapitres", "Passer au chapitre suivant archive un bilan (XP, gains, retraits, achats, cartes utilisées). Les XP ne changent jamais. Deux cases décident si les cartes en attente sont marquées utilisées et si les compteurs « par chapitre » repartent à zéro."]]], ["Élève", [["Solde et total", "Le solde est l'XP disponible, le total l'XP gagné depuis le début. La jauge sous le nom montre la progression vers 8, 22 puis 50 XP."], ["Gagner ou retirer des XP", "Choisis une condition pour gagner des XP. Les conditions à gain limité par chapitre se donnent depuis la fiche, et peuvent aussi être placées sur la roue rapide. Le retrait demande un montant et un motif facultatif, et réduit aussi le total."], ["Cartes", "L'achat de carte se fait ici. Une carte de rang inférieur sur la même ligne propose son tarif réduit. Le remboursement et le marquage « utilisée » sont aussi ici. L'appui maintenu sur un badge de carte affiche son nom."], ["Absence et oubli", "Absent ou présent pour la journée. L'oubli d'affaires bloque le gain d'XP pendant 30, 45, 60 ou 90 minutes (durée réglable), sans retirer d'XP ; la jauge affiche le temps restant."], ["Étiquettes et notes", "Ajoute des étiquettes (PAI, PAP…) et des notes libres. Elles sont repliables et synchronisées."], ["Historique", "Tous les événements de l'élève : gains, retraits, achats, absences, oublis. La liste s'affiche par tranches de 80 événements ; « Voir plus » charge la suite."]]], ["Réglages", [["Sauvegarde", "Exporte un fichier (enregistre-le dans Fichiers, dans un dossier « Jokers sauvegardes »). Importe un fichier pour restaurer. Trois copies automatiques restent dans l'appli. Le contrôle de cohérence signale les anomalies sans rien modifier."], ["Mode Purge", "Supprime toutes les classes et tous les élèves, après confirmation. Les étiquettes, les cartes ajoutées et les réglages sont conservés. Une purge est définitive."], ["Étiquettes", "Modifie les quinze étiquettes : nom, icône, couleur."], ["Conditions d'XP", "Modifie les conditions : nom, XP et limite par chapitre (0 = sans limite). Les conditions peuvent être placées sur la roue rapide dans Réglages, Outils, Roue rapide."], ["Accueil et tri", "Choisis le tri affiché à l'ouverture de l'accueil : par niveau, A–Z ou XP gagnés."], ["Roue rapide", "Dans Réglages, Personnalisation, choisis les actions des huit cartes : quatre en haut, quatre en bas. Une carte vide reste visible, en pointillé, et n'est pas cliquable. Actions possibles : une condition d'XP, un retrait d'XP, la présence (absent ou présent), l'oubli d'affaires, ou annuler la dernière action. Réinitialiser rétablit la configuration de départ, commune à toutes les classes."], ["Son du minuteur", "Choisis le son de fin de minuteur parmi quatre sons intégrés à l'appli : Bip, Cloche, Carillon et Tonalité douce. Touche un son pour l'écouter, puis choisis-le. Ce choix vaut pour tous les minuteurs. Tu peux aussi régler la puissance sonore, du niveau 1 (très doux) au niveau 5 (très fort)."], ["Formule du plan", "Choisis la formule du plan de classe, pour toutes les classes : la formule actuelle (îlots A à F) ou la formule personnalisée (tables, tableau, bureau, élèves placés librement)."], ["Apparence", "Choisis le style : Ubuntu (par défaut), Éducatif, Vero, Cockpit ou Girly. Vero se règle en sombre ou en clair. Tu peux aussi choisir le mode clair, sombre, sombre pur ou automatique, le thème au démarrage, le nom des styles, la couleur d'accentuation (palettes, code hexa ou couleur personnalisée) et le nombre de colonnes."], ["Classe d'essai", "Ajoute une classe fictive de 30 élèves avec un historique, pour essayer l'appli sans risque."], ["Synchronisation", "Sur claude.ai, les données se synchronisent avec ton compte. Sur le site GitHub, la synchronisation n'est pas disponible : l'appli reste locale."]]]];
+let tutoIdx = 0;
+function setTutoIdx(i) { tutoIdx = i; openSettingsPage('tuto'); }
 function tutoHTML() {
-  return `<p class="muted" style="font-size:14px;margin-bottom:12px">Un guide rapide, écran par écran. Touche une rubrique pour la lire.</p>` +
-    TUTO.map(([screen, items]) => `<details class="tuto"><summary><b>${esc(screen)}</b></summary>` +
-      items.map(([t, d]) => `<div class="tuto-i"><b>${esc(t)}</b><p>${esc(d)}</p></div>`).join('') + `</details>`).join('');
+  const cur = Math.min(tutoIdx, TUTO.length - 1);
+  const chips = TUTO.map(([screen], i) => `<button class="tchip ${i === cur ? 'on' : ''}" aria-pressed="${i === cur}" onclick="setTutoIdx(${i})">${esc(screen)}</button>`).join('');
+  const [screen, items] = TUTO[cur];
+  const cards = items.map(([t, d], i) => `<article class="tcard"><span class="tnum">${String(i + 1).padStart(2, '0')}</span><div><h3>${esc(t)}</h3><p>${esc(d)}</p></div></article>`).join('');
+  return `<nav class="tchips" aria-label="Écrans">${chips}</nav>
+    <p class="tintro">${esc(screen)} · ${items.length} rubrique${items.length > 1 ? 's' : ''}</p>
+    <div class="tlist">${cards}</div>`;
 }
 
 /* ===================== MINUTEUR ===================== */
@@ -3360,11 +3448,11 @@ function customPlanHTML(c) {
     </div>`;
   const items = L.items.map(it => cpItemHTML(c, it, sels.includes(it.id), L.locked, labels)).join('');
   const bac = `<div class="cpbac" data-cp-drop="bac"><p class="cpbacT">Non placés · ${un.length}</p><div class="cpchips">${un.map(s => `<span class="cpchip" data-cp-chip="${s.id}">${esc(cpSeatLabel(c, s, labels))}</span>`).join('') || '<span class="cpnone">Tous les élèves sont placés</span>'}</div></div>`;
-  return `<div class="cphead"><div><b>Plan personnalisé</b><p class="cpsub">${L.locked ? 'Plan validé, verrouillé' : 'Glisse les éléments et les élèves'}</p></div><button class="cpbtn" onclick="cpToggleLock()">${L.locked ? 'Modifier' : 'Valider'}</button></div>
+  return `<div class="cplay"><div class="cpmain"><div class="cphead"><div><b>Plan personnalisé</b><p class="cpsub">${L.locked ? 'Plan validé, verrouillé' : 'Glisse les éléments et les élèves'}</p></div><button class="cpbtn" onclick="cpToggleLock()">${L.locked ? 'Modifier' : 'Valider'}</button></div>
     ${tools}${bar}
-    <div id="cframe" class="cframe ${L.locked ? 'locked' : ''}" data-zoom="${z.toFixed(2)}"><div id="cworld" style="position:absolute;${cpWorldStyle()}">${items}</div></div>
-    ${bac}
-    <div class="cpexp"><button class="cpbtn" onclick="cpExportPng()">Exporter en image</button><button class="cpbtn" onclick="cpPrint()">Imprimer ou PDF</button></div>`;
+    <div id="cframe" class="cframe ${L.locked ? 'locked' : ''}" data-zoom="${z.toFixed(2)}"><div id="cworld" style="position:absolute;${cpWorldStyle()}">${items}</div></div></div>
+    <div class="cpside">${bac}
+    <div class="cpexp"><button class="cpbtn" onclick="cpExportPng()">Exporter en image</button><button class="cpbtn" onclick="cpPrint()">Imprimer ou PDF</button></div></div></div>`;
 }
 /* Glisser-déposer (souris, doigt, stylet) */
 let cpDrag = null, cpGhostEl = null;
@@ -3504,6 +3592,77 @@ function planTypeHTML() {
   return `<p class="muted" style="font-size:14px;margin-bottom:12px">Choisis la formule du plan de classe, valable pour toutes les classes.</p>`
     + [['classic', 'Actuelle : îlots A à F'], ['custom', 'Personnalisée : tables et éléments']].map(([k, l]) => `<button class="btn ${state.planMode === k ? 'primary' : ''} wide" style="margin-bottom:8px" onclick="setPlanMode('${k}')">${l}</button>`).join('');
 }
+
+/* ===================== MODE PRÉSENTATION ===================== */
+let pressCid = null, pressLandscape = true, pressWake = null, pressTab = 'list';
+function openPresentationHome() {
+  const cs = state.classes;
+  if (!cs.length) { toast('Crée d\'abord une classe'); return; }
+  if (cs.length === 1) { openPresentation(cs[0].id); return; }
+  openSheet(`<h2>Mode présentation</h2><p class="muted">Choisis la classe à projeter.</p><div style="display:grid;gap:10px;margin-top:12px">${cs.map(c => `<button class="btn" onclick="openPresentation('${c.id}')">${esc(c.name)}</button>`).join('')}</div>`);
+}
+function openPresentation(cid) {
+  const c = getClass(cid); if (!c) return;
+  closeSheet();
+  pressCid = cid; pressLandscape = true; pressTab = 'list';
+  let el = $('presscreen');
+  if (!el) { el = document.createElement('div'); el.id = 'presscreen'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-label', 'Mode présentation'); document.body.appendChild(el); }
+  el.classList.add('open'); document.body.classList.add('press-open');
+  renderPress(); pressWakeOn();
+}
+function closePresentation() {
+  const el = $('presscreen'); if (el) el.classList.remove('open');
+  document.body.classList.remove('press-open');
+  pressCid = null; pressUnlock(); pressWakeOff();
+}
+function renderPress() {
+  const el = $('presscreen'); if (!el || !el.classList.contains('open')) return;
+  const c = pressCid && getClass(pressCid);
+  if (!c) { closePresentation(); return; }
+  const labels = cpShortLabels(c);
+  const list = c.students.slice().sort((a, b) => (b.xp - a.xp) || nameOf(a).localeCompare(nameOf(b), 'fr'));
+  const top = list.slice(0, 3);
+  const step = (st, rank) => st ? `<div class="pstep s${rank}"><b>${esc(labels[st.id] || st.prenom || st.nom)}</b><span>${st.xp} XP</span><small>${rank}</small></div>` : `<div class="pstep s${rank} empty"></div>`;
+  const podium = step(top[1], 2) + step(top[0], 1) + step(top[2], 3);
+  const body = pressTab === 'plan' ? pressPlanHTML(c) : list.map(st => `<div class="prow ${isAbsent(st) ? 'abs' : ''}"><span class="pname">${esc(labels[st.id] || st.prenom || st.nom)}</span><span class="pxp"><b>${st.xp}</b> XP</span><span class="pm"><button class="rb plus" aria-label="Ajouter des XP" onclick="openGain('${c.id}','${st.id}')">+</button><button class="rb minus" aria-label="Retirer des XP" onclick="openRemove('${c.id}','${st.id}')">−</button></span></div>`).join('');
+  el.innerHTML = `<div class="phead"><div><b>${esc(c.name)}</b><span>${classTotal(c)} XP gagnés</span></div>
+    <div class="pbtns"><button class="btn" onclick="openTimer()">Minuteur</button><button class="btn" onclick="pressPlan()">${pressTab === 'plan' ? 'Élèves' : 'Plan'}</button><button class="btn" onclick="pressOrient()">${pressLandscape ? 'Format portrait' : 'Format paysage'}</button><button class="btn primary" onclick="closePresentation()">Quitter</button></div></div>
+    <div class="pbody ${pressLandscape ? 'land' : 'port'} ${pressTab === 'plan' ? 'plan' : ''}">${pressTab === 'plan' ? `<div class="pplanwrap">${body}</div>` : `<div class="ppodium">${podium}</div><div class="plist">${body || '<p class="muted">Aucun élève dans cette classe.</p>'}</div>`}</div>`;
+}
+function pressOrient() {
+  pressLandscape = !pressLandscape;
+  renderPress();
+  try {
+    if (screen.orientation && screen.orientation.lock) {
+      if (pressLandscape) screen.orientation.unlock();
+      else screen.orientation.lock('portrait').catch(() => {});
+    }
+  } catch (e) {}
+}
+/* Plan de classe depuis le mode présentation : ferme le mode et ouvre le plan de la classe projetée */
+function pressPlan() { pressTab = pressTab === 'plan' ? 'list' : 'plan'; renderPress(); }
+/* Plan simplifié, en lecture seule : aucune commande, aucune bannière */
+function pressPlanHTML(c) {
+  const labels = cpShortLabels(c);
+  const nm = st => esc(labels[st.id] || st.prenom || st.nom);
+  if (state.planMode === 'custom') {
+    const L = cpLayout(c);
+    const items = L.items.map(it => {
+      const seats = (it.seats || []).map(id => c.students.find(x => x.id === id)).filter(Boolean);
+      const inner = it.kind === 'table' ? seats.map(x => `<span class="pchip2">${nm(x)}</span>`).join('') : `<span class="pfix">${it.kind === 'board' ? 'Tableau' : 'Bureau'}</span>`;
+      return `<div class="pitem ${it.kind} ${it.shape}" style="left:${(it.x / CP_W * 100).toFixed(2)}%;top:${(it.y / CP_H * 100).toFixed(2)}%;width:${(it.w / CP_W * 100).toFixed(2)}%;height:${(it.h / CP_H * 100).toFixed(2)}%;transform:rotate(${it.rot || 0}deg)"><div class="pin2">${inner}</div></div>`;
+    }).join('');
+    return `<div class="pplan4"><div class="pplanbox">${items}</div></div>`;
+  }
+  const zone = l => { const list = c.students.filter(st => (st.ilot || '') === l); return `<div class="pplz"><div class="pplzh"><b>${l}</b><small>${list.length}</small></div><div class="pplzb">${list.map(st => `<span class="pchip2">${nm(st)}</span>`).join('') || '<span class="pfix">Aucun élève</span>'}</div></div>`; };
+  return `<div class="pplangrid">${ILOTS.map(zone).join('')}</div>`;
+}
+function pressUnlock() { try { if (screen.orientation && screen.orientation.unlock) screen.orientation.unlock(); } catch (e) {} }
+async function pressWakeOn() {
+  try { if ('wakeLock' in navigator && !pressWake) pressWake = await navigator.wakeLock.request('screen'); } catch (e) {}
+}
+function pressWakeOff() { try { if (pressWake) pressWake.release(); } catch (e) {} pressWake = null; }
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && pressCid) pressWakeOn(); });
 function openSettingsPage(page) {
   const last = state.lastExport ? `Dernière sauvegarde : ${fmt(state.lastExport)}` : 'Aucune sauvegarde exportée pour le moment.';
   const pages = {
