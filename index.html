@@ -270,7 +270,7 @@ body[data-theme=cockpit] .pzone{border-radius:0;clip-path:var(--ch)}
 .ht{min-width:0;font-weight:700;font-size:15px}
 .ht small{display:block;color:var(--soft);font-weight:600;font-size:12px}
 .hd{font-size:16px;min-width:34px;text-align:right}
-.tools{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin:6px 0 10px}
+.tools{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;margin:6px 0 10px}
 .tool{border:0;border-radius:16px;background:var(--surface);color:var(--ink);padding:8px 1px 6px;font-weight:800;font-size:10px;line-height:1.1;display:flex;flex-direction:column;align-items:center;gap:3px;
   box-shadow:inset 0 0 0 2px var(--line),0 3px 0 var(--line)}
 .tool .e{font-size:20px;line-height:1}
@@ -1080,6 +1080,37 @@ body[data-theme=girly] .wheel .wi b{font-family:'Quicksand',system-ui,sans-serif
 body[data-theme=girly] .wheel .wi small{color:#B54A6E;font-weight:700}
 body[data-theme=girly] .wheel .wi.on{background:var(--primary);border-color:var(--primary-d);box-shadow:0 5px 0 var(--primary-d)}
 body[data-theme=girly] .wheel .wi.empty{background:transparent;box-shadow:none;border:2px dashed #F3B9CB}
+
+/* ===== Minuteur : écran plein ===== */
+#timerscreen{position:fixed;inset:0;z-index:92;display:none;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:24px 20px;background:var(--bg);color:var(--ink);overflow-y:auto}
+#timerscreen.open{display:flex}
+#timerscreen .tshead{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));left:14px}
+#timerscreen .tdisp{font-size:min(30vw,132px);font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:.02em;line-height:1}
+#timerscreen .tpresets{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:360px}
+#timerscreen .tcustom{display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--soft);align-items:center}
+#timerscreen .tcustom input{width:120px;text-align:center;font-size:18px;padding:8px;border-radius:14px;border:1px solid var(--line-2);background:var(--surface);color:var(--ink)}
+#timerscreen .tbtns{width:100%;max-width:360px}
+#timerscreen.finished .tdisp{font-size:min(15vw,64px);letter-spacing:.04em;text-transform:uppercase}
+#timerscreen.alarm{animation:tblink .8s steps(1,end) infinite;color:#FFFFFF}
+#timerscreen.alarm .tdisp,#timerscreen.alarm .back{color:#FFFFFF;text-shadow:0 2px 0 rgba(0,0,0,.25)}
+@keyframes tblink{0%{background:#D62B22}50%{background:var(--primary)}100%{background:#D62B22}}
+#timerpill{position:fixed;left:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:70;border:0;border-radius:999px;padding:10px 16px;font-size:15px;font-weight:700;background:var(--surface);color:var(--ink);box-shadow:0 4px 16px rgba(0,0,0,.25);font-variant-numeric:tabular-nums}
+#timerpill.alarming{background:#D62B22;color:#FFFFFF;animation:tblink .8s steps(1,end) infinite}
+/* ===== Tirage au sort ===== */
+.drawrow{display:flex;align-items:center;gap:10px;padding:10px 6px;border-bottom:1px solid var(--line)}
+.drawrow input{width:20px;height:20px}
+.drawrow span{flex:1}
+.drawrow small{font-size:12px;color:var(--soft);margin-left:6px}
+.drawrow.done{opacity:.5}
+.drawlist{max-height:52vh;overflow-y:auto;margin:8px 0}
+.drawbox{min-height:170px;display:flex;align-items:center;justify-content:center;margin:12px 0}
+.drawcard{width:100%;min-height:150px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+#layer .drawcard.ccard{background:var(--primary);color:var(--acc-ink);border:0;box-shadow:0 10px 26px rgba(0,0,0,.22)}
+#layer .drawcard .cname,#layer .drawcard .cmeta{color:var(--acc-ink)}
+#layer .drawcard .cmeta{opacity:.8}
+.drawcard .cname{font-size:30px;line-height:1.1}
+.drawend{font-size:22px;font-weight:800;text-align:center}
+.drawbtns{display:flex;flex-direction:column;gap:8px;margin-top:8px}
 </style>
 </head>
 <body>
@@ -1190,6 +1221,7 @@ function costFor(s, k, ch) {
 /* ============ Utilitaires ============ */
 const $ = id => document.getElementById(id);
 const ICONS = {
+  timer: '<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9.5 2.5h5M12 2.5V5"/>',
   plus: '<path d="M12 5v14M5 12h14"/>',
   x: '<path d="M6 6l12 12M18 6L6 18"/>',
   back: '<path d="M15 5l-7 7 7 7"/>',
@@ -1523,7 +1555,7 @@ function homeHTML() {
   const nbStu = state.classes.reduce((a, c) => a + c.students.length, 0);
   const hs = state.homeSort || 'level';
   let h = `<header class="hero"><div><h1>Mes classes</h1><p>${state.classes.length} classe${state.classes.length > 1 ? 's' : ''}, ${nbStu} élève${nbStu > 1 ? 's' : ''}<span id="sync-badge">${syncBadgeText()}</span></p></div>
-    <button class="icon" onclick="openSettings()" aria-label="Réglages">${ico('sliders')}</button></header>${backupBanner()}`;
+    <button class="icon" onclick="openTimer()" aria-label="Minuteur">${ico('timer')}</button><button class="icon" onclick="openSettings()" aria-label="Réglages">${ico('sliders')}</button></header>${backupBanner()}`;
   if (!state.classes.length) {
     h += `<div class="empty"><div class="big">${ico('book')}</div>Aucune classe pour le moment.<br>Crée la première pour commencer.</div>`;
   } else {
@@ -1560,6 +1592,7 @@ function classHTML() {
       <button class="tool" aria-label="Importer une liste d'élèves" onclick="openImport('${c.id}')"><span class="e">${ico('tray')}</span>Import</button>
       <button class="tool ${view.appel ? 'on' : ''}" aria-label="Faire l'appel" onclick="startAppel()"><span class="e">${ico('check')}</span>Appel${nAbs ? ' ' + nAbs : ''}</button>
       <button class="tool" aria-label="XP pour toute la classe" onclick="openClassXP('${c.id}')"><span class="e">${ico('star')}</span>XP classe</button>
+      <button class="tool" aria-label="Tirage au sort" onclick="openDraw('${c.id}')"><span class="e">${ico('shuffle')}</span>Tirage</button>
       <button class="tool" aria-label="Historique de la classe" onclick="openHisto('${c.id}')"><span class="e">${ico('history')}</span>Histo</button>
       <button class="tool ${view.plan ? 'on' : ''}" aria-label="Plan de classe (îlots)" onclick="startPlan()"><span class="e">${ico('grid')}</span>Plan</button></div>
     ${view.appel ? `<div class="prev" style="margin:0 0 12px">Appel en cours : touche chaque élève absent. L'absence est notée dans son historique.</div>` : ''}
@@ -2954,16 +2987,229 @@ function openSettings() {
     ${row(ico('tag'), 'Étiquettes des élèves', (state.tagDefs || []).length + ' étiquettes', 'tags')}
     ${row(ico('star'), 'Conditions pour gagner des XP', state.conditions.length + ' conditions', 'conds')}
     ${row(ico('sliders'), 'Roue rapide', '8 actions autour du doigt', 'roue')}
+    ${row(ico('timer'), 'Son du minuteur', timerSoundLabel(), 'sontimer')}
     <h3>Outils</h3>
     ${row(ico('info'), 'Aide et tutoriel', 'Accueil, classe, élève, réglages', 'tuto')}
     ${row(ico('flask'), "Classe d'essai", '30 élèves fictifs pour tester', 'demo')}`);
 }
-const TUTO = [["Accueil", [["Les classes", "Chaque classe est une carte colorée, groupée par niveau (5e, 4e, 3e, Autre). Touche une carte pour ouvrir la classe. Le bouton ••• ouvre les options de la classe."], ["Trier", "Les boutons Par niveau, A–Z et XP gagnés changent l'ordre. Le tri affiché à l'ouverture se choisit dans Réglages, Accueil et tri."], ["Créer une classe", "Touche « Nouvelle classe » en bas. Donne le nom, le niveau et le professeur principal. Tu peux ensuite importer ou ajouter les élèves."], ["Colonnes", "Le nombre de colonnes (1, 2 ou 3) se règle dans Réglages, Apparence. Sur grand écran, la page s'élargit."], ["Rappels", "Une bannière rappelle la sauvegarde du jour, puis une fois par semaine de supprimer les anciennes sauvegardes dans Fichiers."], ["Raccourci de thème", "Touche cinq fois de suite dans le vide (hors des classes et des boutons) en moins de 2 secondes : le thème passe sur Ubuntu, le style par défaut. Touche de nouveau cinq fois : tu retrouves le thème que tu avais avant."]]], ["Classe", [["Podium et recherche", "Les trois premiers apparaissent en haut. La barre « Chercher un élève » filtre la liste par nom ou prénom."], ["Trier et filtrer", "Le menu de tri propose A–Z, Îlot, XP, Cartes et Discrets. « Discrets » place en haut les élèves qui ont le moins participé pendant la séance en cours (la demi-journée de la dernière attribution d'XP). « Filtrer » affiche les élèves d'une étiquette."], ["Barre d'outils", "Élève : ajouter un élève. Import : importer une liste. Appel : marquer les absents du jour. XP classe : donner ou retirer des XP à toute la classe, absents exclus. Histo : l'historique de la classe. Plan : placer les élèves par îlot."], ["Une ligne élève", "Touche le nom pour ouvrir la fiche. Les boutons + et − donnent ou retirent des XP selon une condition. Un appui long d'une seconde sur la ligne ouvre la roue rapide : huit cartes apparaissent autour de ton doigt, quatre au-dessus et quatre en dessous. Glisse vers une carte : elle s'éclaire. Relâche pour lancer l'action. La page ne défile pas pendant la roue. Les cartes reprennent l'habillage du style choisi, comme les cartes de classe."], ["Annuler", "Après une action, un message reste 4 secondes avec « Annuler ». Passé ce délai, corrige avec un retrait ou un gain, et garde une trace dans l'historique."], ["Étiqueter", "Le mode Étiqueter applique une étiquette (PAI, PAP…) à plusieurs élèves à la fois. « Tous » et « Aucun » sélectionnent en un geste."], ["Plan de classe", "Six zones, de A à F, disposées sur deux colonnes et trois lignes, plus un bac « Non placés ». Glisse un élève dans une zone, ou touche-le après avoir choisi une lettre dans la barre."], ["Options de la classe", "••• permet de modifier la classe, de passer au chapitre suivant, de défaire le passage, d'exporter un PDF (période et style au choix) et de supprimer la classe."], ["Chapitres", "Passer au chapitre suivant archive un bilan (XP, gains, retraits, achats, cartes utilisées). Les XP ne changent jamais. Deux cases décident si les cartes en attente sont marquées utilisées et si les compteurs « par chapitre » repartent à zéro."]]], ["Élève", [["Solde et total", "Le solde est l'XP disponible, le total l'XP gagné depuis le début. La jauge sous le nom montre la progression vers 8, 22 puis 50 XP."], ["Gagner ou retirer des XP", "Choisis une condition pour gagner des XP. Les conditions à gain limité par chapitre se donnent depuis la fiche, et peuvent aussi être placées sur la roue rapide. Le retrait demande un montant et un motif facultatif, et réduit aussi le total."], ["Cartes", "L'achat de carte se fait ici. Une carte de rang inférieur sur la même ligne propose son tarif réduit. Le remboursement et le marquage « utilisée » sont aussi ici. L'appui maintenu sur un badge de carte affiche son nom."], ["Absence et oubli", "Absent ou présent pour la journée. L'oubli d'affaires bloque le gain d'XP pendant 30, 45, 60 ou 90 minutes (durée réglable), sans retirer d'XP ; la jauge affiche le temps restant."], ["Étiquettes et notes", "Ajoute des étiquettes (PAI, PAP…) et des notes libres. Elles sont repliables et synchronisées."], ["Historique", "Tous les événements de l'élève : gains, retraits, achats, absences, oublis. La liste s'affiche par tranches de 80 événements ; « Voir plus » charge la suite."]]], ["Réglages", [["Sauvegarde", "Exporte un fichier (enregistre-le dans Fichiers, dans un dossier « Jokers sauvegardes »). Importe un fichier pour restaurer. Trois copies automatiques restent dans l'appli. Le contrôle de cohérence signale les anomalies sans rien modifier."], ["Mode Purge", "Supprime toutes les classes et tous les élèves, après confirmation. Les étiquettes, les cartes ajoutées et les réglages sont conservés. Une purge est définitive."], ["Étiquettes", "Modifie les quinze étiquettes : nom, icône, couleur."], ["Conditions d'XP", "Modifie les conditions : nom, XP et limite par chapitre (0 = sans limite). Les conditions peuvent être placées sur la roue rapide dans Réglages, Outils, Roue rapide."], ["Accueil et tri", "Choisis le tri affiché à l'ouverture de l'accueil : par niveau, A–Z ou XP gagnés."], ["Roue rapide", "Dans Réglages, Personnalisation, choisis les actions des huit cartes : quatre en haut, quatre en bas. Une carte vide reste visible, en pointillé, et n'est pas cliquable. Actions possibles : une condition d'XP, un retrait d'XP, la présence (absent ou présent), l'oubli d'affaires, ou annuler la dernière action. Réinitialiser rétablit la configuration de départ, commune à toutes les classes."], ["Apparence", "Choisis le style : Ubuntu (par défaut), Éducatif, Vero, Cockpit ou Girly. Vero se règle en sombre ou en clair. Tu peux aussi choisir le mode clair, sombre, sombre pur ou automatique, le thème au démarrage, le nom des styles, la couleur d'accentuation (palettes, code hexa ou couleur personnalisée) et le nombre de colonnes."], ["Classe d'essai", "Ajoute une classe fictive de 30 élèves avec un historique, pour essayer l'appli sans risque."], ["Synchronisation", "Sur claude.ai, les données se synchronisent avec ton compte. Sur le site GitHub, la synchronisation n'est pas disponible : l'appli reste locale."]]]];
+const TUTO = [["Accueil", [["Minuteur", "Le bouton minuteur, en haut à droite de l'accueil, ouvre un écran plein. Choisis une durée (1, 5, 10, 15, 20 ou 30 minutes, ou une durée libre), puis touche Démarrer. Quand le temps est écoulé, l'écran clignote et le son retentit jusqu'à ce que tu touches Arrêter le son. Le minuteur continue si tu quittes l'écran, tant que l'appli reste ouverte ; si l'iPhone se verrouille, le signal peut arriver avec un léger retard."], ["Les classes", "Chaque classe est une carte colorée, groupée par niveau (5e, 4e, 3e, Autre). Touche une carte pour ouvrir la classe. Le bouton ••• ouvre les options de la classe."], ["Trier", "Les boutons Par niveau, A–Z et XP gagnés changent l'ordre. Le tri affiché à l'ouverture se choisit dans Réglages, Accueil et tri."], ["Créer une classe", "Touche « Nouvelle classe » en bas. Donne le nom, le niveau et le professeur principal. Tu peux ensuite importer ou ajouter les élèves."], ["Colonnes", "Le nombre de colonnes (1, 2 ou 3) se règle dans Réglages, Apparence. Sur grand écran, la page s'élargit."], ["Rappels", "Une bannière rappelle la sauvegarde du jour, puis une fois par semaine de supprimer les anciennes sauvegardes dans Fichiers."], ["Raccourci de thème", "Touche cinq fois de suite dans le vide (hors des classes et des boutons) en moins de 2 secondes : le thème passe sur Ubuntu, le style par défaut. Touche de nouveau cinq fois : tu retrouves le thème que tu avais avant."]]], ["Classe", [["Podium et recherche", "Les trois premiers apparaissent en haut. La barre « Chercher un élève » filtre la liste par nom ou prénom."], ["Trier et filtrer", "Le menu de tri propose A–Z, Îlot, XP, Cartes et Discrets. « Discrets » place en haut les élèves qui ont le moins participé pendant la séance en cours (la demi-journée de la dernière attribution d'XP). « Filtrer » affiche les élèves d'une étiquette."], ["Barre d'outils", "Élève : ajouter un élève. Import : importer une liste. Appel : marquer les absents du jour. XP classe : donner ou retirer des XP à toute la classe, absents exclus. Tirage : tirage au sort des élèves. Histo : l'historique de la classe. Plan : placer les élèves par îlot."], ["Une ligne élève", "Touche le nom pour ouvrir la fiche. Les boutons + et − donnent ou retirent des XP selon une condition. Un appui long d'une seconde sur la ligne ouvre la roue rapide : huit cartes apparaissent autour de ton doigt, quatre au-dessus et quatre en dessous. Glisse vers une carte : elle s'éclaire. Relâche pour lancer l'action. La page ne défile pas pendant la roue. Les cartes reprennent l'habillage du style choisi, comme les cartes de classe."], ["Annuler", "Après une action, un message reste 4 secondes avec « Annuler ». Passé ce délai, corrige avec un retrait ou un gain, et garde une trace dans l'historique."], ["Tirage au sort", "Le bouton Tirage ouvre la liste des élèves de la classe, avec une case à cocher pour chacun. Les absents du jour sont décochés par défaut ; tu peux recocher ou décocher qui tu veux. Touche Tirer au sort : un nom défile puis s'arrête sur une carte à la couleur d'accentuation. « Tirer un autre » continue sans répéter un élève déjà tiré. Quand tout le monde est passé, un message l'indique, avec un bouton pour recommencer. Les élèves déjà tirés sont mémorisés sur cet appareil, pour la classe, et restent exclus d'un tirage à l'autre. Une heure après le premier tirage, l'appli te propose de les garder ou de réinitialiser les noms. « Réinitialiser les noms » est aussi disponible dans la liste."], ["Étiqueter", "Le mode Étiqueter applique une étiquette (PAI, PAP…) à plusieurs élèves à la fois. « Tous » et « Aucun » sélectionnent en un geste."], ["Plan de classe", "Six zones, de A à F, disposées sur deux colonnes et trois lignes, plus un bac « Non placés ». Glisse un élève dans une zone, ou touche-le après avoir choisi une lettre dans la barre."], ["Options de la classe", "••• permet de modifier la classe, de passer au chapitre suivant, de défaire le passage, d'exporter un PDF (période et style au choix) et de supprimer la classe."], ["Chapitres", "Passer au chapitre suivant archive un bilan (XP, gains, retraits, achats, cartes utilisées). Les XP ne changent jamais. Deux cases décident si les cartes en attente sont marquées utilisées et si les compteurs « par chapitre » repartent à zéro."]]], ["Élève", [["Solde et total", "Le solde est l'XP disponible, le total l'XP gagné depuis le début. La jauge sous le nom montre la progression vers 8, 22 puis 50 XP."], ["Gagner ou retirer des XP", "Choisis une condition pour gagner des XP. Les conditions à gain limité par chapitre se donnent depuis la fiche, et peuvent aussi être placées sur la roue rapide. Le retrait demande un montant et un motif facultatif, et réduit aussi le total."], ["Cartes", "L'achat de carte se fait ici. Une carte de rang inférieur sur la même ligne propose son tarif réduit. Le remboursement et le marquage « utilisée » sont aussi ici. L'appui maintenu sur un badge de carte affiche son nom."], ["Absence et oubli", "Absent ou présent pour la journée. L'oubli d'affaires bloque le gain d'XP pendant 30, 45, 60 ou 90 minutes (durée réglable), sans retirer d'XP ; la jauge affiche le temps restant."], ["Étiquettes et notes", "Ajoute des étiquettes (PAI, PAP…) et des notes libres. Elles sont repliables et synchronisées."], ["Historique", "Tous les événements de l'élève : gains, retraits, achats, absences, oublis. La liste s'affiche par tranches de 80 événements ; « Voir plus » charge la suite."]]], ["Réglages", [["Sauvegarde", "Exporte un fichier (enregistre-le dans Fichiers, dans un dossier « Jokers sauvegardes »). Importe un fichier pour restaurer. Trois copies automatiques restent dans l'appli. Le contrôle de cohérence signale les anomalies sans rien modifier."], ["Mode Purge", "Supprime toutes les classes et tous les élèves, après confirmation. Les étiquettes, les cartes ajoutées et les réglages sont conservés. Une purge est définitive."], ["Étiquettes", "Modifie les quinze étiquettes : nom, icône, couleur."], ["Conditions d'XP", "Modifie les conditions : nom, XP et limite par chapitre (0 = sans limite). Les conditions peuvent être placées sur la roue rapide dans Réglages, Outils, Roue rapide."], ["Accueil et tri", "Choisis le tri affiché à l'ouverture de l'accueil : par niveau, A–Z ou XP gagnés."], ["Roue rapide", "Dans Réglages, Personnalisation, choisis les actions des huit cartes : quatre en haut, quatre en bas. Une carte vide reste visible, en pointillé, et n'est pas cliquable. Actions possibles : une condition d'XP, un retrait d'XP, la présence (absent ou présent), l'oubli d'affaires, ou annuler la dernière action. Réinitialiser rétablit la configuration de départ, commune à toutes les classes."], ["Son du minuteur", "Choisis le son de fin de minuteur parmi quatre sons intégrés à l'appli : Bip, Cloche, Carillon et Tonalité douce. Touche un son pour l'écouter, puis choisis-le. Ce choix vaut pour tous les minuteurs. Tu peux aussi régler la puissance sonore, du niveau 1 (très doux) au niveau 5 (très fort)."], ["Apparence", "Choisis le style : Ubuntu (par défaut), Éducatif, Vero, Cockpit ou Girly. Vero se règle en sombre ou en clair. Tu peux aussi choisir le mode clair, sombre, sombre pur ou automatique, le thème au démarrage, le nom des styles, la couleur d'accentuation (palettes, code hexa ou couleur personnalisée) et le nombre de colonnes."], ["Classe d'essai", "Ajoute une classe fictive de 30 élèves avec un historique, pour essayer l'appli sans risque."], ["Synchronisation", "Sur claude.ai, les données se synchronisent avec ton compte. Sur le site GitHub, la synchronisation n'est pas disponible : l'appli reste locale."]]]];
 function tutoHTML() {
   return `<p class="muted" style="font-size:14px;margin-bottom:12px">Un guide rapide, écran par écran. Touche une rubrique pour la lire.</p>` +
     TUTO.map(([screen, items]) => `<details class="tuto"><summary><b>${esc(screen)}</b></summary>` +
       items.map(([t, d]) => `<div class="tuto-i"><b>${esc(t)}</b><p>${esc(d)}</p></div>`).join('') + `</details>`).join('');
 }
+
+/* ===================== MINUTEUR ===================== */
+const TIMER_SOUNDS = [['bip', 'Bip'], ['cloche', 'Cloche'], ['carillon', 'Carillon'], ['douce', 'Tonalité douce']];
+let timerEnd = 0, timerRun = false, timerTick = null, timerAlarmLoop = null, timerMin = 5, audioCtx = null;
+const timerSoundId = () => lsGet('jokers_xp_timer_sound') || 'bip';
+const timerSoundLabel = () => (TIMER_SOUNDS.find(x => x[0] === timerSoundId()) || TIMER_SOUNDS[0])[1];
+function audioOn() {
+  try {
+    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    return audioCtx;
+  } catch (e) { return null; }
+}
+const TIMER_VOL = [0.2, 0.4, 0.7, 1.0, 1.4];   /* niveaux 1 à 5 : facteur appliqué à chaque son */
+const timerVolLevel = () => { const v = parseInt(lsGet('jokers_xp_timer_vol'), 10); return v >= 1 && v <= 5 ? v : 3; };
+function playTimerSound(id) {
+  const ac = audioOn(); if (!ac) return;
+  const t0 = ac.currentTime;
+  const k = TIMER_VOL[timerVolLevel() - 1];
+  const tone = (f, start, dur, type, vol0) => {
+    const vol = vol0 * k;
+    const o = ac.createOscillator(), g = ac.createGain();
+    o.type = type; o.frequency.value = f;
+    g.gain.setValueAtTime(0, t0 + start);
+    g.gain.linearRampToValueAtTime(vol, t0 + start + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.001, t0 + start + dur);
+    o.connect(g); g.connect(ac.destination);
+    o.start(t0 + start); o.stop(t0 + start + dur + 0.05);
+  };
+  const pat = {
+    bip: () => { for (let i = 0; i < 3; i++) tone(880, i * 0.45, 0.3, 'square', 0.15); },
+    cloche: () => { [523, 784, 1046].forEach((f, i) => tone(f, i * 0.25, 1.6, 'sine', 0.22)); },
+    carillon: () => { [659, 784, 988, 784].forEach((f, i) => tone(f, i * 0.32, 0.5, 'triangle', 0.22)); },
+    douce: () => { [392, 494, 587].forEach((f, i) => tone(f, i * 0.6, 1.2, 'sine', 0.14)); }
+  };
+  (pat[id] || pat.bip)();
+}
+function timerLeft() { return Math.max(0, timerEnd - Date.now()); }
+function fmtClock(ms) { const t = Math.ceil(ms / 1000), m = Math.floor(t / 60), x = t % 60; return String(m).padStart(2, '0') + ':' + String(x).padStart(2, '0'); }
+function openTimer() {
+  if (!$('timerscreen')) {
+    const el = document.createElement('div');
+    el.id = 'timerscreen'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-label', 'Minuteur');
+    document.body.appendChild(el);
+  }
+  renderTimer();
+  $('timerscreen').classList.add('open');
+  document.body.classList.add('lock');
+}
+function closeTimer() {
+  const el = $('timerscreen'); if (el) el.classList.remove('open', 'alarm');
+  document.body.classList.remove('lock');
+  renderTimerPill();
+}
+function renderTimer() {
+  const el = $('timerscreen'); if (!el) return;
+  const done = !timerRun && timerEnd && timerLeft() === 0;
+  const presets = [1, 5, 10, 15, 20, 30].map(m => `<button class="chip ${timerMin === m && !timerRun ? 'on' : ''}" ${timerRun ? 'disabled' : ''} onclick="setTimerMin(${m})">${m} min</button>`).join('');
+  el.classList.toggle('finished', !!done);
+  el.innerHTML = `<div class="tshead"><button class="back" onclick="closeTimer()">Retour</button></div>
+    <div class="tdisp" id="tdisp">${done ? 'Terminé' : fmtClock(timerRun ? timerLeft() : timerMin * 60000)}</div>
+    ${timerRun || done ? '' : `<div class="tpresets">${presets}</div>
+    <label class="tcustom">Autre durée (minutes)<input id="tminin" type="number" min="1" max="240" value="${timerMin}" onchange="setTimerMin(this.value)"></label>`}
+    <div class="tbtns">
+      ${done ? `<button class="btn primary wide" onclick="stopTimerAlarm()">Arrêter le son</button>`
+        : timerRun ? `<button class="btn wide" onclick="cancelTimer()">Arrêter le minuteur</button>`
+        : `<button class="btn primary wide" onclick="startTimer()">Démarrer</button>`}
+    </div>`;
+}
+function setTimerMin(v) {
+  const n = Math.min(240, Math.max(1, parseInt(v, 10) || 1));
+  timerMin = n; renderTimer();
+}
+function startTimer() {
+  audioOn();
+  timerEnd = Date.now() + timerMin * 60000; timerRun = true;
+  clearInterval(timerTick); timerTick = setInterval(timerUpdate, 250);
+  renderTimer(); renderTimerPill();
+}
+function cancelTimer() {
+  timerRun = false; timerEnd = 0; clearInterval(timerTick); stopAlarmLoop();
+  renderTimer(); renderTimerPill();
+}
+function timerUpdate() {
+  if (timerRun && timerLeft() <= 0) { timerFinish(); return; }
+  const d = $('tdisp'); if (d && timerRun) d.textContent = fmtClock(timerLeft());
+  renderTimerPill();
+}
+function timerFinish() {
+  timerRun = false; clearInterval(timerTick);
+  const el = $('timerscreen');
+  if (el && el.classList.contains('open')) el.classList.add('alarm');
+  playTimerSound(timerSoundId());
+  clearInterval(timerAlarmLoop);
+  timerAlarmLoop = setInterval(() => playTimerSound(timerSoundId()), 2600);
+  if (el && el.classList.contains('open')) renderTimer();
+  renderTimerPill();
+  try { if (navigator.vibrate) navigator.vibrate([200, 100, 200]); } catch (e) {}
+}
+function stopAlarmLoop() { clearInterval(timerAlarmLoop); timerAlarmLoop = null; }
+function stopTimerAlarm() {
+  stopAlarmLoop(); timerEnd = 0;
+  const el = $('timerscreen'); if (el) el.classList.remove('alarm');
+  renderTimer(); renderTimerPill();
+}
+/* Pastille « minuteur » quand l'écran est fermé et que le minuteur tourne ou sonne */
+function renderTimerPill() {
+  let p = $('timerpill');
+  const show = !($('timerscreen') && $('timerscreen').classList.contains('open')) && (timerRun || timerAlarmLoop);
+  if (!show) { if (p) p.remove(); return; }
+  if (!p) { p = document.createElement('button'); p.id = 'timerpill'; p.onclick = openTimer; document.body.appendChild(p); }
+  p.className = timerAlarmLoop ? 'alarming' : '';
+  p.textContent = timerAlarmLoop ? 'Minuteur terminé : toucher pour arrêter' : '⏱ ' + fmtClock(timerLeft());
+}
+/* Réglage du son du minuteur */
+function setTimerSound(id) {
+  lsSet('jokers_xp_timer_sound', id); playTimerSound(id); openSettingsPage('sontimer');
+}
+function setTimerVol(n) { lsSet('jokers_xp_timer_vol', String(n)); playTimerSound(timerSoundId()); openSettingsPage('sontimer'); }
+function timerSoundsHTML() {
+  const lv = timerVolLevel();
+  return `<p class="muted" style="font-size:14px;margin-bottom:12px">Choisis le son de fin de minuteur. Touche un son pour l'écouter.</p>`
+    + TIMER_SOUNDS.map(([id, label]) => `<div class="cond" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><button class="chip ${timerSoundId() === id ? 'on' : ''}" onclick="setTimerSound('${id}')">${esc(label)}</button><button class="chip" aria-label="Écouter ${esc(label)}" onclick="playTimerSound('${id}')">Écouter</button></div>`).join('')
+    + `<h3 style="margin:18px 0 8px">Puissance sonore</h3><p class="muted" style="font-size:13px;margin-bottom:10px">Du niveau 1 (très doux) au niveau 5 (très fort).</p><div class="tpresets">`
+    + [1, 2, 3, 4, 5].map(n => `<button class="chip ${lv === n ? 'on' : ''}" aria-label="Puissance ${n} sur 5" onclick="setTimerVol(${n})">${n}</button>`).join('')
+    + `</div>`;
+}
+
+/* ===================== TIRAGE AU SORT ===================== */
+let drawSt = null, drawBusy = false;
+function drawPool() {
+  const c = getClass(drawSt.cid);
+  return c.students.filter(x => !drawSt.off.includes(x.id) && !drawSt.drawn.includes(x.id));
+}
+const DRAW_HOUR = 3600000;
+function drawKey(cid) { return 'jokers_xp_draw_' + cid; }
+function drawLoad(cid) {
+  const c = getClass(cid);
+  let d = {drawn: [], startedAt: 0, askedHour: false};
+  try { const raw = lsGet(drawKey(cid)); if (raw) d = {...d, ...JSON.parse(raw)}; } catch (e) {}
+  const ids = new Set(c.students.map(x => x.id));
+  d.drawn = (d.drawn || []).filter(id => ids.has(id));
+  return {cid, off: c.students.filter(isAbsent).map(x => x.id), drawn: d.drawn, startedAt: d.startedAt || 0, askedHour: !!d.askedHour, last: null};
+}
+function drawSave() {
+  if (!drawSt) return;
+  if (!drawSt.drawn.length) { lsSet(drawKey(drawSt.cid), null); return; }
+  lsSet(drawKey(drawSt.cid), JSON.stringify({drawn: drawSt.drawn, startedAt: drawSt.startedAt, askedHour: drawSt.askedHour}));
+}
+function openDraw(cid) {
+  if (!drawSt || drawSt.cid !== cid) drawSt = drawLoad(cid);
+  drawPrep();
+}
+function drawToggle(sid, on) {
+  drawSt.off = on ? drawSt.off.filter(id => id !== sid) : [...drawSt.off, sid];
+  drawPrep();
+}
+function drawPrep() {
+  const c = getClass(drawSt.cid), pool = drawPool();
+  const rows = c.students.map(x => {
+    const drawnAlready = drawSt.drawn.includes(x.id);
+    const checked = !drawSt.off.includes(x.id) && !drawnAlready;
+    return `<label class="drawrow ${drawnAlready ? 'done' : ''}"><input type="checkbox" ${checked ? 'checked' : ''} ${drawnAlready ? 'disabled' : ''} onchange="drawToggle('${x.id}', this.checked)"><span>${esc(x.prenom || '')} <b>${esc(x.nom)}</b></span>${isAbsent(x) ? '<small>absent</small>' : ''}${drawnAlready ? '<small>déjà tiré</small>' : ''}</label>`;
+  }).join('');
+  openSheet(`<div class="shead"><b>Tirage au sort</b></div>
+    <p class="muted" style="font-size:14px">${pool.length} élève${pool.length > 1 ? 's' : ''} dans le tirage. Les absents sont décochés par défaut ; décoche ou recoche qui tu veux.</p>
+    <div class="drawlist">${rows}</div>
+    <div class="drawbtns"><button class="btn primary wide" ${pool.length ? '' : 'disabled'} onclick="drawGo()">Tirer au sort</button>${drawSt.drawn.length ? '<button class="btn wide" onclick="drawReset()">Réinitialiser les noms</button>' : ''}</div>`);
+}
+function drawGo() {
+  if (drawBusy) return;
+  const pool = drawPool();
+  if (!pool.length) { drawEmpty(); return; }
+  if (drawSt.drawn.length && drawSt.startedAt && !drawSt.askedHour && Date.now() - drawSt.startedAt >= DRAW_HOUR) { drawAskHour(); return; }
+  drawBusy = true;
+  const c = getClass(drawSt.cid);
+  const pick = pool[Math.floor(Math.random() * pool.length)];
+  const box = `<div class="drawbox" id="drawbox"></div>`;
+  openSheet(`<div class="shead"><b>Tirage au sort</b></div>${box}<div class="drawbtns" id="drawbtns"></div>`);
+  const cardFor = s => `<div class="ccard drawcard"><div class="cname">${esc(s.prenom || '')} ${esc(s.nom)}</div><div class="cmeta">${esc(c.name)}</div></div>`;
+  const names = c.students;
+  let i = 0, delay = 60, steps = 16 + Math.floor(Math.random() * 6);
+  const spin = () => {
+    const el = $('drawbox'); if (!el) { drawBusy = false; return; }
+    if (i < steps) {
+      el.innerHTML = cardFor(names[i % names.length]);
+      i++; delay = Math.min(260, delay * 1.12);
+      setTimeout(spin, delay);
+    } else {
+      el.innerHTML = cardFor(pick);
+      drawSt.drawn.push(pick.id); drawSt.last = pick.id; drawBusy = false;
+      if (!drawSt.startedAt) drawSt.startedAt = Date.now();
+      drawSave();
+      const left = drawPool().length;
+      $('drawbtns').innerHTML = `<button class="btn primary wide" ${left ? '' : 'disabled'} onclick="drawGo()">Tirer un autre</button><button class="btn wide" onclick="drawPrep()">Retour à la liste</button>`;
+    }
+  };
+  spin();
+}
+function drawEmpty() {
+  openSheet(`<div class="shead"><b>Tirage au sort</b></div>
+    <div class="drawbox"><div class="drawend">Plus personne à tirer.</div></div>
+    <div class="drawbtns"><button class="btn primary wide" onclick="drawReset()">Recommencer</button><button class="btn wide" onclick="drawPrep()">Retour à la liste</button></div>`);
+}
+function drawReset() { drawSt.drawn = []; drawSt.last = null; drawSt.startedAt = 0; drawSt.askedHour = false; drawSave(); drawPrep(); }
+/* Plus d'une heure après le début du tirage : proposer de garder les élèves tirés ou de tout réinitialiser */
+function drawAskHour() {
+  openSheet(`<div class="shead"><b>Tirage au sort</b></div>
+    <p class="muted" style="font-size:14px">Le tirage a commencé il y a plus d'une heure. Que veux-tu faire des élèves déjà tirés ?</p>
+    <div class="drawbtns"><button class="btn primary wide" onclick="drawKeep()">Garder les élèves tirés (ils restent exclus)</button><button class="btn wide" onclick="drawReset()">Réinitialiser les noms</button></div>`);
+}
+function drawKeep() { drawSt.askedHour = true; drawSave(); drawGo(); }
 function openSettingsPage(page) {
   const last = state.lastExport ? `Dernière sauvegarde : ${fmt(state.lastExport)}` : 'Aucune sauvegarde exportée pour le moment.';
   const pages = {
@@ -2983,6 +3229,7 @@ function openSettingsPage(page) {
     theme: ['Apparence', themeListHTML()],
     tuto: ['Aide et tutoriel', tutoHTML()],
     roue: ['Roue rapide', wheelSettingsHTML()],
+    sontimer: ['Son du minuteur', timerSoundsHTML()],
     demo: ["Classe d'essai", `<p class="muted" style="font-size:14px">Ajoute une classe fictive de 30 élèves avec 11 séances d'historique (XP, cartes, absences, retraits). Tu pourras la supprimer ensuite.</p>
       <button class="btn wide" style="margin-top:10px" onclick="addDemoClass()">Ajouter une classe d'essai</button>`]
   };
