@@ -1,6 +1,36 @@
 <!doctype html>
 <html lang="fr">
 <head>
+<script>
+/* Filet de sécurité : en cas d'erreur, message visible et style de secours pour la session (données intactes) */
+let safeMode = false;
+window.__SAFE = location.hash === '#safe';
+function showErr(msg) {
+  let b = document.getElementById('errbox');
+  if (!b) {
+    b = document.createElement('div'); b.id = 'errbox';
+    b.setAttribute('role', 'alert');
+    b.style.cssText = 'position:fixed;left:12px;right:12px;bottom:12px;z-index:200;background:#FFFFFF;color:#111111;border:2px solid #C8334F;border-radius:14px;padding:10px 12px;font:13px/1.4 system-ui,sans-serif;box-shadow:0 8px 24px rgba(0,0,0,.25)';
+    (document.body || document.documentElement).appendChild(b);
+  }
+  b.textContent = msg;
+}
+function fallbackStyle(e) {
+  const reason = e && (e.message || (e.reason && e.reason.message) || e.reason);
+  const msg = String(reason || 'erreur inconnue');
+  if (safeMode) { showErr('Erreur : ' + msg); return; }
+  safeMode = true;
+  try {
+    showErr('Erreur : ' + msg + '. Style de secours Éducatif utilisé pour cette session. Tes classes et tes élèves ne sont pas modifiés.');
+    if (typeof theme !== 'undefined') theme = 'educatif';
+    if (typeof applyTheme === 'function') applyTheme();
+    if (typeof render === 'function') render();
+  } catch (x) { showErr('Erreur persistante : ' + (x && x.message ? x.message : x)); }
+}
+window.addEventListener('DOMContentLoaded', () => { if (window.__SAFE) showErr('Mode de secours (#safe) : style Éducatif pour cette ouverture. Tes données ne sont pas modifiées. Ouvre le lien sans #safe pour revenir à ton style.'); });
+window.addEventListener('error', fallbackStyle);
+window.addEventListener('unhandledrejection', fallbackStyle);
+</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="manifest" href="manifest.webmanifest">
@@ -22,6 +52,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Quicksand:wght@500;600;700&display=swap');
 :root{
   --menu-bg:#F4F6FF; --menu-on:#EEF1FF; --menu-active:#E6EAFB; --menu-txt:var(--acc-txt);
   --acc-ink:#fff; --acc-txt:var(--primary); --acc-b1:var(--primary); --acc-b2:var(--primary); --acc-hi:var(--primary); --plus:#3E9B6C; --plus-d:#2F7A55; --minus:#B8443E; --minus-d:#8C322D;
@@ -383,7 +414,7 @@ body[data-theme=vero] .group h2 small{font-family:inherit;font-size:11px;letter-
 body[data-theme=vero] .grid{gap:10px}
 body[data-theme=vero] .ccard{border:none;border-radius:16px;padding:18px 16px 16px;min-height:120px;overflow:hidden;
   background:linear-gradient(160deg,color-mix(in srgb,var(--lv) 22%,var(--surface)) 0%,var(--surface) 70%);box-shadow:none}
-body[data-theme=vero] .ccard:hover{box-shadow:none;background:linear-gradient(160deg,color-mix(in srgb,var(--lv) 30%,var(--surface-2)) 0%,var(--surface-2) 70%)}
+body[data-theme=vero] .ccard:hover{box-shadow:inset 4px 0 0 var(--lv),0 1px 2px rgba(0,0,0,.25)}
 body[data-theme=vero] .ccard::before{display:none}
 body[data-theme=vero] .ccard .cname{font-family:inherit;font-size:19px;font-weight:500;color:var(--ink);line-height:1.2;padding-right:28px}
 body[data-theme=vero] .ccard .cmeta{font-size:12px;color:var(--soft);margin-top:10px}
@@ -494,18 +525,18 @@ body[data-theme=vero]{background-color:#0E0F13;background-image:
   radial-gradient(90% 45% at 12% 0%,#1D3D44 0%,transparent 62%),
   radial-gradient(80% 42% at 100% 18%,#2C2046 0%,transparent 58%),
   linear-gradient(180deg,#14161C 0%,#0D0E12 100%);background-attachment:fixed}
-body[data-theme=vero] .hero h1{background:linear-gradient(95deg,#FFFFFF 0%,var(--acc-hi) 55%,var(--acc-txt) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+body[data-theme=vero] .hero h1{color:var(--ink)}
 body[data-theme=vero] .group h2{color:var(--acc-hi)}
 body[data-theme=vero] .group h2 small{color:#7D8799}
 body[data-theme=vero] .banner{background:linear-gradient(95deg,#3A2F16 0%,#1E2A2E 100%);border-color:#5B4A22;color:#F7E7B5}
-body[data-theme=vero] .ccard{background:linear-gradient(155deg,color-mix(in srgb,var(--lv) 58%,#1B1D24) 0%,color-mix(in srgb,var(--lv) 18%,#14161B) 58%,#13151A 100%)}
-body[data-theme=vero] .ccard:hover{background:linear-gradient(155deg,color-mix(in srgb,var(--lv) 70%,#1F222A) 0%,color-mix(in srgb,var(--lv) 24%,#171A21) 58%,#15171C 100%)}
+body[data-theme=vero] .ccard{background:color-mix(in srgb,var(--lv) 16%,var(--surface));box-shadow:inset 4px 0 0 var(--lv),0 1px 2px rgba(0,0,0,.25)}
+body[data-theme=vero] .ccard:hover{background:color-mix(in srgb,var(--lv) 24%,var(--surface))}
 body[data-theme=vero] .ccard .cname{color:#FFFFFF;text-shadow:0 1px 10px #0007}
 body[data-theme=vero] .ccard .cmeta,body[data-theme=vero] .ccard .cxp{color:#D5DAE4}
 body[data-theme=vero] .ccard .cxp b{color:#fff}
 body[data-theme=vero] .ccard .more{background:rgba(0,0,0,.35);color:#fff}
 body[data-theme=vero] .bar{background:linear-gradient(180deg,#14161C 60%,transparent)!important;border-bottom:1px solid #2A2D38}
-body[data-theme=vero] .bt b{background:linear-gradient(90deg,#fff,var(--acc-hi));-webkit-background-clip:text;background-clip:text;color:transparent}
+body[data-theme=vero] .bt b{color:var(--acc-txt)}
 body[data-theme=vero] .back{color:var(--acc-hi)}
 body[data-theme=vero] .btn{background:linear-gradient(160deg,#2A2E39,#1F222B);color:#F3F5F8;box-shadow:inset 0 0 0 1px #3A3F4D}
 body[data-theme=vero] .btn:hover{background:linear-gradient(160deg,#343946,#262A34)}
@@ -519,16 +550,16 @@ body[data-theme=vero] .chip{color:#A3AABB}
 body[data-theme=vero] .search{background:linear-gradient(90deg,#1B1E26,#211D31)}
 body[data-theme=vero] .row:active{background:linear-gradient(90deg,#1B1E26,transparent)}
 body[data-theme=vero] .sheet{background:linear-gradient(180deg,#252935 0%,#15171D 100%);border-top:1px solid #343947}
-body[data-theme=vero] .sheet h3{background:linear-gradient(90deg,var(--acc-hi),#A08CF0);-webkit-background-clip:text;background-clip:text;color:transparent}
+body[data-theme=vero] .sheet h3{color:var(--acc-txt)}
 body[data-theme=vero] .sheet input[type=text],body[data-theme=vero] .sheet input[type=number],body[data-theme=vero] .sheet textarea,body[data-theme=vero] .sheet select{background:linear-gradient(160deg,#242833,#1B1E26)}
 body[data-theme=vero] .stats div{background:linear-gradient(160deg,#24344A 0%,#1B1E27 100%)}
-body[data-theme=vero] .stats b{background:linear-gradient(90deg,var(--acc-hi),var(--acc-txt));-webkit-background-clip:text;background-clip:text;color:transparent}
+body[data-theme=vero] .stats b{color:var(--acc-txt)}
 body[data-theme=vero] .cond,body[data-theme=vero] .mrow,body[data-theme=vero] .inv,body[data-theme=vero] .snap,body[data-theme=vero] .acc,body[data-theme=vero] .prev{background:linear-gradient(135deg,#222636 0%,#191B24 100%)}
 body[data-theme=vero] .cond .pts{background:linear-gradient(135deg,var(--acc-b1),var(--acc-b2));color:var(--acc-ink)}
 body[data-theme=vero] .tool{background:linear-gradient(160deg,#262A36,#1C1F28);color:#F3F5F8}
 body[data-theme=vero] .tool.on{background:linear-gradient(160deg,#1E4A44,#18352F);color:var(--acc-txt)}
 body[data-theme=vero] .ctile{background:linear-gradient(160deg,color-mix(in srgb,var(--tc,var(--teal)) 38%,#1B1D24) 0%,#14161B 75%)}
-body[data-theme=vero] .ctile .cp{background:linear-gradient(90deg,#fff,var(--acc-hi));-webkit-background-clip:text;background-clip:text;color:transparent}
+body[data-theme=vero] .ctile .cp{color:var(--acc-txt)}
 body[data-theme=vero] .tagchip{background:linear-gradient(135deg,#242837,#1C1F29)}
 body[data-theme=vero] .tagchip.on{background:linear-gradient(135deg,#1E4A4A,#1C3450);color:var(--acc-txt)}
 body[data-theme=vero] .pbtn.none{background:linear-gradient(160deg,#1E2129,#17191F)}
@@ -827,7 +858,7 @@ body[data-theme=cockpit][data-cols="3"] .ccard .cname{font-size:15px;letter-spac
   .grid{grid-template-columns:repeat(calc(var(--cols,2) * 2),minmax(0,1fr))}
   .listbox{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:14px;align-items:stretch}
   /* Toute la page suit la largeur de #app (centrée) : plus de barres décalées à gauche */
-  .tools,.sorts,.search,.sbar,.planbar,.banner,.quickbar{max-width:none;width:100%;margin-left:auto;margin-right:auto}
+  .tools,.sorts,.search,.sbar,.planbar,.banner{max-width:none;width:100%;margin-left:auto;margin-right:auto}
   .sheet{max-width:720px;margin-left:auto;margin-right:auto}
   body #app .podium,body #app .pcap{max-width:640px;margin-left:auto;margin-right:auto}
 }
@@ -894,7 +925,6 @@ body[data-theme=cockpit]{--tip-ease:cubic-bezier(0,0,0.2,1)}
 body[data-theme=ubuntu]{--tip-ease:cubic-bezier(0.68,-0.55,0.26,1.55)}
 .pgbar{height:3px;border-radius:2px;background:var(--line);margin-top:5px;overflow:hidden}
 .pgbar i{display:block;height:100%;background:var(--primary);border-radius:2px}
-.quickbar{border-bottom:2px solid var(--primary)}
 
 /* Animations d'entrée par style (classes et élèves) */
 @keyframes enterPop{from{opacity:0;transform:translateY(12px) scale(.96)}to{opacity:1;transform:none}}
@@ -949,6 +979,107 @@ body[data-mode=oled] .banner .ic,body[data-theme=ubuntu][data-mode=dark] .banner
 #pdf-out{width:100%;min-width:0;max-width:100%;overflow-wrap:anywhere}
 #pdf-out .btn{width:100%;max-width:100%;box-sizing:border-box}
 .sheet{max-width:100vw}
+
+/* Retours visuels par design (repli sur les valeurs de base pour tout nouveau design) */
+:root{--flash-gain:rgba(62,155,108,.22);--flash-loss:rgba(184,68,62,.22);--flash-ease:ease-out;--flash-dur:.5s}
+body[data-theme=vero]{--flash-gain:rgba(79,200,198,.2);--flash-loss:rgba(232,113,111,.22);--flash-ease:ease-out;--flash-dur:.6s}
+body[data-theme=cockpit]{--flash-gain:rgba(79,227,176,.22);--flash-loss:rgba(255,107,74,.26);--flash-ease:cubic-bezier(0,0,0.2,1);--flash-dur:.35s}
+body[data-theme=ubuntu]{--flash-gain:rgba(38,162,105,.24);--flash-loss:rgba(224,27,36,.24);--flash-ease:cubic-bezier(0.68,-0.55,0.26,1.55);--flash-dur:.6s}
+@keyframes flashGain{from{box-shadow:inset 0 0 0 999px var(--flash-gain)}to{box-shadow:inset 0 0 0 999px transparent}}
+@keyframes flashLoss{from{box-shadow:inset 0 0 0 999px var(--flash-loss)}to{box-shadow:inset 0 0 0 999px transparent}}
+@keyframes bumpXp{0%{transform:translateY(7px);opacity:.25}60%{transform:translateY(-2px);opacity:1}100%{transform:none;opacity:1}}
+.row.flash-gain{animation:flashGain var(--flash-dur) var(--flash-ease)}
+.row.flash-loss{animation:flashLoss var(--flash-dur) var(--flash-ease)}
+.xp b.bump{display:inline-block;animation:bumpXp .45s ease-out}
+@media (prefers-reduced-motion: reduce){.row.flash-gain,.row.flash-loss,.xp b.bump{animation:none}}
+
+/* ===== Style Girly : frais, pop, féminin (roses bonbon, jaune beurre, vin rouge, cœurs et étincelles) ===== */
+@keyframes girlyPop{0%{opacity:0;transform:scale(.6) rotate(-4deg)}70%{opacity:1;transform:scale(1.06) rotate(1deg)}100%{opacity:1;transform:none}}
+@keyframes girlyOut{to{opacity:0;transform:translateY(10px) scale(.98)}}
+@keyframes girlyDrift{from{background-position:0 0}to{background-position:240px 240px}}
+@keyframes girlyTwinkle{0%,100%{transform:scale(1) rotate(0deg);opacity:1}50%{transform:scale(1.25) rotate(12deg);opacity:.75}}
+@keyframes girlyWiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-1.5deg)}75%{transform:rotate(1.5deg)}}
+body[data-theme=girly]{
+  --bg:#FFF6F8; --grid:transparent; --surface:#FFFFFF; --surface-2:#FDEBF1; --ink:#4A1A2E; --soft:#8E5A70; --line:#F6D3DE; --line-2:#EFB5C7;
+  --primary:#E8799B; --primary-d:#C75A7E; --mint:#F5E08A; --mint-d:#E3C65A; --teal:#E8799B; --coral:#C8334F; --coral-d:#9E2440;
+  --acc-ink:#3B1420; --acc-txt:#B54A6E; --acc-b1:#F7A6BF; --acc-b2:#E8799B; --acc-hi:#B54A6E;
+  --plus:#5DAA84; --plus-d:#3F8A65; --minus:#C8334F; --minus-d:#9E2440;
+  --menu-bg:#FFF0F5; --menu-on:#FBD9E4; --menu-active:#F9E3EA; --menu-txt:#3B1420;
+  --tip-ease:cubic-bezier(.34,1.56,.64,1);
+  --flash-gain:rgba(93,170,132,.3); --flash-loss:rgba(200,51,79,.26); --flash-ease:cubic-bezier(.34,1.56,.64,1); --flash-dur:.55s;
+  background-color:var(--bg); background-image:none; color:var(--ink);
+  font-family:'Quicksand',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight:600;
+}
+/* Fond : cœurs et étincelles qui dérivent doucement */
+body[data-theme=girly]::before{
+  content:""; position:fixed; inset:-40px; z-index:-1; pointer-events:none; opacity:.9;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><g fill='%23F7A6BF' fill-opacity='.22'><path d='M40 52c-9-7-12-13-8-18 3-3 7-2 8 1 1-3 5-4 8-1 4 5 1 11-8 18z'/><path d='M180 150c-9-7-12-13-8-18 3-3 7-2 8 1 1-3 5-4 8-1 4 5 1 11-8 18z'/></g><g fill='%23F5E08A' fill-opacity='.55'><path d='M120 30l2.5 6 6 2.5-6 2.5-2.5 6-2.5-6-6-2.5 6-2.5z'/><path d='M200 60l2 4.5 4.5 2-4.5 2-2 4.5-2-4.5-4.5-2 4.5-2z'/><path d='M70 190l2 4.5 4.5 2-4.5 2-2 4.5-2-4.5-4.5-2 4.5-2z'/></g></svg>");
+  background-size:240px 240px; animation:girlyDrift 60s linear infinite;
+}
+body[data-theme=girly] h1,body[data-theme=girly] h2,body[data-theme=girly] h3,body[data-theme=girly] .hero h1,body[data-theme=girly] .bt b,body[data-theme=girly] .nm b{
+  font-family:'Abril Fatface',Georgia,serif; font-weight:400; color:var(--ink); letter-spacing:.01em;
+  text-shadow:2px 2px 0 #F9C9D9;
+}
+body[data-theme=girly] .hero h1{animation:girlyWiggle 5s ease-in-out infinite}
+body[data-theme=girly] .bar{background:transparent}
+body[data-theme=girly] .btn,body[data-theme=girly] .chip,body[data-theme=girly] .tool,body[data-theme=girly] .apill,body[data-theme=girly] .fab,body[data-theme=girly] .rb{border-radius:999px;font-weight:700;letter-spacing:.02em}
+body[data-theme=girly] .search,body[data-theme=girly] input,body[data-theme=girly] select{border-radius:18px;background:var(--surface);border:2px solid var(--line-2)}
+body[data-theme=girly] .btn.primary,body[data-theme=girly] .btn.mint,body[data-theme=girly] .chip.on,body[data-theme=girly] .tool.primary,body[data-theme=girly] .apill,body[data-theme=girly] .fab{background:var(--primary);color:var(--acc-ink);box-shadow:0 4px 0 var(--primary-d)}
+body[data-theme=girly] .btn.primary:active,body[data-theme=girly] .chip.on:active{transform:translateY(3px);box-shadow:0 1px 0 var(--primary-d)}
+body[data-theme=girly] .rb.plus{background:var(--plus);color:#3B1420;box-shadow:0 3px 0 var(--plus-d)}
+body[data-theme=girly] .rb.minus{background:var(--minus);color:#FFFFFF;box-shadow:0 3px 0 var(--minus-d)}
+body[data-theme=girly] .row,body[data-theme=girly] .ccard,body[data-theme=girly] .ctile,body[data-theme=girly] .prev,body[data-theme=girly] .cond,body[data-theme=girly] .sheet{
+  border-radius:22px; box-shadow:0 8px 20px rgba(232,121,155,.16);
+}
+body[data-theme=girly] .sheet{border-radius:28px 28px 0 0}
+body[data-theme=girly] .ccard:nth-child(odd){transform:rotate(-.6deg)}
+body[data-theme=girly] .ccard:nth-child(even){transform:rotate(.6deg)}
+body[data-theme=girly] .ccard:hover{transform:rotate(0) translateY(-2px)}
+body[data-theme=girly] .ccard::after{content:"♥";position:absolute;top:8px;right:12px;color:#F7A6BF;font-size:18px;animation:girlyTwinkle 3s ease-in-out infinite}
+body[data-theme=girly] .ccard{position:relative}
+body[data-theme=girly] .banner{border-radius:22px;background:#FFF9D6;color:#4A1A2E;box-shadow:inset 0 0 0 2px #F5E08A}
+body[data-theme=girly] #app.pagein .row,body[data-theme=girly] #app.pagein .ccard,body[data-theme=girly] #app.pagein .podium,body[data-theme=girly] #app.pagein .prev{animation:girlyPop .6s cubic-bezier(.34,1.56,.64,1) both;animation-delay:calc(var(--i,0) * 45ms)}
+body[data-theme=girly] #app.leaveout{animation:girlyOut .25s ease both}
+body[data-theme=girly] .sheet .btn.wide{border-radius:999px}
+@media (prefers-reduced-motion: reduce){
+  body[data-theme=girly]::before,body[data-theme=girly] .hero h1,body[data-theme=girly] .ccard::after{animation:none}
+  body[data-theme=girly] #app.pagein .row,body[data-theme=girly] #app.pagein .ccard,body[data-theme=girly] #app.pagein .podium,body[data-theme=girly] #app.pagein .prev{animation:none}
+}
+
+/* Roue des conditions (appui long sur une ligne élève) */
+.wheel{position:fixed;inset:0;z-index:85;background:rgba(20,22,40,.22);touch-action:none;animation:wheelIn .18s ease-out both}
+@keyframes wheelIn{from{opacity:0}to{opacity:1}}
+.wheel .wi{position:absolute;transform:translate(-50%,-50%);width:100px;height:58px;border-radius:22px;background:var(--surface);color:var(--ink);border:2px solid var(--line-2);box-shadow:0 2px 0 var(--line-2),0 6px 14px rgba(0,0,0,.14);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4px 8px;pointer-events:none;transition:background .12s ease,color .12s ease,border-color .12s ease}
+.wheel .wi b{font-size:15px;font-weight:900;line-height:1.1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;max-width:100%}
+.wheel .wi small{font-size:12px;font-weight:700;color:var(--soft);margin-top:2px;line-height:1.1}
+.wheel .wi.on{background:var(--primary);color:var(--acc-ink);border-color:var(--primary);transform:translate(-50%,-50%) scale(1.06)}
+.wheel .wi.on small{color:var(--acc-ink)}
+.wheel .wi.off{opacity:.45}
+.wheel .wi.empty{opacity:.35;background:transparent;box-shadow:none;border-style:dashed}
+body.wheel-open{overflow:hidden;overscroll-behavior:none;touch-action:none}
+#app .row,#app .row *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+#wheel,#wheel *{-webkit-user-select:none;user-select:none}
+
+/* ===== Cartes de la roue : habillage propre à chaque design, comme les cartes de classe ===== */
+body[data-theme=cockpit] .wheel .wi{background:linear-gradient(160deg,#0F1822 0%,#0C131C 75%);border:0;border-radius:0;box-shadow:inset 0 0 0 1px var(--line-2),inset 0 0 0 4px #0A0D13;clip-path:var(--ch)}
+body[data-theme=cockpit] .wheel .wi b{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;line-height:1.15}
+body[data-theme=cockpit] .wheel .wi small{letter-spacing:.08em;font-size:11px}
+body[data-theme=cockpit] .wheel .wi.on{background:var(--primary);box-shadow:none;border:0}
+body[data-theme=cockpit] .wheel .wi.empty{background:transparent;box-shadow:inset 0 0 0 1px var(--line-2);}
+body[data-theme=ubuntu] .wheel .wi{border:0;border-radius:10px;box-shadow:none;font-family:'Ubuntu',system-ui,sans-serif}
+body[data-theme=ubuntu] .wheel .wi b{font-size:13px;font-weight:700}
+body[data-theme=ubuntu] .wheel .wi.on{background:var(--primary);box-shadow:none}
+body[data-theme=ubuntu] .wheel .wi.empty{background:transparent;border:1.5px dashed var(--line-2)}
+body[data-theme=vero] .wheel .wi{border:0;border-radius:18px;background:var(--surface);box-shadow:0 1px 2px rgba(0,0,0,.3),0 8px 18px rgba(0,0,0,.25);overflow:hidden}
+body[data-theme=vero] .wheel .wi b{font-size:14px;font-weight:600;letter-spacing:.01em}
+body[data-theme=vero] .wheel .wi small{color:var(--acc-txt)}
+body[data-theme=vero] .wheel .wi.on{background:var(--primary);box-shadow:0 0 0 1px var(--primary),0 8px 18px rgba(0,0,0,.3)}
+body[data-theme=vero] .wheel .wi.empty{background:transparent;box-shadow:inset 0 0 0 1px var(--line-2)}
+body[data-theme=girly] .wheel .wi{border:2px solid #F3B9CB;border-radius:24px;background:#FFFFFF;box-shadow:0 5px 0 #F3B9CB;padding:4px 10px}
+body[data-theme=girly] .wheel .wi b{font-family:'Quicksand',system-ui,sans-serif;font-size:15px;font-weight:700;color:#4A1A2E}
+body[data-theme=girly] .wheel .wi small{color:#B54A6E;font-weight:700}
+body[data-theme=girly] .wheel .wi.on{background:var(--primary);border-color:var(--primary-d);box-shadow:0 5px 0 var(--primary-d)}
+body[data-theme=girly] .wheel .wi.empty{background:transparent;box-shadow:none;border:2px dashed #F3B9CB}
 </style>
 </head>
 <body>
@@ -1292,7 +1423,7 @@ let view = {name:'home'};
 let leaveT = null;
 function go(name, id) {
   const a = $('app');
-  if (theme === 'vero' && a && a.innerHTML) {
+  if ((theme === 'vero' || theme === 'girly') && a && a.innerHTML) {
     /* Vero : fondu de sortie avant d'afficher l'écran suivant */
     a.classList.add('leaveout'); clearTimeout(leaveT);
     leaveT = setTimeout(() => goNow(name, id), 220);
@@ -1340,6 +1471,19 @@ function classTint() {
   const t = toneOf(c.level, c.tone);
   b.setProperty('--lv', t[0]); b.setProperty('--lvd', t[1]); b.setProperty('--lvbg', t[2]);
 }
+/* Retour visuel après une action : flash vert (gain) ou rouge (retrait) sur la ligne, compteur d'XP qui « monte » */
+let pendingFlash = [], flashT = null;
+function queueFlash(ids, kind) { pendingFlash = ids.map(id => ({id, kind})); clearTimeout(flashT); flashT = setTimeout(() => { pendingFlash = []; }, 700); }
+function applyFlash() {
+  pendingFlash.forEach(({id, kind}) => {
+    const el = document.querySelector(`.row[data-sid="${id}"]`);
+    if (!el) return;
+    el.classList.remove('flash-gain', 'flash-loss'); void el.offsetWidth;
+    el.classList.add(kind === 'gain' ? 'flash-gain' : 'flash-loss');
+    const b = el.querySelector('.xp b');
+    if (b) { b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump'); }
+  });
+}
 function render() {
   normClasses(state);
   tipClose();
@@ -1347,6 +1491,7 @@ function render() {
   classTint();
   $('app').innerHTML = view.name === 'home' ? homeHTML() : classHTML();
   if (view.name === 'class') renderList();
+  applyFlash();
 }
 
 function backupBanner() {
@@ -1418,7 +1563,7 @@ function classHTML() {
       <button class="tool" aria-label="Historique de la classe" onclick="openHisto('${c.id}')"><span class="e">${ico('history')}</span>Histo</button>
       <button class="tool ${view.plan ? 'on' : ''}" aria-label="Plan de classe (îlots)" onclick="startPlan()"><span class="e">${ico('grid')}</span>Plan</button></div>
     ${view.appel ? `<div class="prev" style="margin:0 0 12px">Appel en cours : touche chaque élève absent. L'absence est notée dans son historique.</div>` : ''}
-    ${view.plan ? planBarHTML(c) : ''}${view.label ? labelBarHTML(c) : ''}${view.quick ? quickBarHTML(c) : ''}
+    ${view.plan ? planBarHTML(c) : ''}${view.label ? labelBarHTML(c) : ''}
     <div class="sorts compact">${sortBtn('chip')}<button class="chip ${(view.tags || []).length ? 'on' : ''}" onclick="openTagFilter()">${ico('tag')} ${(view.tags || []).length || 'Filtrer'}</button><button class="chip ${view.label ? 'on' : ''}" onclick="startLabel()">${ico('tagplus')} Étiqueter</button><button class="chip" onclick="openCodes()">${ico('info')} Codes</button></div>
     <input class="search compact" type="search" placeholder="Chercher un élève" value="${esc(view.q)}" oninput="view.q=this.value;renderList()">
     <div id="listwrap"></div>
@@ -1440,32 +1585,156 @@ function podiumHTML(c) {
   return `<div class="podium">${cols}</div><div class="pcap">Total d'XP gagnés depuis le début</div>`;
 }
 
-/* Saisie rapide : choisir un motif, puis toucher les élèves. Arrêt automatique 10 s après la dernière saisie. */
-const QUICK_MS = 10000;
-let quickT = null;
-function armQuick() { clearTimeout(quickT); quickT = setTimeout(stopQuick, QUICK_MS); }
-function startQuickFor(cid, condId) { view.quick = {cid, cond: condId}; armQuick(); render(); }
-function stopQuick() {
-  clearTimeout(quickT); quickT = null;
-  if (view.quick) { view.quick = null; render(); toast('Saisie rapide arrêtée'); }
+function gainBlock(s, cd) {
+  if (isBlocked(s)) return `Gain bloqué jusqu'à ${blockTime(s)}`;
+  if (cd.limit > 0 && (s.uses[cd.id] || 0) >= cd.limit) return `Limite atteinte pour ${s.prenom || s.nom}`;
+  return '';
 }
-function quickBarHTML(c) {
-  const cd = state.conditions.find(x => x.id === view.quick.cond);
-  if (!cd) return '';
-  return `<div class="planbar quickbar"><div class="phint"><span>Touche un élève : ${esc(cd.name)} +${cd.xp} XP <small class="muted">(10 s)</small></span><button class="chip" onclick="stopQuick()">Arrêter</button></div></div>`;
-}
-function quickGain(cid, sid) {
-  const q = view.quick; if (!q) return;
-  armQuick();
-  const c = getClass(cid), s = getStudent(c, sid), cd = state.conditions.find(x => x.id === q.cond);
-  if (isBlocked(s)) { buzz([50, 50, 50]); toast(`Gain bloqué jusqu'à ${blockTime(s)}`); return; }
+function condGain(cid, sid, condId) {
+  const s = getStudent(getClass(cid), sid), cd = state.conditions.find(x => x.id === condId);
+  if (!s || !cd) return;
+  const why = gainBlock(s, cd);
+  if (why) { buzz([50, 50, 50]); toast(why); return; }
   const used = s.uses[cd.id] || 0;
-  if (cd.limit > 0 && used >= cd.limit) { buzz([50, 50, 50]); toast(`Limite atteinte pour ${s.prenom || s.nom}`); return; }
   const u = snapUndo([s]);
   s.xp += cd.xp; s.total += cd.xp; s.uses[cd.id] = used + 1;
-  logH(s, cd.name, cd.xp, 'gain'); buzz(30); save(); render();
+  logH(s, cd.name, cd.xp, 'gain'); buzz(30); save(); queueFlash([s.id], 'gain'); render();
   showUndo(`+${cd.xp} XP pour ${s.prenom || s.nom}`, u);
 }
+/* Appui simple : fiche. Appui long (1 s) : roue des conditions. */
+let wheelT = null, wheelSup = false, wheelSt = null, wheelSupT = null;
+const WHEEL_MS = 1000;
+function rowTap(cid, sid) {
+  if (wheelSup) { wheelSup = false; return; }
+  openStudent(cid, sid);
+}
+function wheelDown(e, cid, sid) {
+  if (e.button > 0 || e.target.closest('button, .ilot, .tg, .cbadge, .flag')) return;
+  wheelSt = {cid, sid, x0: e.clientX, y0: e.clientY, open: false, sel: null, items: null, cx: 0, cy: 0};
+  clearTimeout(wheelT); wheelT = setTimeout(wheelOpen, WHEEL_MS);
+  window.addEventListener('pointermove', wheelMove);
+  window.addEventListener('pointerup', wheelUp);
+  window.addEventListener('pointercancel', wheelCancel);
+}
+function wheelClear() {
+  clearTimeout(wheelT); wheelT = null;
+  document.body.classList.remove('wheel-open');
+  window.removeEventListener('pointermove', wheelMove);
+  window.removeEventListener('pointerup', wheelUp);
+  window.removeEventListener('pointercancel', wheelCancel);
+  const el = $('wheel'); if (el) el.remove();
+  wheelSt = null;
+}
+function wheelCancel() { wheelClear(); wheelSup = false; }
+/* ----- Roue rapide : 8 emplacements autour du doigt (4 en haut, 4 en bas) ----- */
+const WHEEL_TOP = [-157.5, -112.5, -67.5, -22.5], WHEEL_BOT = [22.5, 67.5, 112.5, 157.5];
+const WHEEL_R = 140, WHEEL_SEL_MIN = 40;
+function wheelDefault() {
+  const un = state.conditions.filter(c => !(c.limit > 0)).slice(0, 4).map(c => 'cond:' + c.id);
+  const list = [...un, 'pres', 'oubli'];
+  while (list.length < 8) list.push('vide');
+  return list.slice(0, 8);
+}
+function wheelSlots() {
+  const raw = state.wheel && Array.isArray(state.wheel.slots) ? state.wheel.slots : wheelDefault();
+  const ids = new Set(state.conditions.map(c => c.id));
+  return Array.from({length: 8}, (_, i) => {
+    const v = raw[i] || 'vide';
+    if (v.startsWith('cond:') || v.startsWith('retrait:')) return ids.has(v.split(':')[1]) ? v : 'vide';
+    return ['pres', 'oubli', 'annuler', 'vide'].includes(v) ? v : 'vide';
+  });
+}
+function wheelInfo(v, s) {
+  if (v === 'vide') return {label: '', sub: '', why: 'Emplacement vide', act: null};
+  if (v === 'pres') return {label: isAbsent(s) ? 'Marquer présent' : 'Marquer absent', sub: isAbsent(s) ? 'Absent' : 'Présent', why: '', act: v};
+  if (v === 'oubli') return {label: "Oubli d'affaires", sub: isBlocked(s) ? `Bloqué jusqu'à ${blockTime(s)}` : fmtDur(blockMinutes()), why: isBlocked(s) ? `Déjà bloqué jusqu'à ${blockTime(s)}` : '', act: v};
+  if (v === 'annuler') return {label: 'Annuler', sub: 'dernière action', why: pendingUndo ? '' : 'Rien à annuler', act: v};
+  if (v.startsWith('cond:')) { const cd = state.conditions.find(c => c.id === v.slice(5)); return {label: cd.name, sub: '+' + cd.xp + ' XP', why: gainBlock(s, cd), act: v}; }
+  const cd = state.conditions.find(c => c.id === v.slice(8));
+  return {label: 'Retrait : ' + cd.name, sub: '-' + cd.xp + ' XP', why: s.xp <= 0 ? 'Aucun XP à retirer' : '', act: v};
+}
+const WHEEL_TILE_R = 150; /* cartes 100 x 58 px : écart minimal ~15 px entre voisines */
+function wheelOpen() {
+  const st = wheelSt; if (!st) return;
+  st.open = true; wheelSup = true; buzz(20);
+  document.body.classList.add('wheel-open');
+  try { window.getSelection().removeAllRanges(); } catch (e) {}
+  const s = getStudent(getClass(st.cid), st.sid), slots = wheelSlots();
+  const cx = Math.min(Math.max(st.x0, 190), innerWidth - 190), cy = Math.min(Math.max(st.y0, 172), innerHeight - 172);
+  st.cx = cx; st.cy = cy;
+  st.items = slots.map((v, i) => {
+    const deg = i < 4 ? WHEEL_TOP[i] : WHEEL_BOT[i - 4];
+    const a = deg * Math.PI / 180;
+    return {i, v, a, deg, x: cx + WHEEL_TILE_R * Math.cos(a), y: cy + WHEEL_TILE_R * Math.sin(a), ...wheelInfo(v, s)};
+  });
+  const el = document.createElement('div');
+  el.id = 'wheel'; el.className = 'wheel';
+  el.innerHTML = st.items.map(it => {
+    const cls = it.act ? (it.why ? 'wi off' : 'wi') : 'wi empty';
+    return `<div class="${cls}" data-i="${it.i}" style="left:${it.x.toFixed(1)}px;top:${it.y.toFixed(1)}px">` + (it.act ? `<b>${esc(it.label)}</b><small>${esc(it.sub)}</small>` : '') + `</div>`;
+  }).join('');
+  document.body.appendChild(el);
+}
+function wheelMove(e) {
+  const st = wheelSt; if (!st) return;
+  if (!st.open) { if (Math.hypot(e.clientX - st.x0, e.clientY - st.y0) > 12) wheelCancel(); return; }
+  const el = $('wheel'); if (!el) return;
+  const dx = e.clientX - st.cx, dy = e.clientY - st.cy, d = Math.hypot(dx, dy);
+  let pick = null;
+  if (d > WHEEL_SEL_MIN) {
+    const a = Math.atan2(dy, dx); let best = Infinity;
+    st.items.forEach(it => { if (!it.act) return; const df = Math.abs(Math.atan2(Math.sin(a - it.a), Math.cos(a - it.a))); if (df < best) { best = df; pick = it; } });
+  }
+  const prev = st.sel ? st.sel.i : null;
+  st.sel = pick ? {i: pick.i, v: pick.v, act: pick.act, why: pick.why, label: pick.label, sub: pick.sub} : null;
+  if (pick && prev !== pick.i) buzz(8);
+  el.querySelectorAll('.wi').forEach(n => n.classList.toggle('on', !!st.sel && +n.dataset.i === st.sel.i));
+}
+function wheelUp() {
+  const st = wheelSt; if (!st) return;
+  const wasOpen = st.open, sel = st.sel;
+  wheelClear();
+  if (!wasOpen) return;
+  clearTimeout(wheelSupT); wheelSupT = setTimeout(() => { wheelSup = false; }, 400);
+  if (!sel) return;
+  if (sel.why) { toast(sel.why); return; }
+  wheelAct(sel.v, st.cid, st.sid);
+}
+function wheelAct(v, cid, sid) {
+  const s = getStudent(getClass(cid), sid); if (!s) return;
+  if (v.startsWith('cond:')) { condGain(cid, sid, v.slice(5)); return; }
+  if (v.startsWith('retrait:')) {
+    const cd = state.conditions.find(c => c.id === v.slice(8)); if (!cd) return;
+    const real = Math.min(cd.xp, s.xp), u = snapUndo([s]);
+    s.xp -= real; s.total = Math.max(0, s.total - cd.xp);
+    logH(s, `Retrait : ${cd.name}`, -real, 'loss');
+    buzz([50, 50, 50]); save(); queueFlash([s.id], 'loss'); render();
+    showUndo(`-${real} XP pour ${s.prenom || s.nom}`, u);
+    return;
+  }
+  if (v === 'pres') { toggleAbsent(cid, sid); render(); return; }
+  if (v === 'oubli') {
+    const bm = blockMinutes();
+    s.blockedUntil = Date.now() + bm * 60000; s.blockDur = bm * 60000;
+    logH(s, `Oubli d'affaires : gain d'XP bloqué ${fmtDur(bm)}`, 0, 'block');
+    save(); render(); toast(`${s.prenom || s.nom} : gain bloqué jusqu'à ${blockTime(s)}`);
+    return;
+  }
+  if (v === 'annuler') { if (pendingUndo) undoLast(); else toast('Rien à annuler'); }
+}
+/* Réglage de la roue (Réglages, Outils) */
+function wheelSettingsHTML() {
+  const slots = wheelSlots();
+  const opts = [['vide', 'Vide'], ['pres', 'Présence (absent / présent)'], ['oubli', "Oubli d'affaires"], ['annuler', 'Annuler la dernière action']]
+    .concat(state.conditions.map(c => ['cond:' + c.id, `${c.name}${c.limit > 0 ? ' (limité)' : ''} : +${c.xp} XP`]))
+    .concat(state.conditions.map(c => ['retrait:' + c.id, `Retrait : ${c.name}`]));
+  const pos = i => (i < 4 ? `Haut ${i + 1}` : `Bas ${i - 3}`);
+  return `<p class="muted" style="font-size:14px;margin-bottom:12px">Jusqu'à 8 actions autour du doigt : 4 en haut, 4 en bas. Un emplacement vide reste visible mais n'est pas cliquable. Pour l'utiliser, appuie longuement une seconde sur une ligne élève.</p>`
+    + slots.map((v, i) => `<label style="display:block;margin-bottom:8px"><small class="muted">${pos(i)}</small><select class="search" aria-label="${pos(i)}" onchange="setWheelSlot(${i}, this.value)">${opts.map(([k, l]) => `<option value="${k}" ${k === v ? 'selected' : ''}>${esc(l)}</option>`).join('')}</select></label>`).join('')
+    + `<button class="btn wide" style="margin-top:8px" onclick="resetWheel()">Réinitialiser la roue</button>`;
+}
+function setWheelSlot(i, v) { const sl = wheelSlots(); sl[i] = v; state.wheel = {slots: sl}; save(); openSettingsPage('roue'); }
+function resetWheel() { state.wheel = null; save(); openSettingsPage('roue'); }
 /* Événements de la séance du jour (gains, retraits, achats) */
 /* Demi-journées : matin jusqu'à 13 h, après-midi ensuite (les créneaux 8 h-12 h 50 et 13 h 10-18 h tombent dedans) */
 function sessionKey(t) {
@@ -1526,7 +1795,7 @@ function rowHTML(c, s, anchor) {
   const MAXDOTS = 8;
   const dots = ranked.slice(0, MAXDOTS).map(x => { const k = CARD_BY_ID[x.key]; if (!k) return ''; const tip = k.n; return `<button class="cbadge ${x.color}" aria-label="${esc(tip)}" title="${esc(tip)}" data-tip="${esc(tip)}" data-col="${x.color}" onpointerdown="event.stopPropagation();tipStart(this)" onclick="event.stopPropagation()" oncontextmenu="event.preventDefault()">${ico(k.i)}</button>`; }).join('')
     + (ranked.length > MAXDOTS ? `<span class="dot more">+${ranked.length - MAXDOTS}</span>` : '');
-  return `<div class="row ${ab ? 'abs' : ''} ${bl ? 'blk' : ''}" ${anchor || ''} onclick="${view.quick ? `quickGain('${c.id}','${s.id}')` : `openStudent('${c.id}','${s.id}')`}">${ilotBadge(c, s)}
+  return `<div class="row ${ab ? 'abs' : ''} ${bl ? 'blk' : ''}" data-sid="${s.id}" ${anchor || ''} onclick="rowTap(\'${c.id}\',\'${s.id}\')" onpointerdown="wheelDown(event,\'${c.id}\',\'${s.id}\')" oncontextmenu="event.preventDefault()" >${ilotBadge(c, s)}
     <div class="who"><div class="nm"><b>${esc(s.nom)}</b> ${esc(s.prenom)}</div>
       ${tagsLine(s)}<div class="cardsline">${un.length ? `<span class="cnt">${un.length} carte${un.length > 1 ? 's' : ''}</span>${dots}` : '<span class="cnt none">Aucune carte</span>'}${flags}</div>${pgBar(s)}</div>
     <div class="xp"><b>${s.xp}</b><small>XP</small></div>
@@ -1976,8 +2245,8 @@ async function applyGain(cid, sid, condId) {
   const u = snapUndo([s]);
   s.xp += cd.xp; s.total += cd.xp; s.uses[cd.id] = used + 1;
   logH(s, cd.name, cd.xp, 'gain'); buzz(30);
+  queueFlash([s.id], 'gain');
   done(`+${cd.xp} XP pour ${s.prenom || s.nom}`, u);
-  startQuickFor(cid, cd.id);
 }
 function freeGain(cid, sid) {
   const n = parseInt($('g-n').value, 10);
@@ -1986,6 +2255,7 @@ function freeGain(cid, sid) {
   if (isBlocked(s)) { buzz([50, 50, 50]); toast(`Gain bloqué jusqu'à ${blockTime(s)}`); return; }
   const u = snapUndo([s]);
   s.xp += n; s.total += n; logH(s, m || 'Ajout manuel', n, 'gain'); buzz(30);
+  queueFlash([s.id], 'gain');
   done(`+${n} XP pour ${s.prenom || s.nom}`, u);
 }
 
@@ -2008,6 +2278,7 @@ function doRemove(cid, sid) {
   const real = Math.min(n, s.xp);
   s.xp -= real; s.total = Math.max(0, s.total - n);
   logH(s, m || 'Retrait manuel', -real, 'loss'); buzz([50, 50, 50]);
+  queueFlash([s.id], 'loss');
   done(`−${real} XP pour ${s.prenom || s.nom}`, u);
 }
 function openFix(cid, sid) {
@@ -2362,6 +2633,7 @@ async function applyClassXP() {
     else { const real = Math.min(n, s.xp); s.xp -= real; s.total = Math.max(0, s.total - n); logH(s, m || 'Retrait pour toute la classe', -real, 'loss'); }
   });
   buzz(add ? 30 : [50, 50, 50]);
+  queueFlash(t.targets.map(x => x.id), add ? 'gain' : 'loss');
   done(`${add ? '+' : '−'}${n} XP pour ${t.targets.length} élève${t.targets.length > 1 ? 's' : ''}`, u);
 }
 
@@ -2681,8 +2953,16 @@ function openSettings() {
     ${row(ico('palette'), 'Apparence', themeName() + ', ' + colsShown(cols) + ' colonne' + (colsShown(cols) > 1 ? 's' : ''), 'theme')}
     ${row(ico('tag'), 'Étiquettes des élèves', (state.tagDefs || []).length + ' étiquettes', 'tags')}
     ${row(ico('star'), 'Conditions pour gagner des XP', state.conditions.length + ' conditions', 'conds')}
+    ${row(ico('sliders'), 'Roue rapide', '8 actions autour du doigt', 'roue')}
     <h3>Outils</h3>
+    ${row(ico('info'), 'Aide et tutoriel', 'Accueil, classe, élève, réglages', 'tuto')}
     ${row(ico('flask'), "Classe d'essai", '30 élèves fictifs pour tester', 'demo')}`);
+}
+const TUTO = [["Accueil", [["Les classes", "Chaque classe est une carte colorée, groupée par niveau (5e, 4e, 3e, Autre). Touche une carte pour ouvrir la classe. Le bouton ••• ouvre les options de la classe."], ["Trier", "Les boutons Par niveau, A–Z et XP gagnés changent l'ordre. Le tri affiché à l'ouverture se choisit dans Réglages, Accueil et tri."], ["Créer une classe", "Touche « Nouvelle classe » en bas. Donne le nom, le niveau et le professeur principal. Tu peux ensuite importer ou ajouter les élèves."], ["Colonnes", "Le nombre de colonnes (1, 2 ou 3) se règle dans Réglages, Apparence. Sur grand écran, la page s'élargit."], ["Rappels", "Une bannière rappelle la sauvegarde du jour, puis une fois par semaine de supprimer les anciennes sauvegardes dans Fichiers."], ["Raccourci de thème", "Touche cinq fois de suite dans le vide (hors des classes et des boutons) en moins de 2 secondes : le thème passe sur Ubuntu, le style par défaut. Touche de nouveau cinq fois : tu retrouves le thème que tu avais avant."]]], ["Classe", [["Podium et recherche", "Les trois premiers apparaissent en haut. La barre « Chercher un élève » filtre la liste par nom ou prénom."], ["Trier et filtrer", "Le menu de tri propose A–Z, Îlot, XP, Cartes et Discrets. « Discrets » place en haut les élèves qui ont le moins participé pendant la séance en cours (la demi-journée de la dernière attribution d'XP). « Filtrer » affiche les élèves d'une étiquette."], ["Barre d'outils", "Élève : ajouter un élève. Import : importer une liste. Appel : marquer les absents du jour. XP classe : donner ou retirer des XP à toute la classe, absents exclus. Histo : l'historique de la classe. Plan : placer les élèves par îlot."], ["Une ligne élève", "Touche le nom pour ouvrir la fiche. Les boutons + et − donnent ou retirent des XP selon une condition. Un appui long d'une seconde sur la ligne ouvre la roue rapide : huit cartes apparaissent autour de ton doigt, quatre au-dessus et quatre en dessous. Glisse vers une carte : elle s'éclaire. Relâche pour lancer l'action. La page ne défile pas pendant la roue. Les cartes reprennent l'habillage du style choisi, comme les cartes de classe."], ["Annuler", "Après une action, un message reste 4 secondes avec « Annuler ». Passé ce délai, corrige avec un retrait ou un gain, et garde une trace dans l'historique."], ["Étiqueter", "Le mode Étiqueter applique une étiquette (PAI, PAP…) à plusieurs élèves à la fois. « Tous » et « Aucun » sélectionnent en un geste."], ["Plan de classe", "Six zones, de A à F, disposées sur deux colonnes et trois lignes, plus un bac « Non placés ». Glisse un élève dans une zone, ou touche-le après avoir choisi une lettre dans la barre."], ["Options de la classe", "••• permet de modifier la classe, de passer au chapitre suivant, de défaire le passage, d'exporter un PDF (période et style au choix) et de supprimer la classe."], ["Chapitres", "Passer au chapitre suivant archive un bilan (XP, gains, retraits, achats, cartes utilisées). Les XP ne changent jamais. Deux cases décident si les cartes en attente sont marquées utilisées et si les compteurs « par chapitre » repartent à zéro."]]], ["Élève", [["Solde et total", "Le solde est l'XP disponible, le total l'XP gagné depuis le début. La jauge sous le nom montre la progression vers 8, 22 puis 50 XP."], ["Gagner ou retirer des XP", "Choisis une condition pour gagner des XP. Les conditions à gain limité par chapitre se donnent depuis la fiche, et peuvent aussi être placées sur la roue rapide. Le retrait demande un montant et un motif facultatif, et réduit aussi le total."], ["Cartes", "L'achat de carte se fait ici. Une carte de rang inférieur sur la même ligne propose son tarif réduit. Le remboursement et le marquage « utilisée » sont aussi ici. L'appui maintenu sur un badge de carte affiche son nom."], ["Absence et oubli", "Absent ou présent pour la journée. L'oubli d'affaires bloque le gain d'XP pendant 30, 45, 60 ou 90 minutes (durée réglable), sans retirer d'XP ; la jauge affiche le temps restant."], ["Étiquettes et notes", "Ajoute des étiquettes (PAI, PAP…) et des notes libres. Elles sont repliables et synchronisées."], ["Historique", "Tous les événements de l'élève : gains, retraits, achats, absences, oublis. La liste s'affiche par tranches de 80 événements ; « Voir plus » charge la suite."]]], ["Réglages", [["Sauvegarde", "Exporte un fichier (enregistre-le dans Fichiers, dans un dossier « Jokers sauvegardes »). Importe un fichier pour restaurer. Trois copies automatiques restent dans l'appli. Le contrôle de cohérence signale les anomalies sans rien modifier."], ["Mode Purge", "Supprime toutes les classes et tous les élèves, après confirmation. Les étiquettes, les cartes ajoutées et les réglages sont conservés. Une purge est définitive."], ["Étiquettes", "Modifie les quinze étiquettes : nom, icône, couleur."], ["Conditions d'XP", "Modifie les conditions : nom, XP et limite par chapitre (0 = sans limite). Les conditions peuvent être placées sur la roue rapide dans Réglages, Outils, Roue rapide."], ["Accueil et tri", "Choisis le tri affiché à l'ouverture de l'accueil : par niveau, A–Z ou XP gagnés."], ["Roue rapide", "Dans Réglages, Personnalisation, choisis les actions des huit cartes : quatre en haut, quatre en bas. Une carte vide reste visible, en pointillé, et n'est pas cliquable. Actions possibles : une condition d'XP, un retrait d'XP, la présence (absent ou présent), l'oubli d'affaires, ou annuler la dernière action. Réinitialiser rétablit la configuration de départ, commune à toutes les classes."], ["Apparence", "Choisis le style : Ubuntu (par défaut), Éducatif, Vero, Cockpit ou Girly. Vero se règle en sombre ou en clair. Tu peux aussi choisir le mode clair, sombre, sombre pur ou automatique, le thème au démarrage, le nom des styles, la couleur d'accentuation (palettes, code hexa ou couleur personnalisée) et le nombre de colonnes."], ["Classe d'essai", "Ajoute une classe fictive de 30 élèves avec un historique, pour essayer l'appli sans risque."], ["Synchronisation", "Sur claude.ai, les données se synchronisent avec ton compte. Sur le site GitHub, la synchronisation n'est pas disponible : l'appli reste locale."]]]];
+function tutoHTML() {
+  return `<p class="muted" style="font-size:14px;margin-bottom:12px">Un guide rapide, écran par écran. Touche une rubrique pour la lire.</p>` +
+    TUTO.map(([screen, items]) => `<details class="tuto"><summary><b>${esc(screen)}</b></summary>` +
+      items.map(([t, d]) => `<div class="tuto-i"><b>${esc(t)}</b><p>${esc(d)}</p></div>`).join('') + `</details>`).join('');
 }
 function openSettingsPage(page) {
   const last = state.lastExport ? `Dernière sauvegarde : ${fmt(state.lastExport)}` : 'Aucune sauvegarde exportée pour le moment.';
@@ -2701,6 +2981,8 @@ function openSettingsPage(page) {
       <div id="cond-ed" style="margin-top:10px">${condEditor()}</div>
       <button class="btn wide" onclick="addCond()">＋ Ajouter une condition</button>`],
     theme: ['Apparence', themeListHTML()],
+    tuto: ['Aide et tutoriel', tutoHTML()],
+    roue: ['Roue rapide', wheelSettingsHTML()],
     demo: ["Classe d'essai", `<p class="muted" style="font-size:14px">Ajoute une classe fictive de 30 élèves avec 11 séances d'historique (XP, cartes, absences, retraits). Tu pourras la supprimer ensuite.</p>
       <button class="btn wide" style="margin-top:10px" onclick="addDemoClass()">Ajouter une classe d'essai</button>`]
   };
@@ -3160,17 +3442,19 @@ async function deleteRemote() {
 /* ============ Styles visuels ============ */
 const THEMES = [
   {id:'educatif', name:'Éducatif', desc:'Le style actuel : cahier, boutons épais, couleurs franches mais douces.', sw:['#5766B8', '#3E9B6C', '#C45B57', '#D6A63A'], bar:'#F3F4F9'},
-  {id:'vero', name:'Vero', desc:'Sombre et élégant : fond nuit, accents turquoise, dégradés, typographie fine.', sw:['#4FC8C6', '#8BEBE6', '#3FA9C9', '#2C2046'], bar:'#111215'},
+  {id:'vero', name:'Vero', modes:true, desc:'Élégant et distingué : turquoise, typographie fine. Sombre (nuit) ou clair (ivoire).', sw:['#4FC8C6', '#8BEBE6', '#3FA9C9', '#2C2046'], bar:'#111215', barLight:'#F5F6F8', barDark:'#111215'},
+  {id:'girly', name:'Girly', modes:false, desc:'Frais et pop : roses bonbon, jaune beurre, touche de vin rouge, cœurs et étincelles.', sw:['#E8799B', '#F5E08A', '#B54A6E', '#FFF6F8'], bar:'#FFF6F8', barLight:'#FFF6F8', barDark:'#FFF6F8'},
   {id:'ubuntu', name:'Ubuntu', modes:true, desc:'Plat et net, inspiré d’Ubuntu : orange Yaru, police Ubuntu, angles arrondis, clair ou sombre.', sw:['#E95420', '#26A269', '#E01B24', '#77767B'], bar:'#fafafa', barLight:'#fafafa', barDark:'#1e1e1e'},
   {id:'cockpit', name:'Cockpit', desc:'Console spatiale : anthracite, modules chanfreinés, accents cyan et ambre.', sw:['#0A0D13', 'var(--primary)', '#E8A33A', '#4FE3B0'], bar:'#0A0D13'}
 ];
 const lsGet = k => { try { return localStorage.getItem(k); } catch (e) { return null; } };
 const lsSet = (k, v) => { try { if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) {} };
 /* Mode clair / sombre : mémorisé par style (Ubuntu clair ou sombre, indépendamment du téléphone). Défaut : clair. */
-const modeOf = id => { const m = lsGet('jokers_xp_mode_' + id); return ['auto', 'light', 'dark', 'oled'].includes(m) ? m : 'light'; };
-let theme = 'vero';
+const modeOf = id => { const m = lsGet('jokers_xp_mode_' + id); return ['auto', 'light', 'dark', 'oled'].includes(m) ? m : (id === 'vero' ? 'dark' : 'light'); };
+let theme = 'ubuntu';
 if (THEMES.some(x => x.id === lsGet('jokers_xp_start_theme'))) theme = lsGet('jokers_xp_start_theme');
 else if (THEMES.some(x => x.id === lsGet('jokers_xp_theme'))) theme = lsGet('jokers_xp_theme');
+if (window.__SAFE) theme = 'educatif';
 let mode = modeOf(theme);
 const BASE_NAMES = Object.fromEntries(THEMES.map(t => [t.id, t.name]));
 THEMES.forEach(t => { const n = lsGet('jokers_xp_theme_name_' + t.id); if (n && n.trim()) t.name = n.trim().slice(0, 30); });
@@ -3182,7 +3466,7 @@ let cols = 2;
 try { const c = +localStorage.getItem('jokers_xp_cols'); if ([1, 2, 3].includes(c)) cols = c; } catch (e) {}
 const themeName = () => themeTitle(THEMES.find(t => t.id === theme) || THEMES[0]);
 /* ----- Couleur d'accentuation (par thème, enregistrée sur cet appareil) ----- */
-const BASE_COLOR = {educatif:'#5766B8', vero:'#4FC8C6', cockpit:'#3FD3E6', ubuntu:'#E95420'};
+const BASE_COLOR = {educatif:'#5766B8', vero:'#4FC8C6', cockpit:'#3FD3E6', ubuntu:'#E95420', girly:'#E8799B'};
 const ACCENTS = [
   {id:'rouge', n:'Rouge', c:'#D32F2F'}, {id:'rose', n:'Rose', c:'#E91E63'}, {id:'orange', n:'Orange', c:'#F57C00'},
   {id:'jaune', n:'Jaune', c:'#FBC02D'}, {id:'vert', n:'Vert', c:'#2E7D32'}, {id:'turquoise', n:'Turquoise', c:'#00ACC1'},
@@ -3433,6 +3717,41 @@ render();
     }
   } catch (e) {}
 })();
+</script>
+
+<script>
+/* Appui long sur une ligne élève : pas de sélection de texte (la roue rapide prend le relais) */
+document.addEventListener('selectstart', e => {
+  if (e.target && e.target.closest && (e.target.closest('.row') || e.target.closest('#wheel'))) e.preventDefault();
+});
+/* Roue ouverte : aucun défilement de la page */
+window.addEventListener('touchmove', e => { if (typeof wheelSt !== 'undefined' && wheelSt && wheelSt.open) e.preventDefault(); }, {passive: false});
+/* Raccourci accueil : cinq appuis dans le vide -> thème par défaut (Ubuntu) ; cinq appuis de nouveau -> thème précédent */
+let tapTimes = [];
+function emptyTapAt(e) {
+  if (view.name !== 'home') return;
+  const t = e.target;
+  if (!t || (t !== document.body && t !== $('app') && !(t.closest && t.closest('#app')))) return;
+  if (t.closest && t.closest('button,a,input,select,textarea,label,.ccard,.row,.chip,.banner,.sorts,.search,.fab,.apill,.sheet,[onclick]')) return;
+  const now = Date.now();
+  tapTimes = tapTimes.filter(x => now - x < 2000);
+  tapTimes.push(now);
+  if (tapTimes.length < 5) return;
+  tapTimes = [];
+  if (theme !== 'ubuntu') {
+    lsSet('jokers_xp_prev_theme', theme);
+    setTheme('ubuntu');
+    toast('Thème par défaut : Ubuntu');
+  } else {
+    const back = lsGet('jokers_xp_prev_theme');
+    if (back && back !== 'ubuntu' && THEMES.some(x => x.id === back)) {
+      lsSet('jokers_xp_prev_theme', null);
+      setTheme(back);
+      toast('Thème précédent rétabli');
+    } else toast('Aucun thème précédent à rétablir');
+  }
+}
+document.addEventListener('pointerup', emptyTapAt, {passive: true});
 </script>
 <script>if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {})); }</script>
 </body>
