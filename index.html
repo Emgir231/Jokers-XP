@@ -1111,6 +1111,47 @@ body[data-theme=girly] .wheel .wi.empty{background:transparent;box-shadow:none;b
 .drawcard .cname{font-size:30px;line-height:1.1}
 .drawend{font-size:22px;font-weight:800;text-align:center}
 .drawbtns{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+
+/* ===== Plan personnalisé ===== */
+.cphead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:4px 0 6px}
+.cpsub{margin:2px 0 0;font-size:13px;color:var(--soft)}
+.cpbtn{padding:8px 14px;border-radius:var(--radius,999px);border:1px solid var(--line-2);background:var(--surface);color:var(--ink);font:inherit;font-weight:700;font-size:14px}
+.cptools{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.cptool{display:flex;align-items:center;gap:6px;padding:8px 10px;border-radius:var(--radius,12px);border:1px solid var(--line-2);background:var(--surface);color:var(--ink);font:inherit;font-size:13px;touch-action:none}
+.cpicon{display:inline-block;width:16px;height:16px;border:2px solid var(--ink);box-sizing:border-box}
+.cpicon.cp-sq{border-radius:3px}
+.cpicon.cp-rect{width:22px;height:14px;border-radius:3px}
+.cpicon.cp-circle{border-radius:50%}
+.cpicon.cp-board{width:22px;height:12px;border-style:dashed}
+.cpicon.cp-desk{width:18px;height:12px;border-radius:3px;background:var(--soft);opacity:.35}
+.cframe{position:relative;width:100%;aspect-ratio:4/3;background:var(--surface-2,var(--surface));border:1px dashed var(--line-2);border-radius:var(--radius,18px);overflow:hidden;touch-action:none;margin:6px 0}
+.cpitem{position:absolute;box-sizing:border-box;background:var(--surface);border:2px solid var(--line-2);border-radius:var(--radius,14px);display:flex;align-items:center;justify-content:center;padding:4px;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.cpitem.circle{border-radius:50%}
+.cpitem.board,.cpitem.desk{background:transparent;border-style:dashed}
+.cpitem.sel{border-color:var(--primary);box-shadow:0 0 0 2px var(--primary)}
+.cpin{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;max-width:100%;overflow:hidden;text-align:center}
+.cpchip{display:inline-block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:2px 7px;border-radius:999px;background:var(--primary);color:var(--acc-ink);font-weight:700;font-size:12px;touch-action:none;cursor:grab}
+.cpname{font-size:13px;font-weight:700;color:var(--soft)}
+.cpitem.locked,.cframe.locked .cpitem{cursor:default}
+.cph{position:absolute;width:18px;height:18px;border-radius:50%;background:var(--primary);border:2px solid var(--surface);touch-action:none}
+.cph.rot{left:50%;top:-30px;transform:translateX(-50%)}
+.cph.res{right:-9px;bottom:-9px;cursor:nwse-resize}
+.cpdel{position:absolute;right:-10px;top:-10px;width:24px;height:24px;border-radius:50%;border:0;background:var(--minus,#D62B22);color:#fff;font-size:16px;line-height:1;padding:0}
+.cpbac{margin-top:10px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius,18px);padding:10px}
+.cpbacT{margin:0 0 6px;font-size:13px;color:var(--soft);font-weight:700}
+.cpchips{display:flex;flex-wrap:wrap;gap:6px}
+.cpchips .cpchip{background:var(--surface-2,var(--surface));color:var(--ink);border:1px solid var(--line-2)}
+.cpnone{font-size:13px;color:var(--soft)}
+.cpexp{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.cpghost{position:fixed;z-index:95;pointer-events:none;transform:translate(-50%,-50%);padding:6px 12px;border-radius:999px;background:var(--primary);color:var(--acc-ink);font-size:13px;font-weight:700;opacity:.92}
+
+/* ===== Zoom, aimantation, sélection multiple ===== */
+.cpzoom{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+.cpzoom .cpbtn{padding:6px 12px;font-size:13px}
+.cpbtn.on{background:var(--primary);color:var(--acc-ink);border-color:var(--primary)}
+#cworld{transform-origin:0 0}
+#cworld.gridshow{background-image:linear-gradient(to right,var(--line-2) 1px,transparent 1px),linear-gradient(to bottom,var(--line-2) 1px,transparent 1px);background-size:5% 6.6667%}
+.cframe{cursor:grab}
 </style>
 </head>
 <body>
@@ -1337,8 +1378,10 @@ const titleCase = s => String(s || '').trim().toLowerCase().replace(/(^|[\s\-'�
 const uid = () => Math.random().toString(36).slice(2, 9) + Date.now().toString(36).slice(-4);
 const clone = x => (x === undefined ? undefined : JSON.parse(JSON.stringify(x)));
 function normClasses(d) {
+  if (d.planMode !== 'custom') d.planMode = 'classic';
   (d.classes || []).forEach((c, ci) => {
     if (!Array.isArray(c.chapitres_archives)) c.chapitres_archives = [];
+    if (!c.layout || !Array.isArray(c.layout.items)) c.layout = {locked: false, items: []};
     delete c.meetings;
     (c.students || []).forEach((s, si) => {
       if (!Array.isArray(s.history)) s.history = [];
@@ -1594,7 +1637,7 @@ function classHTML() {
       <button class="tool" aria-label="XP pour toute la classe" onclick="openClassXP('${c.id}')"><span class="e">${ico('star')}</span>XP classe</button>
       <button class="tool" aria-label="Tirage au sort" onclick="openDraw('${c.id}')"><span class="e">${ico('shuffle')}</span>Tirage</button>
       <button class="tool" aria-label="Historique de la classe" onclick="openHisto('${c.id}')"><span class="e">${ico('history')}</span>Histo</button>
-      <button class="tool ${view.plan ? 'on' : ''}" aria-label="Plan de classe (îlots)" onclick="startPlan()"><span class="e">${ico('grid')}</span>Plan</button></div>
+      <button class="tool ${view.plan || view.cplan ? 'on' : ''}" aria-label="Plan de classe" onclick="startPlanAny()"><span class="e">${ico('grid')}</span>Plan</button></div>
     ${view.appel ? `<div class="prev" style="margin:0 0 12px">Appel en cours : touche chaque élève absent. L'absence est notée dans son historique.</div>` : ''}
     ${view.plan ? planBarHTML(c) : ''}${view.label ? labelBarHTML(c) : ''}
     <div class="sorts compact">${sortBtn('chip')}<button class="chip ${(view.tags || []).length ? 'on' : ''}" onclick="openTagFilter()">${ico('tag')} ${(view.tags || []).length || 'Filtrer'}</button><button class="chip ${view.label ? 'on' : ''}" onclick="startLabel()">${ico('tagplus')} Étiqueter</button><button class="chip" onclick="openCodes()">${ico('info')} Codes</button></div>
@@ -1891,6 +1934,7 @@ function planEnd() {
 function renderList() {
   const c = getClass(view.id), wrap = $('listwrap');
   if (!c || !wrap) return;
+  if (view.cplan) { wrap.innerHTML = customPlanHTML(c); return; }
   if (view.plan) { wrap.innerHTML = planBoardHTML(c); return; }
   let list = c.students.slice();
   const q = norm(view.q || '');
@@ -2423,6 +2467,8 @@ const ILOT_COLORS = {A:['#C06A62', '#fff'], B:['#CE8A4A', '#fff'], C:['#C7A33F',
 const ilotStyle = l => `--ib:${ILOT_COLORS[l][0]};--ic:${ILOT_COLORS[l][1]}`;
 const ilotRank = s => { const i = ILOTS.indexOf(s.ilot); return i < 0 ? ILOTS.length : i; };
 function ilotBadge(c, s, fixed) {
+  /* Plan personnalisé actif : pas de lettre d'îlot devant le prénom. Les îlots enregistrés sont conservés. */
+  if (state.planMode === 'custom') return '';
   const has = s.ilot && ILOT_COLORS[s.ilot];
   const cls = has ? 'ilot' : 'ilot none', st = has ? ` style="${ilotStyle(s.ilot)}"` : '', txt = has ? s.ilot : '·';
   if (fixed) return `<span class="${cls}"${st}>${txt}</span>`;
@@ -2988,11 +3034,12 @@ function openSettings() {
     ${row(ico('star'), 'Conditions pour gagner des XP', state.conditions.length + ' conditions', 'conds')}
     ${row(ico('sliders'), 'Roue rapide', '8 actions autour du doigt', 'roue')}
     ${row(ico('timer'), 'Son du minuteur', timerSoundLabel(), 'sontimer')}
+    ${row(ico('grid'), 'Formule du plan', planModeLabel(), 'plantype')}
     <h3>Outils</h3>
     ${row(ico('info'), 'Aide et tutoriel', 'Accueil, classe, élève, réglages', 'tuto')}
     ${row(ico('flask'), "Classe d'essai", '30 élèves fictifs pour tester', 'demo')}`);
 }
-const TUTO = [["Accueil", [["Minuteur", "Le bouton minuteur, en haut à droite de l'accueil, ouvre un écran plein. Choisis une durée (1, 5, 10, 15, 20 ou 30 minutes, ou une durée libre), puis touche Démarrer. Quand le temps est écoulé, l'écran clignote et le son retentit jusqu'à ce que tu touches Arrêter le son. Le minuteur continue si tu quittes l'écran, tant que l'appli reste ouverte ; si l'iPhone se verrouille, le signal peut arriver avec un léger retard."], ["Les classes", "Chaque classe est une carte colorée, groupée par niveau (5e, 4e, 3e, Autre). Touche une carte pour ouvrir la classe. Le bouton ••• ouvre les options de la classe."], ["Trier", "Les boutons Par niveau, A–Z et XP gagnés changent l'ordre. Le tri affiché à l'ouverture se choisit dans Réglages, Accueil et tri."], ["Créer une classe", "Touche « Nouvelle classe » en bas. Donne le nom, le niveau et le professeur principal. Tu peux ensuite importer ou ajouter les élèves."], ["Colonnes", "Le nombre de colonnes (1, 2 ou 3) se règle dans Réglages, Apparence. Sur grand écran, la page s'élargit."], ["Rappels", "Une bannière rappelle la sauvegarde du jour, puis une fois par semaine de supprimer les anciennes sauvegardes dans Fichiers."], ["Raccourci de thème", "Touche cinq fois de suite dans le vide (hors des classes et des boutons) en moins de 2 secondes : le thème passe sur Ubuntu, le style par défaut. Touche de nouveau cinq fois : tu retrouves le thème que tu avais avant."]]], ["Classe", [["Podium et recherche", "Les trois premiers apparaissent en haut. La barre « Chercher un élève » filtre la liste par nom ou prénom."], ["Trier et filtrer", "Le menu de tri propose A–Z, Îlot, XP, Cartes et Discrets. « Discrets » place en haut les élèves qui ont le moins participé pendant la séance en cours (la demi-journée de la dernière attribution d'XP). « Filtrer » affiche les élèves d'une étiquette."], ["Barre d'outils", "Élève : ajouter un élève. Import : importer une liste. Appel : marquer les absents du jour. XP classe : donner ou retirer des XP à toute la classe, absents exclus. Tirage : tirage au sort des élèves. Histo : l'historique de la classe. Plan : placer les élèves par îlot."], ["Une ligne élève", "Touche le nom pour ouvrir la fiche. Les boutons + et − donnent ou retirent des XP selon une condition. Un appui long d'une seconde sur la ligne ouvre la roue rapide : huit cartes apparaissent autour de ton doigt, quatre au-dessus et quatre en dessous. Glisse vers une carte : elle s'éclaire. Relâche pour lancer l'action. La page ne défile pas pendant la roue. Les cartes reprennent l'habillage du style choisi, comme les cartes de classe."], ["Annuler", "Après une action, un message reste 4 secondes avec « Annuler ». Passé ce délai, corrige avec un retrait ou un gain, et garde une trace dans l'historique."], ["Tirage au sort", "Le bouton Tirage ouvre la liste des élèves de la classe, avec une case à cocher pour chacun. Les absents du jour sont décochés par défaut ; tu peux recocher ou décocher qui tu veux. Touche Tirer au sort : un nom défile puis s'arrête sur une carte à la couleur d'accentuation. « Tirer un autre » continue sans répéter un élève déjà tiré. Quand tout le monde est passé, un message l'indique, avec un bouton pour recommencer. Les élèves déjà tirés sont mémorisés sur cet appareil, pour la classe, et restent exclus d'un tirage à l'autre. Une heure après le premier tirage, l'appli te propose de les garder ou de réinitialiser les noms. « Réinitialiser les noms » est aussi disponible dans la liste."], ["Étiqueter", "Le mode Étiqueter applique une étiquette (PAI, PAP…) à plusieurs élèves à la fois. « Tous » et « Aucun » sélectionnent en un geste."], ["Plan de classe", "Six zones, de A à F, disposées sur deux colonnes et trois lignes, plus un bac « Non placés ». Glisse un élève dans une zone, ou touche-le après avoir choisi une lettre dans la barre."], ["Options de la classe", "••• permet de modifier la classe, de passer au chapitre suivant, de défaire le passage, d'exporter un PDF (période et style au choix) et de supprimer la classe."], ["Chapitres", "Passer au chapitre suivant archive un bilan (XP, gains, retraits, achats, cartes utilisées). Les XP ne changent jamais. Deux cases décident si les cartes en attente sont marquées utilisées et si les compteurs « par chapitre » repartent à zéro."]]], ["Élève", [["Solde et total", "Le solde est l'XP disponible, le total l'XP gagné depuis le début. La jauge sous le nom montre la progression vers 8, 22 puis 50 XP."], ["Gagner ou retirer des XP", "Choisis une condition pour gagner des XP. Les conditions à gain limité par chapitre se donnent depuis la fiche, et peuvent aussi être placées sur la roue rapide. Le retrait demande un montant et un motif facultatif, et réduit aussi le total."], ["Cartes", "L'achat de carte se fait ici. Une carte de rang inférieur sur la même ligne propose son tarif réduit. Le remboursement et le marquage « utilisée » sont aussi ici. L'appui maintenu sur un badge de carte affiche son nom."], ["Absence et oubli", "Absent ou présent pour la journée. L'oubli d'affaires bloque le gain d'XP pendant 30, 45, 60 ou 90 minutes (durée réglable), sans retirer d'XP ; la jauge affiche le temps restant."], ["Étiquettes et notes", "Ajoute des étiquettes (PAI, PAP…) et des notes libres. Elles sont repliables et synchronisées."], ["Historique", "Tous les événements de l'élève : gains, retraits, achats, absences, oublis. La liste s'affiche par tranches de 80 événements ; « Voir plus » charge la suite."]]], ["Réglages", [["Sauvegarde", "Exporte un fichier (enregistre-le dans Fichiers, dans un dossier « Jokers sauvegardes »). Importe un fichier pour restaurer. Trois copies automatiques restent dans l'appli. Le contrôle de cohérence signale les anomalies sans rien modifier."], ["Mode Purge", "Supprime toutes les classes et tous les élèves, après confirmation. Les étiquettes, les cartes ajoutées et les réglages sont conservés. Une purge est définitive."], ["Étiquettes", "Modifie les quinze étiquettes : nom, icône, couleur."], ["Conditions d'XP", "Modifie les conditions : nom, XP et limite par chapitre (0 = sans limite). Les conditions peuvent être placées sur la roue rapide dans Réglages, Outils, Roue rapide."], ["Accueil et tri", "Choisis le tri affiché à l'ouverture de l'accueil : par niveau, A–Z ou XP gagnés."], ["Roue rapide", "Dans Réglages, Personnalisation, choisis les actions des huit cartes : quatre en haut, quatre en bas. Une carte vide reste visible, en pointillé, et n'est pas cliquable. Actions possibles : une condition d'XP, un retrait d'XP, la présence (absent ou présent), l'oubli d'affaires, ou annuler la dernière action. Réinitialiser rétablit la configuration de départ, commune à toutes les classes."], ["Son du minuteur", "Choisis le son de fin de minuteur parmi quatre sons intégrés à l'appli : Bip, Cloche, Carillon et Tonalité douce. Touche un son pour l'écouter, puis choisis-le. Ce choix vaut pour tous les minuteurs. Tu peux aussi régler la puissance sonore, du niveau 1 (très doux) au niveau 5 (très fort)."], ["Apparence", "Choisis le style : Ubuntu (par défaut), Éducatif, Vero, Cockpit ou Girly. Vero se règle en sombre ou en clair. Tu peux aussi choisir le mode clair, sombre, sombre pur ou automatique, le thème au démarrage, le nom des styles, la couleur d'accentuation (palettes, code hexa ou couleur personnalisée) et le nombre de colonnes."], ["Classe d'essai", "Ajoute une classe fictive de 30 élèves avec un historique, pour essayer l'appli sans risque."], ["Synchronisation", "Sur claude.ai, les données se synchronisent avec ton compte. Sur le site GitHub, la synchronisation n'est pas disponible : l'appli reste locale."]]]];
+const TUTO = [["Accueil", [["Minuteur", "Le bouton minuteur, en haut à droite de l'accueil, ouvre un écran plein. Choisis une durée (1, 5, 10, 15, 20 ou 30 minutes, ou une durée libre), puis touche Démarrer. Quand le temps est écoulé, l'écran clignote et le son retentit jusqu'à ce que tu touches Arrêter le son. Le minuteur continue si tu quittes l'écran, tant que l'appli reste ouverte ; si l'iPhone se verrouille, le signal peut arriver avec un léger retard."], ["Les classes", "Chaque classe est une carte colorée, groupée par niveau (5e, 4e, 3e, Autre). Touche une carte pour ouvrir la classe. Le bouton ••• ouvre les options de la classe."], ["Trier", "Les boutons Par niveau, A–Z et XP gagnés changent l'ordre. Le tri affiché à l'ouverture se choisit dans Réglages, Accueil et tri."], ["Créer une classe", "Touche « Nouvelle classe » en bas. Donne le nom, le niveau et le professeur principal. Tu peux ensuite importer ou ajouter les élèves."], ["Colonnes", "Le nombre de colonnes (1, 2 ou 3) se règle dans Réglages, Apparence. Sur grand écran, la page s'élargit."], ["Rappels", "Une bannière rappelle la sauvegarde du jour, puis une fois par semaine de supprimer les anciennes sauvegardes dans Fichiers."], ["Raccourci de thème", "Touche cinq fois de suite dans le vide (hors des classes et des boutons) en moins de 2 secondes : le thème passe sur Ubuntu, le style par défaut. Touche de nouveau cinq fois : tu retrouves le thème que tu avais avant."]]], ["Classe", [["Podium et recherche", "Les trois premiers apparaissent en haut. La barre « Chercher un élève » filtre la liste par nom ou prénom."], ["Trier et filtrer", "Le menu de tri propose A–Z, Îlot, XP, Cartes et Discrets. « Discrets » place en haut les élèves qui ont le moins participé pendant la séance en cours (la demi-journée de la dernière attribution d'XP). « Filtrer » affiche les élèves d'une étiquette."], ["Barre d'outils", "Élève : ajouter un élève. Import : importer une liste. Appel : marquer les absents du jour. XP classe : donner ou retirer des XP à toute la classe, absents exclus. Tirage : tirage au sort des élèves. Histo : l'historique de la classe. Plan : placer les élèves par îlot."], ["Une ligne élève", "Touche le nom pour ouvrir la fiche. Les boutons + et − donnent ou retirent des XP selon une condition. Un appui long d'une seconde sur la ligne ouvre la roue rapide : huit cartes apparaissent autour de ton doigt, quatre au-dessus et quatre en dessous. Glisse vers une carte : elle s'éclaire. Relâche pour lancer l'action. La page ne défile pas pendant la roue. Les cartes reprennent l'habillage du style choisi, comme les cartes de classe."], ["Annuler", "Après une action, un message reste 4 secondes avec « Annuler ». Passé ce délai, corrige avec un retrait ou un gain, et garde une trace dans l'historique."], ["Tirage au sort", "Le bouton Tirage ouvre la liste des élèves de la classe, avec une case à cocher pour chacun. Les absents du jour sont décochés par défaut ; tu peux recocher ou décocher qui tu veux. Touche Tirer au sort : un nom défile puis s'arrête sur une carte à la couleur d'accentuation. « Tirer un autre » continue sans répéter un élève déjà tiré. Quand tout le monde est passé, un message l'indique, avec un bouton pour recommencer. Les élèves déjà tirés sont mémorisés sur cet appareil, pour la classe, et restent exclus d'un tirage à l'autre. Une heure après le premier tirage, l'appli te propose de les garder ou de réinitialiser les noms. « Réinitialiser les noms » est aussi disponible dans la liste."], ["Étiqueter", "Le mode Étiqueter applique une étiquette (PAI, PAP…) à plusieurs élèves à la fois. « Tous » et « Aucun » sélectionnent en un geste."], ["Plan de classe", "Le bouton Plan ouvre le plan de la classe. Avec la formule actuelle, il regroupe les élèves en îlots A à F. Avec la formule personnalisée (Réglages, Personnalisation, Formule du plan), tu composes le plan : la barre d'outils ajoute des tables carrées, rectangulaires ou rondes, un tableau et un bureau, à faire glisser sur le plan. Touche un élément pour le sélectionner, puis déplace-le, redimensionne-le avec la poignée du coin, fais-le pivoter avec la poignée du haut, ou supprime-le avec la croix. Les élèves se glissent dans les tables (plusieurs par table) ; ceux qui ne sont assis nulle part attendent dans le bac « Non placés ». Une fois le plan au point, touche « Valider » : il est verrouillé pour éviter les déplacements accidentels. « Modifier » le déverrouille. Tu peux exporter le plan en image ou l'imprimer en PDF. Pour travailler sur une grande salle, utilise les boutons + et − pour zoomer, et Tout voir pour revenir à la vue complète. Quand le plan est dézoomé, les élèves s'affichent par leur prénom ; en cas de doublon, on ajoute l'initiale du nom, puis davantage de lettres si nécessaire. Le bouton Aimanté cale les éléments sur un quadrillage pour aligner les rangées ; Libre désactive ce calage. Sélection multiple te permet de toucher plusieurs éléments, pour les déplacer, les dupliquer ou les supprimer ensemble. Dupliquer crée une copie décalée à côté de l'élément choisi. Pour te déplacer dans un plan zoomé, fais glisser une zone vide. Avec la formule personnalisée, les lettres d'îlots n'apparaissent plus devant les prénoms. Elles restent enregistrées : repasse à la formule actuelle pour les retrouver."], ["Options de la classe", "••• permet de modifier la classe, de passer au chapitre suivant, de défaire le passage, d'exporter un PDF (période et style au choix) et de supprimer la classe."], ["Chapitres", "Passer au chapitre suivant archive un bilan (XP, gains, retraits, achats, cartes utilisées). Les XP ne changent jamais. Deux cases décident si les cartes en attente sont marquées utilisées et si les compteurs « par chapitre » repartent à zéro."]]], ["Élève", [["Solde et total", "Le solde est l'XP disponible, le total l'XP gagné depuis le début. La jauge sous le nom montre la progression vers 8, 22 puis 50 XP."], ["Gagner ou retirer des XP", "Choisis une condition pour gagner des XP. Les conditions à gain limité par chapitre se donnent depuis la fiche, et peuvent aussi être placées sur la roue rapide. Le retrait demande un montant et un motif facultatif, et réduit aussi le total."], ["Cartes", "L'achat de carte se fait ici. Une carte de rang inférieur sur la même ligne propose son tarif réduit. Le remboursement et le marquage « utilisée » sont aussi ici. L'appui maintenu sur un badge de carte affiche son nom."], ["Absence et oubli", "Absent ou présent pour la journée. L'oubli d'affaires bloque le gain d'XP pendant 30, 45, 60 ou 90 minutes (durée réglable), sans retirer d'XP ; la jauge affiche le temps restant."], ["Étiquettes et notes", "Ajoute des étiquettes (PAI, PAP…) et des notes libres. Elles sont repliables et synchronisées."], ["Historique", "Tous les événements de l'élève : gains, retraits, achats, absences, oublis. La liste s'affiche par tranches de 80 événements ; « Voir plus » charge la suite."]]], ["Réglages", [["Sauvegarde", "Exporte un fichier (enregistre-le dans Fichiers, dans un dossier « Jokers sauvegardes »). Importe un fichier pour restaurer. Trois copies automatiques restent dans l'appli. Le contrôle de cohérence signale les anomalies sans rien modifier."], ["Mode Purge", "Supprime toutes les classes et tous les élèves, après confirmation. Les étiquettes, les cartes ajoutées et les réglages sont conservés. Une purge est définitive."], ["Étiquettes", "Modifie les quinze étiquettes : nom, icône, couleur."], ["Conditions d'XP", "Modifie les conditions : nom, XP et limite par chapitre (0 = sans limite). Les conditions peuvent être placées sur la roue rapide dans Réglages, Outils, Roue rapide."], ["Accueil et tri", "Choisis le tri affiché à l'ouverture de l'accueil : par niveau, A–Z ou XP gagnés."], ["Roue rapide", "Dans Réglages, Personnalisation, choisis les actions des huit cartes : quatre en haut, quatre en bas. Une carte vide reste visible, en pointillé, et n'est pas cliquable. Actions possibles : une condition d'XP, un retrait d'XP, la présence (absent ou présent), l'oubli d'affaires, ou annuler la dernière action. Réinitialiser rétablit la configuration de départ, commune à toutes les classes."], ["Son du minuteur", "Choisis le son de fin de minuteur parmi quatre sons intégrés à l'appli : Bip, Cloche, Carillon et Tonalité douce. Touche un son pour l'écouter, puis choisis-le. Ce choix vaut pour tous les minuteurs. Tu peux aussi régler la puissance sonore, du niveau 1 (très doux) au niveau 5 (très fort)."], ["Formule du plan", "Choisis la formule du plan de classe, pour toutes les classes : la formule actuelle (îlots A à F) ou la formule personnalisée (tables, tableau, bureau, élèves placés librement)."], ["Apparence", "Choisis le style : Ubuntu (par défaut), Éducatif, Vero, Cockpit ou Girly. Vero se règle en sombre ou en clair. Tu peux aussi choisir le mode clair, sombre, sombre pur ou automatique, le thème au démarrage, le nom des styles, la couleur d'accentuation (palettes, code hexa ou couleur personnalisée) et le nombre de colonnes."], ["Classe d'essai", "Ajoute une classe fictive de 30 élèves avec un historique, pour essayer l'appli sans risque."], ["Synchronisation", "Sur claude.ai, les données se synchronisent avec ton compte. Sur le site GitHub, la synchronisation n'est pas disponible : l'appli reste locale."]]]];
 function tutoHTML() {
   return `<p class="muted" style="font-size:14px;margin-bottom:12px">Un guide rapide, écran par écran. Touche une rubrique pour la lire.</p>` +
     TUTO.map(([screen, items]) => `<details class="tuto"><summary><b>${esc(screen)}</b></summary>` +
@@ -3210,6 +3257,254 @@ function drawAskHour() {
     <div class="drawbtns"><button class="btn primary wide" onclick="drawKeep()">Garder les élèves tirés (ils restent exclus)</button><button class="btn wide" onclick="drawReset()">Réinitialiser les noms</button></div>`);
 }
 function drawKeep() { drawSt.askedHour = true; drawSave(); drawGo(); }
+
+/* ===================== PLAN PERSONNALISÉ ===================== */
+const CP_W = 1000, CP_H = 750, CP_MIN = 50, CP_STEP = 50;
+const CP_SHAPES = [['sq', 'Carré'], ['rect', 'Rectangle'], ['circle', 'Cercle'], ['board', 'Tableau'], ['desk', 'Bureau']];
+const cpClamp = (v, a, b) => Math.min(Math.max(v, a), b);
+const cpSnapV = (v, step) => Math.round(v / step) * step;
+const cpNorm = x => String(x || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+function cpLayout(c) { if (!c.layout || !Array.isArray(c.layout.items)) c.layout = {locked: false, items: []}; return c.layout; }
+function cpSnapOn(c) { return cpLayout(c).snap !== false; }
+function cpFind(c, id) { return cpLayout(c).items.find(i => i.id === id); }
+function cpPlaced(c) { const ids = new Set(); cpLayout(c).items.forEach(it => (it.seats || []).forEach(id => ids.add(id))); return ids; }
+function cpSize(kind) {
+  if (kind === 'board') return {w: 360, h: 100};
+  if (kind === 'desk') return {w: 150, h: 100};
+  if (kind === 'circle') return {w: 150, h: 150};
+  if (kind === 'sq') return {w: 150, h: 150};
+  return {w: 200, h: 100};
+}
+/* Noms courts : prénom ; initiale si doublon ; plus de lettres du nom si nécessaire */
+function cpShortLabels(c) {
+  const out = {}, list = c.students;
+  list.forEach(s => {
+    const p = s.prenom || s.nom, sameP = list.filter(o => cpNorm(o.prenom || o.nom) === cpNorm(p));
+    if (sameP.length === 1) { out[s.id] = p; return; }
+    const sn = cpNorm(s.nom);
+    let k = 1;
+    const clash = kk => sameP.some(o => o.id !== s.id && cpNorm(o.nom).slice(0, kk) === sn.slice(0, kk));
+    while (k < sn.length && clash(k)) k++;
+    out[s.id] = `${p} ${String(s.nom).slice(0, k).toUpperCase()}.`;
+  });
+  return out;
+}
+function cpSeatLabel(c, s, labels) { return (view.cz || 1) < 0.8 ? (labels[s.id] || nameOf(s)) : nameOf(s); }
+function cpAdd(cid, kind, x, y) {
+  const c = getClass(cid), L = cpLayout(c); if (!c || L.locked) return;
+  const sz = cpSize(kind), fixed = kind === 'board' || kind === 'desk';
+  let nx = x - sz.w / 2, ny = y - sz.h / 2;
+  if (cpSnapOn(c)) { nx = cpSnapV(nx, CP_STEP); ny = cpSnapV(ny, CP_STEP); }
+  const it = {id: uid(), kind: fixed ? kind : 'table', shape: fixed ? 'rect' : kind, x: cpClamp(nx, 0, CP_W - sz.w), y: cpClamp(ny, 0, CP_H - sz.h), w: sz.w, h: sz.h, rot: 0, seats: []};
+  L.items.push(it); view.csels = [it.id]; cpSave();
+}
+function cpDelete(id) { cpDeleteMany([id]); }
+function cpDeleteMany(ids) {
+  const c = getClass(view.id); if (!c) return;
+  const L = cpLayout(c); L.items = L.items.filter(i => !ids.includes(i.id));
+  view.csels = (view.csels || []).filter(x => !ids.includes(x));
+  cpSave();
+}
+function cpDup() {
+  const c = getClass(view.id); if (!c) return;
+  const L = cpLayout(c), src = (view.csels || []).map(id => cpFind(c, id)).filter(Boolean);
+  if (!src.length) return;
+  const off = src[0].w + CP_STEP, ids = [];
+  src.forEach(it => {
+    const n = {id: uid(), kind: it.kind, shape: it.shape, x: cpClamp(it.x + off, 0, CP_W - it.w), y: it.y, w: it.w, h: it.h, rot: it.rot || 0, seats: []};
+    L.items.push(n); ids.push(n.id);
+  });
+  view.csels = ids; cpSave();
+}
+function cpSeat(cid, sid, dropId) {
+  const c = getClass(cid); if (!c) return;
+  const L = cpLayout(c);
+  L.items.forEach(it => { it.seats = (it.seats || []).filter(x => x !== sid); });
+  if (dropId && dropId !== 'bac') { const it = cpFind(c, dropId); if (it && it.kind === 'table') it.seats.push(sid); }
+  cpSave();
+}
+function cpToggleLock() { const c = getClass(view.id); if (!c) return; const L = cpLayout(c); L.locked = !L.locked; view.csels = []; cpSave(); }
+function cpSnapToggle() { const c = getClass(view.id); if (!c) return; const L = cpLayout(c); L.snap = !cpSnapOn(c); save(); renderList(); }
+function cpMultiToggle() { view.cmulti = !view.cmulti; renderList(); }
+function cpZoom(f) { view.cz = cpClamp((view.cz || 1) * f, 0.4, 3); cpClampPan(); renderList(); }
+function cpFit() { view.cz = 1; view.cpx = 0; view.cpy = 0; renderList(); }
+function cpClampPan() { const z = view.cz || 1; view.cpx = cpClamp(view.cpx || 0, -(z - 1) * 100, 0); view.cpy = cpClamp(view.cpy || 0, -(z - 1) * 100, 0); }
+function cpSave() { save(); renderList(); }
+function startPlanAny() {
+  if (state.planMode === 'custom') { view.cplan = !view.cplan; view.plan = false; view.label = null; view.appel = false; view.csels = []; view.cz = 1; view.cpx = 0; view.cpy = 0; render(); }
+  else startPlan();
+}
+function cpItemHTML(c, it, selected, locked, labels) {
+  const seats = (it.seats || []).map(id => c.students.find(s => s.id === id)).filter(Boolean);
+  const n = seats.length, fs = Math.max(9, Math.min(14, Math.round(14 - n * 0.7)));
+  const inner = it.kind === 'table'
+    ? seats.map(s => `<span class="cpchip" data-cp-chip="${s.id}" style="font-size:${fs}px">${esc(cpSeatLabel(c, s, labels))}</span>`).join('')
+    : `<span class="cpname">${it.kind === 'board' ? 'Tableau' : 'Bureau'}</span>`;
+  const handles = selected && !locked
+    ? `<span class="cph rot" data-cp-handle="rotate" data-cp-item="${it.id}"></span><span class="cph res" data-cp-handle="resize" data-cp-item="${it.id}"></span><button class="cpdel" aria-label="Supprimer l'élément" onclick="event.stopPropagation();cpDelete('${it.id}')">×</button>`
+    : '';
+  return `<div class="cpitem ${it.kind} ${it.shape} ${selected ? 'sel' : ''}" data-cp-item="${it.id}" data-cp-drop="${it.kind === 'table' ? it.id : ''}" style="left:${(it.x / CP_W * 100).toFixed(2)}%;top:${(it.y / CP_H * 100).toFixed(2)}%;width:${(it.w / CP_W * 100).toFixed(2)}%;height:${(it.h / CP_H * 100).toFixed(2)}%;transform:rotate(${it.rot || 0}deg)"><div class="cpin">${inner}</div>${handles}</div>`;
+}
+function cpWorldStyle() { const z = view.cz || 1, left = (view.cpx || 0) + (z < 1 ? (1 - z) * 50 : 0), top = (view.cpy || 0) + (z < 1 ? (1 - z) * 50 : 0); return `width:${z * 100}%;height:${z * 100}%;left:${left}%;top:${top}%`; }
+function customPlanHTML(c) {
+  const L = cpLayout(c), placed = cpPlaced(c), un = c.students.filter(s => !placed.has(s.id));
+  const sels = view.csels || [], labels = cpShortLabels(c), z = view.cz || 1;
+  const tools = L.locked ? '' : `<div class="cptools">${CP_SHAPES.map(([k, l]) => `<button class="cptool" data-cp-tool="${k}" aria-label="Ajouter ${l}"><span class="cpicon cp-${k}"></span>${l}</button>`).join('')}</div>`;
+  const bar = L.locked ? '' : `<div class="cpzoom">
+      <button class="cpbtn" aria-label="Zoom avant" onclick="cpZoom(1.25)">+</button>
+      <button class="cpbtn" aria-label="Zoom arrière" onclick="cpZoom(0.8)">−</button>
+      <button class="cpbtn" onclick="cpFit()">Tout voir</button>
+      <button class="cpbtn ${cpSnapOn(c) ? 'on' : ''}" onclick="cpSnapToggle()">${cpSnapOn(c) ? 'Aimanté' : 'Libre'}</button>
+      <button class="cpbtn ${view.cmulti ? 'on' : ''}" onclick="cpMultiToggle()">Sélection multiple</button>
+      ${sels.length ? `<button class="cpbtn" onclick="cpDup()">Dupliquer</button>` : ''}
+      ${sels.length > 1 ? `<button class="cpbtn" onclick="cpDeleteMany(view.csels)">Supprimer (${sels.length})</button>` : ''}
+    </div>`;
+  const items = L.items.map(it => cpItemHTML(c, it, sels.includes(it.id), L.locked, labels)).join('');
+  const bac = `<div class="cpbac" data-cp-drop="bac"><p class="cpbacT">Non placés · ${un.length}</p><div class="cpchips">${un.map(s => `<span class="cpchip" data-cp-chip="${s.id}">${esc(cpSeatLabel(c, s, labels))}</span>`).join('') || '<span class="cpnone">Tous les élèves sont placés</span>'}</div></div>`;
+  return `<div class="cphead"><div><b>Plan personnalisé</b><p class="cpsub">${L.locked ? 'Plan validé, verrouillé' : 'Glisse les éléments et les élèves'}</p></div><button class="cpbtn" onclick="cpToggleLock()">${L.locked ? 'Modifier' : 'Valider'}</button></div>
+    ${tools}${bar}
+    <div id="cframe" class="cframe ${L.locked ? 'locked' : ''}" data-zoom="${z.toFixed(2)}"><div id="cworld" style="position:absolute;${cpWorldStyle()}">${items}</div></div>
+    ${bac}
+    <div class="cpexp"><button class="cpbtn" onclick="cpExportPng()">Exporter en image</button><button class="cpbtn" onclick="cpPrint()">Imprimer ou PDF</button></div>`;
+}
+/* Glisser-déposer (souris, doigt, stylet) */
+let cpDrag = null, cpGhostEl = null;
+function cpGhost(text, x, y) {
+  const g = document.createElement('div'); g.className = 'cpghost'; g.textContent = text;
+  g.style.left = x + 'px'; g.style.top = y + 'px'; document.body.appendChild(g); return g;
+}
+function cpDown(e) {
+  if (!view.cplan || e.button > 0) return;
+  const c = getClass(view.id); if (!c) return;
+  const L = cpLayout(c), t = e.target || document.body, m = el => (t.closest ? t.closest(el) : null);
+  let d = null, mm;
+  if ((mm = m('[data-cp-tool]'))) { if (!L.locked) d = {type: 'tool', kind: mm.dataset.cpTool, label: mm.textContent.trim()}; }
+  else if ((mm = m('[data-cp-chip]'))) { if (!L.locked) d = {type: 'chip', sid: mm.dataset.cpChip, label: mm.textContent.trim()}; }
+  else if ((mm = m('[data-cp-handle]'))) { if (!L.locked) { const it = cpFind(c, mm.dataset.cpItem); if (it) d = {type: mm.dataset.cpHandle, it, sx: e.clientX, sy: e.clientY, w0: it.w, h0: it.h, rot0: it.rot || 0}; } }
+  else if ((mm = m('[data-cp-item]'))) {
+    const id = mm.dataset.cpItem;
+    if (view.cmulti) {
+      const cur = view.csels || [];
+      if (cur.includes(id)) { view.csels = cur.filter(x => x !== id); renderList(); return; }
+      view.csels = [...cur, id];
+    } else if (!(view.csels || []).includes(id)) view.csels = [id];
+    if (!L.locked) {
+      const items = (view.csels || []).map(x => cpFind(c, x)).filter(Boolean);
+      d = {type: 'move', items: items.map(it => ({it, x0: it.x, y0: it.y})), sx: e.clientX, sy: e.clientY};
+    }
+  }
+  else if (m('#cframe')) { if (!view.cmulti) view.csels = []; if ((view.cz || 1) > 1) d = {type: 'pan', sx: e.clientX, sy: e.clientY, px0: view.cpx || 0, py0: view.cpy || 0}; }
+  if (!d) return;
+  e.preventDefault();
+  cpDrag = d; d.pid = e.pointerId;
+  if (d.type === 'tool' || d.type === 'chip') cpGhostEl = cpGhost(d.label, e.clientX, e.clientY);
+  if (d.type === 'move' || d.type === 'resize' || d.type === 'rotate') { const w = $('cworld'); if (w) w.classList.add('gridshow'); }
+}
+function cpMove(e) {
+  if (!cpDrag || e.pointerId !== cpDrag.pid) return;
+  e.preventDefault();
+  const d = cpDrag, c = getClass(view.id); if (!c) return;
+  if (cpGhostEl) { cpGhostEl.style.left = e.clientX + 'px'; cpGhostEl.style.top = e.clientY + 'px'; return; }
+  const fr = $('cframe'), wd = $('cworld'); if (!fr || !wd) return;
+  const R = fr.getBoundingClientRect(), W = wd.getBoundingClientRect();
+  if (d.type === 'pan') {
+    const z = view.cz || 1;
+    view.cpx = d.px0 + (e.clientX - d.sx) / R.width * 100; view.cpy = d.py0 + (e.clientY - d.sy) / R.height * 100;
+    cpClampPan(); wd.style.left = ((view.cpx || 0) + (z < 1 ? (1 - z) * 50 : 0)) + '%'; wd.style.top = ((view.cpy || 0) + (z < 1 ? (1 - z) * 50 : 0)) + '%';
+    return;
+  }
+  const dx = (e.clientX - d.sx) / W.width * CP_W, dy = (e.clientY - d.sy) / W.height * CP_H, snap = cpSnapOn(c);
+  const place = (it, el) => { if (el) { el.style.left = (it.x / CP_W * 100).toFixed(2) + '%'; el.style.top = (it.y / CP_H * 100).toFixed(2) + '%'; el.style.width = (it.w / CP_W * 100).toFixed(2) + '%'; el.style.height = (it.h / CP_H * 100).toFixed(2) + '%'; el.style.transform = `rotate(${it.rot || 0}deg)`; } };
+  if (d.type === 'move') {
+    let gx = dx, gy = dy;
+    if (snap && d.items.length) { const a = d.items[0]; gx = cpSnapV(a.x0 + dx, CP_STEP) - a.x0; gy = cpSnapV(a.y0 + dy, CP_STEP) - a.y0; }
+    d.items.forEach(({it, x0, y0}) => {
+      it.x = cpClamp(x0 + gx, 0, CP_W - it.w); it.y = cpClamp(y0 + gy, 0, CP_H - it.h);
+      place(it, fr.querySelector(`[data-cp-item="${it.id}"]`));
+    });
+  } else if (d.type === 'resize') {
+    const it = d.it, el = fr.querySelector(`[data-cp-item="${it.id}"]`);
+    const maxW = CP_W - it.x, maxH = CP_H - it.y;
+    let nw = d.w0 + dx, nh = d.h0 + dy;
+    if (snap) { nw = cpSnapV(nw, CP_STEP); nh = cpSnapV(nh, CP_STEP); }
+    if (it.shape === 'circle' && it.kind === 'table') { const k = cpClamp(Math.max(nw, nh), CP_MIN, Math.min(maxW, maxH)); it.w = k; it.h = k; }
+    else { it.w = cpClamp(nw, CP_MIN, maxW); it.h = cpClamp(nh, CP_MIN, maxH); }
+    place(it, el);
+  } else if (d.type === 'rotate') {
+    const it = d.it, el = fr.querySelector(`[data-cp-item="${it.id}"]`); if (!el) return;
+    const B = el.getBoundingClientRect(), cx = B.left + B.width / 2, cy = B.top + B.height / 2;
+    let a = Math.round(Math.atan2(e.clientY - cy, e.clientX - cx) * 180 / Math.PI + 90);
+    if (snap) a = Math.round(a / 15) * 15;
+    it.rot = a; el.style.transform = `rotate(${a}deg)`;
+  }
+}
+function cpUp(e) {
+  if (!cpDrag || e.pointerId !== cpDrag.pid) return;
+  const d = cpDrag; cpDrag = null;
+  const wd = $('cworld'); if (wd) wd.classList.remove('gridshow');
+  if (cpGhostEl) { cpGhostEl.remove(); cpGhostEl = null; }
+  if (d.type === 'tool') {
+    const fr = $('cframe'), wd2 = $('cworld'); if (!fr || !wd2) return;
+    const R = fr.getBoundingClientRect(), W = wd2.getBoundingClientRect();
+    if (e.clientX >= R.left && e.clientX <= R.right && e.clientY >= R.top && e.clientY <= R.bottom)
+      cpAdd(view.id, d.kind, (e.clientX - W.left) / W.width * CP_W, (e.clientY - W.top) / W.height * CP_H);
+    return;
+  }
+  if (d.type === 'chip') {
+    const tgt = document.elementFromPoint(e.clientX, e.clientY), z = tgt && tgt.closest ? tgt.closest('[data-cp-drop]') : null;
+    if (z) cpSeat(view.id, d.sid, z.dataset.cpDrop); else renderList();
+    return;
+  }
+  if (d.type === 'pan') { renderList(); return; }
+  if (d.type === 'move' || d.type === 'resize' || d.type === 'rotate') { cpSave(); return; }
+  renderList();
+}
+document.addEventListener('pointerdown', cpDown, {passive: false});
+document.addEventListener('pointermove', cpMove, {passive: false});
+document.addEventListener('pointerup', cpUp);
+document.addEventListener('pointercancel', cpUp);
+/* Export image (PNG) et impression (PDF via la boîte d'impression) */
+function cpExportPng() {
+  const c = getClass(view.id); if (!c) return;
+  const cv = document.createElement('canvas'); cv.width = CP_W * 2; cv.height = CP_H * 2;
+  const g = cv.getContext && cv.getContext('2d');
+  if (!g) { toast('Export image indisponible sur cet appareil'); return; }
+  g.fillStyle = '#FFFFFF'; g.fillRect(0, 0, cv.width, cv.height);
+  cpLayout(c).items.forEach(it => {
+    g.save(); g.translate((it.x + it.w / 2) * 2, (it.y + it.h / 2) * 2); g.rotate((it.rot || 0) * Math.PI / 180);
+    const w = it.w * 2, h = it.h * 2;
+    g.strokeStyle = '#4A4A46'; g.lineWidth = 3; g.fillStyle = it.kind === 'table' ? '#F4F4F2' : '#FFFFFF';
+    g.beginPath();
+    if (it.kind === 'table' && it.shape === 'circle') g.ellipse(0, 0, w / 2, h / 2, 0, 0, Math.PI * 2);
+    else g.rect(-w / 2, -h / 2, w, h);
+    g.fill(); g.stroke();
+    g.fillStyle = '#1B1B1F'; g.font = '600 26px sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle';
+    const seats = (it.seats || []).map(id => c.students.find(s => s.id === id)).filter(Boolean);
+    const lines = it.kind === 'table' ? seats.map(nameOf) : [it.kind === 'board' ? 'Tableau' : 'Bureau'];
+    lines.forEach((t, i) => g.fillText(t, 0, (i - (lines.length - 1) / 2) * 34));
+    g.restore();
+  });
+  cv.toBlob(b => { if (!b) { toast('Export image impossible'); return; } downloadFile(new File([b], `plan-${c.name}.png`, {type: 'image/png'})); }, 'image/png');
+}
+function cpPrint() {
+  const c = getClass(view.id); if (!c) return;
+  let z = $('printzone'); if (!z) { z = document.createElement('div'); z.id = 'printzone'; document.body.appendChild(z); }
+  const items = cpLayout(c).items.map(it => {
+    const seats = (it.seats || []).map(id => c.students.find(s => s.id === id)).filter(Boolean);
+    const inner = it.kind === 'table' ? seats.map(s => `<div>${esc(nameOf(s))}</div>`).join('') : `<div>${it.kind === 'board' ? 'Tableau' : 'Bureau'}</div>`;
+    const rad = it.kind === 'table' && it.shape === 'circle' ? '50%' : '8px';
+    return `<div style="position:absolute;box-sizing:border-box;left:${(it.x / CP_W * 100).toFixed(2)}%;top:${(it.y / CP_H * 100).toFixed(2)}%;width:${(it.w / CP_W * 100).toFixed(2)}%;height:${(it.h / CP_H * 100).toFixed(2)}%;transform:rotate(${it.rot || 0}deg);border:1px solid #000;border-radius:${rad};display:flex;align-items:center;justify-content:center;text-align:center;font-size:12pt">${inner}</div>`;
+  }).join('');
+  z.innerHTML = `<h1>${esc(c.name)} · Plan</h1><div style="position:relative;width:100%;aspect-ratio:4/3;border:1px solid #000">${items}</div>`;
+  window.print();
+}
+/* Formule du plan (Réglages, Personnalisation) */
+function planModeLabel() { return state.planMode === 'custom' ? 'Personnalisée' : 'Actuelle'; }
+function setPlanMode(m) { state.planMode = m; view.cplan = false; save(); openSettingsPage('plantype'); }
+function planTypeHTML() {
+  return `<p class="muted" style="font-size:14px;margin-bottom:12px">Choisis la formule du plan de classe, valable pour toutes les classes.</p>`
+    + [['classic', 'Actuelle : îlots A à F'], ['custom', 'Personnalisée : tables et éléments']].map(([k, l]) => `<button class="btn ${state.planMode === k ? 'primary' : ''} wide" style="margin-bottom:8px" onclick="setPlanMode('${k}')">${l}</button>`).join('');
+}
 function openSettingsPage(page) {
   const last = state.lastExport ? `Dernière sauvegarde : ${fmt(state.lastExport)}` : 'Aucune sauvegarde exportée pour le moment.';
   const pages = {
@@ -3230,6 +3525,7 @@ function openSettingsPage(page) {
     tuto: ['Aide et tutoriel', tutoHTML()],
     roue: ['Roue rapide', wheelSettingsHTML()],
     sontimer: ['Son du minuteur', timerSoundsHTML()],
+    plantype: ['Formule du plan', planTypeHTML()],
     demo: ["Classe d'essai", `<p class="muted" style="font-size:14px">Ajoute une classe fictive de 30 élèves avec 11 séances d'historique (XP, cartes, absences, retraits). Tu pourras la supprimer ensuite.</p>
       <button class="btn wide" style="margin-top:10px" onclick="addDemoClass()">Ajouter une classe d'essai</button>`]
   };
@@ -3348,7 +3644,7 @@ function importData(input) {
       if (!ok) return;
       if (!d.conditions) d.conditions = clone(DEFAULT_CONDITIONS);
       const keepSync = state.sync;
-      state = d; state.sync = keepSync; if (keepSync && keepSync.on) keepSync.dirty = true;
+      state = d; normClasses(state); state.sync = keepSync; if (keepSync && keepSync.on) keepSync.dirty = true;
       view = {name:'home'}; ensureTones(); if (!state.homeSort) state.homeSort = 'level';
       done('Sauvegarde importée');
     } catch (e) { toast('Ce fichier n\'est pas une sauvegarde valide'); }
