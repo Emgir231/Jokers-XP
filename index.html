@@ -326,39 +326,44 @@ body[data-theme=girly][data-mode=dark] .ccard{background:color-mix(in srgb,var(-
 html:not([data-screen^=iphone]) body .bar, html:not([data-screen^=iphone]) body .banner{width:100vw!important;max-width:none!important;margin-left:calc(50% - 50vw)!important;margin-right:0!important;padding-left:calc(50vw - 50%)!important;padding-right:calc(50vw - 50%)!important;box-sizing:border-box!important;border-radius:0!important}/* Styles : liste compacte */
 .thmgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}.thm.thmc{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:10px 12px;text-align:left;min-height:0}.thm.thmc .tt{font-size:15px;font-weight:700;line-height:1.2}.thm.thmc .tt small{display:none}.thm.thmc .sws i{width:14px;height:14px;border-radius:999px}.thmdesc{font-size:13px;color:var(--soft);margin:10px 2px 0}/* ===== Retours v22 ===== */
 /* Champs de saisie lisibles en sombre{background:#1E2331!important;color:#EEF2FA!important;border-color:#4A5270!important}/* Cockpit : pas de trait orange sur le podium */
-html body[data-theme=cockpit] .podium5 .pl::before, html body[data-theme=cockpit] .podium5 .pl::after, html body[data-theme=cockpit] .podium5 .blk::before, html body[data-theme=cockpit] .podium5 .blk::after{content:none!important;display:none!important}html body[data-theme=cockpit] .podium5 .blk{border:0!important;border-top:0!important;box-shadow:none!important}html body[data-theme=cockpit] .podium5 .pl{border:0!important;border-top:0!important;box-shadow:none!important;outline:0!important}/* XP disponibles / XP gagnés : lisibles en sombre{background:var(--surface-2,#2B3146)!important;color:var(--ink,#EEF2FA)!important;box-shadow:inset 0 0 0 1px var(--line,#3A4160)!important}
+html body[data-theme=cockpit] .podium5 .pl::before, html body[data-theme=cockpit] .podium5 .pl::after, html body[data-theme=cockpit] .podium5 .blk::before, html body[data-theme=cockpit] .podium5 .blk::after{content:none!important;display:none!important}html body[data-theme=cockpit] .podium5 .blk{border:0!important;border-top:0!important;box-shadow:none!important}html body[data-theme=cockpit] .podium5 .pl{border:0!important;border-top:0!important;box-shadow:none!important;outline:0!important}/* XP disponibles / XP gagnés : lisibles en sombre{background:var(--surface-2,#2B3146)!important;color:var(--ink,#EEF2FA)!important;box-shadow:inset 0 0 0 1px var(--line,#3A4160)!important}/* ===== Mode sombre : règle unique pour toutes les fenêtres et tous les réglages ===== */
+/* Fond sombre et texte clair pour les éléments des fenêtres ; les boutons actifs, principaux, les couleurs de classe, d'îlot et les boutons + et − gardent leur couleur. */
+body[data-mode=dark]{color-scheme:dark}body[data-mode=dark] #layer :is(button, .colbtn, .thm, .mrow, .stats>div, input, select, textarea, .gbrush, .gtile, .qtile, .gsrow, .lkrow, .cond, .prev, .banner, .row):not(.on):not(.primary):not(.sw):not(.rb):not(.pbtn):not(.lastfab){background:var(--surface-2,#2B3146)!important;color:var(--ink,#EEF2FA)!important;border-color:var(--line-2,#4A5270)!important}body[data-mode=dark] #layer :is(button, .colbtn, .thm, .mrow, .gbrush, .gtile, .qtile, .gsrow) :is(b, span, small, i, em){color:inherit!important}body[data-mode=dark] #layer small, body[data-mode=dark] #layer .muted, body[data-mode=dark] #layer .thmdesc{color:var(--soft,#A9B2CC)!important}body[data-mode=dark] #layer select option{background:var(--surface-2,#2B3146);color:var(--ink,#EEF2FA)}body[data-mode=dark] #layer input::placeholder, body[data-mode=dark] #layer textarea::placeholder{color:var(--soft,#A9B2CC)!important}/* ===== Conditions : catégories, icônes, couleurs, retraits distincts ===== */
+.ccat{display:flex;align-items:center;gap:8px;margin:14px 0 6px;font-size:14px;letter-spacing:.04em;text-transform:uppercase;color:var(--cc,var(--soft))}.ccdot{width:10px;height:10px;border-radius:999px;background:var(--cc,var(--soft));flex:none;display:inline-block}.crow{display:grid;grid-template-columns:auto minmax(0,2fr) minmax(0,1.3fr) minmax(0,1fr) 72px minmax(0,1fr) auto;gap:6px;align-items:center;margin-bottom:6px}.crow .ccdot{margin-right:2px}.crow input, .crow select{min-width:0;width:100%}.ctile .cic{display:inline-flex;width:30px;height:30px;border-radius:999px;align-items:center;justify-content:center;background:color-mix(in srgb,var(--tc) 22%,transparent);color:var(--tc)}.ctile .cic svg{width:17px;height:17px}.ctile.neg{box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--tc) 70%,transparent)}.ctile.neg .cp{color:var(--tc)}@media (max-width:520px){ .crow{grid-template-columns:auto minmax(0,1fr) auto;} .crow select:nth-of-type(1),.crow select:nth-of-type(2),.crow input[type=number],.crow select:last-of-type{grid-column:span 1} }.tl{font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--surface);color:var(--ink)}
 
-/* ===== Mode sombre : règle unique pour toutes les fenêtres et tous les réglages ===== */
-/* Fond sombre et texte clair pour les éléments des fenêtres ; les boutons actifs, principaux,
-   les couleurs de classe, d'îlot et les boutons + et − gardent leur couleur. */
-body[data-mode=dark]{color-scheme:dark}
-body[data-mode=dark] #layer :is(button,.colbtn,.thm,.mrow,.stats>div,input,select,textarea,.gbrush,.gtile,.qtile,.gsrow,.lkrow,.cond,.prev,.banner,.row):not(.on):not(.primary):not(.sw):not(.rb):not(.pbtn):not(.lastfab){background:var(--surface-2,#2B3146)!important;color:var(--ink,#EEF2FA)!important;border-color:var(--line-2,#4A5270)!important}
-body[data-mode=dark] #layer :is(button,.colbtn,.thm,.mrow,.gbrush,.gtile,.qtile,.gsrow) :is(b,span,small,i,em){color:inherit!important}
-body[data-mode=dark] #layer small,body[data-mode=dark] #layer .muted,body[data-mode=dark] #layer .thmdesc{color:var(--soft,#A9B2CC)!important}
-body[data-mode=dark] #layer select option{background:var(--surface-2,#2B3146);color:var(--ink,#EEF2FA)}
-body[data-mode=dark] #layer input::placeholder,body[data-mode=dark] #layer textarea::placeholder{color:var(--soft,#A9B2CC)!important}
+/* Cartes : blocs (même disposition que les étiquettes de classe) et pastilles de couleur */
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:6px}
+.cblock{display:flex;flex-direction:column;align-items:flex-start;gap:4px;min-height:96px;border:0;border-radius:18px;padding:12px;text-align:left;font:inherit;cursor:pointer;background:color-mix(in srgb,var(--tc) 26%,var(--surface-2));color:var(--ink);box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--tc) 60%,transparent)}
+.cblock b{font-size:15px;line-height:1.15}
+.cblock small{font-size:12px;color:var(--soft);line-height:1.25}
+.cbi{width:30px;height:30px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;background:var(--tc);color:#fff}
+.cbi svg{width:17px;height:17px}
+.swatches{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0}
+.sw2{width:34px;height:34px;border-radius:999px;border:2px solid transparent;padding:0;cursor:pointer}
+.sw2.on{border-color:var(--ink);box-shadow:0 0 0 2px var(--surface)}
+#ce-col{width:56px;height:36px;padding:2px;border:0;background:transparent;cursor:pointer}
 
-/* ===== Conditions : catégories, icônes, couleurs, retraits distincts ===== */
-.ccat{display:flex;align-items:center;gap:8px;margin:14px 0 6px;font-size:14px;letter-spacing:.04em;text-transform:uppercase;color:var(--cc,var(--soft))}
-.ccdot{width:10px;height:10px;border-radius:999px;background:var(--cc,var(--soft));flex:none;display:inline-block}
-.crow{display:grid;grid-template-columns:auto minmax(0,2fr) minmax(0,1.3fr) minmax(0,1fr) 72px minmax(0,1fr) auto;gap:6px;align-items:center;margin-bottom:6px}
-.crow .ccdot{margin-right:2px}
-.crow input,.crow select{min-width:0;width:100%}
-.ctile .cic{display:inline-flex;width:30px;height:30px;border-radius:999px;align-items:center;justify-content:center;background:color-mix(in srgb,var(--tc) 22%,transparent);color:var(--tc)}
-.ctile .cic svg{width:17px;height:17px}
-.ctile.neg{box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--tc) 70%,transparent)}
-.ctile.neg .cp{color:var(--tc)}
-@media (max-width:520px){ .crow{grid-template-columns:auto minmax(0,1fr) auto;} .crow select:nth-of-type(1),.crow select:nth-of-type(2),.crow input[type=number],.crow select:last-of-type{grid-column:span 1} }
-
-/* ===== Arbre de compétences ===== */
-.treewrap{position:relative;width:100%;height:min(56vh,460px);touch-action:none;border-radius:18px;background:var(--surface-2);overflow:hidden;margin:6px 0 10px}
-.treesvg{width:100%;height:100%;display:block;touch-action:none;user-select:none}
-.tlegend{position:absolute;left:8px;bottom:8px;display:flex;gap:6px;flex-wrap:wrap;pointer-events:none}
-.tl{font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--surface);color:var(--ink)}
-.tl.got{background:#4E9A72;color:#fff}
-.tl.free{box-shadow:inset 0 0 0 2px #4A7FBF}
-.tl.lock{color:var(--soft);box-shadow:inset 0 0 0 2px var(--line-2)}
-.tl.ret{color:var(--soft);text-decoration:line-through}
+/* ===== Retours v30 ===== */
+/* Barre du plan : sans cadre, le fond de la page reste visible */
+.planbar,.planbar .pbar-l{background:transparent!important;background-image:none!important;box-shadow:none!important;border:0!important;outline:0!important}
+.planbar::before,.planbar::after,.planbar .pbar-l::before,.planbar .pbar-l::after{display:none!important}
+/* Cartes */
+.cblock.hidden{opacity:.5;box-shadow:inset 0 0 0 2px var(--line-2)!important;background:var(--surface-2)!important}
+.cimg{width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block}
+.cimgprev{display:inline-flex;width:40px;height:40px;border-radius:12px;overflow:hidden;align-items:center;justify-content:center;background:var(--surface-2)}
+.cimgprev img{width:100%;height:100%;object-fit:cover}
+.catrow{display:flex;gap:8px;align-items:center;margin-bottom:6px}
+.catrow input{flex:1;min-width:0}
+.catrow small{color:var(--soft);white-space:nowrap}
+.chips-row input[type=text]{flex:1;min-width:0;padding:8px 10px}
+/* Ne pas mettre avec : liste déroulante cliquable */
+.sepdrop{margin-top:6px;border-radius:16px;background:var(--surface-2);padding:0}
+.sepdrop>summary{list-style:none;cursor:pointer;padding:12px 14px;font-weight:700;color:var(--ink);word-break:break-word}
+.sepdrop>summary::-webkit-details-marker{display:none}
+.sepdrop>summary::after{content:' ▾';color:var(--soft)}
+.sepopts{display:flex;flex-direction:column;gap:4px;padding:0 8px 8px;max-height:40vh;overflow-y:auto}
+.sepopts button{display:flex;justify-content:space-between;align-items:center;border:0;border-radius:12px;padding:10px 12px;font:inherit;text-align:left;background:var(--surface);color:var(--ink);cursor:pointer}
+.sepopts button.on{background:var(--primary);color:var(--acc-ink);font-weight:700}
 </style>
 </head>
 <body>
@@ -423,227 +428,168 @@ function condMeta(cd) {
 }
 const condCatOrder = () => ['part','trav','comp','eval','prog','retrait'];
 
-/* ===================== ARBRE DE COMPÉTENCES (un arbre commun, progression par élève) ===================== */
-/* Données : state.tree.req[carteId] = {ids:[prérequis], mode:'or'|'and'} ; state.tree.pos[carteId] = {x,y} */
-let treeVP = null, treePtrs = new Map(), treeDrag = null, treePinch = null, treeSelId = null, treeArgs = null, treeEdit = false, treeStu = null;
-const TREE_CC = {green:'#4E9A72', blue:'#4A7FBF', violet:'#7E6BB4', special:'#C8A23A'};
-function treeSeed() {
-  /* Chaque ligne : une carte verte demande la bleue, qui demande la violette. Obtenir la suivante rend la précédente inutilisable. */
-  const ROWS = [['Relecture','Support','Encyclopédie'], ['Réponse','Chance','Pari'], ['Appel','Binôme','Alliance'], ['Mots','Musique','Libre'], ['Vision','Diversion','Espions']];
-  const idOf = n => (CARDS.find(k => k.n === n) || {}).id, req = {};
-  ROWS.forEach(([a, b, c]) => {
-    const A = idOf(a), B = idOf(b), C = idOf(c);
-    if (A && B) req[B] = {ids: [A], mode: 'or'};
-    if (B && C) req[C] = {ids: [B], mode: 'or'};
-  });
-  return req;
-}
-const treeTd = () => { if (!state.tree || state.treeVer !== 2) { state.tree = {pos:{}, req: treeSeed()}; state.treeVer = 2; save(); } return state.tree; };
-const treeReq = id => treeTd().req[id] || {ids:[], mode:'or'};
-const treeCard = id => CARD_BY_ID[id];
-function treeAncestors(id, out = new Set()) { treeReq(id).ids.forEach(p => { if (!out.has(p)) { out.add(p); treeAncestors(p, out); } }); return out; }
-function treeLoops(child, pre) { return child === pre || treeAncestors(pre).has(child); }
-function treeDepth(id, memo = {}) {
-  if (memo[id] !== undefined) return memo[id];
-  const ids = treeReq(id).ids;
-  memo[id] = ids.length ? 1 + Math.max(...ids.map(p => treeDepth(p, memo))) : 0;
-  return memo[id];
-}
-/* Positions : automatiques par niveau (prérequis en haut), puis celles déplacées à la main */
-function treeLayout() {
-  const memo = {}, rows = {};
-  CARDS.forEach(k => { const d = treeDepth(k.id, memo); (rows[d] = rows[d] || []).push(k.id); });
-  const pos = {};
-  Object.keys(rows).forEach(d => rows[d].forEach((id, i) => { pos[id] = {x: 120 + i * 150, y: 90 + d * 130}; }));
-  CARDS.forEach(k => { if (treeTd().pos[k.id]) pos[k.id] = treeTd().pos[k.id]; });
-  return pos;
-}
-/* États : got (obtenue), free (disponible), lock (verrouillée) */
-const treeHas = (s, key) => (s.cards || []).some(x => x.key === key);
-const treeHasThisChapter = (s, c, key) => (s.cards || []).some(x => x.key === key && x.chapter === c.chapter);
-function treeChildren(id) { return CARDS.filter(o => treeReq(o.id).ids.includes(id)).map(o => o.id); }
-function treeState(s, c, id) {
-  /* Inutilisable dès qu'une carte qui en dépend est obtenue (même si l'échange l'a remplacée) */
-  if (treeChildren(id).some(ch => treeHas(s, ch))) return 'retired';
-  if (treeHas(s, id)) return 'got';
-  const r = treeReq(id);
+/* ===================== DÉPENDANCES ENTRE CARTES ===================== */
+/* state.cardReq[carteId] = {ids:[prérequis], mode:'or'|'and'} ; état de la carte pour un élève */
+const cardReq = id => (state.cardReq || {})[id] || {ids: [], mode: 'or'};
+const cardChildren = id => CARDS.filter(o => cardReq(o.id).ids.includes(id)).map(o => o.id);
+function cardAncestors(id, out = new Set()) { cardReq(id).ids.forEach(p => { if (!out.has(p)) { out.add(p); cardAncestors(p, out); } }); return out; }
+const cardLoops = (child, pre) => child === pre || cardAncestors(pre).has(child);
+const cardHasThisChapter = (s, c, key) => (s.cards || []).some(x => x.key === key && x.chapter === c.chapter);
+const cardHas = (s, key) => (s.cards || []).some(x => x.key === key);
+/* 'retired' : une carte qui en dépend est obtenue ; 'got' ; 'lock' : prérequis manquant ou frère déjà obtenu ce chapitre ; 'free' */
+function cardState(s, c, id) {
+  if (cardChildren(id).some(ch => cardHas(s, ch))) return 'retired';
+  if (cardHas(s, id)) return 'got';
+  const r = cardReq(id);
   if (!r.ids.length) return 'free';
-  const sat = r.mode === 'and' ? r.ids.every(p => treeHasThisChapter(s, c, p)) : r.ids.some(p => treeHasThisChapter(s, c, p));
+  const sat = r.mode === 'and' ? r.ids.every(p => cardHasThisChapter(s, c, p)) : r.ids.some(p => cardHasThisChapter(s, c, p));
   if (!sat) return 'lock';
-  /* Une seule carte à la fois pour un même prérequis : un frère déjà obtenu dans le chapitre bloque les autres */
-  const frere = CARDS.some(o => o.id !== id && treeHasThisChapter(s, c, o.id) && treeReq(o.id).ids.some(p => r.ids.includes(p)));
+  const frere = CARDS.some(o => o.id !== id && cardHasThisChapter(s, c, o.id) && cardReq(o.id).ids.some(p => r.ids.includes(p)));
   return frere ? 'lock' : 'free';
 }
-function treeSave() { save(); }
-/* Ajouter / retirer un prérequis (boucles interdites) */
-function treeAddPrereq(child, pre) {
-  if (treeLoops(child, pre)) { toast('Lien impossible : cela créerait une boucle'); return false; }
-  const r = treeReq(child); if (r.ids.includes(pre)) return true;
-  treeTd().req[child] = {ids: r.ids.concat([pre]), mode: r.mode}; treeSave(); return true;
+/* Chaîne d'origine, validée : Relecture > Support > Encyclopédie, etc. */
+function chainSeed() {
+  const ROWS = [['Relecture','Support','Encyclopédie'], ['Réponse','Chance','Pari'], ['Appel','Binôme','Alliance'], ['Mots','Musique','Libre'], ['Vision','Diversion','Espions']];
+  const idOf = n => (CARDS.find(k => k.n === n) || {}).id, req = {};
+  ROWS.forEach(([a, b, c]) => { const A = idOf(a), B = idOf(b), C = idOf(c); if (A && B) req[B] = {ids: [A], mode: 'or'}; if (B && C) req[C] = {ids: [B], mode: 'or'}; });
+  return req;
 }
-function treeRemovePrereq(child, pre) {
-  const r = treeReq(child);
-  treeTd().req[child] = {ids: r.ids.filter(x => x !== pre), mode: r.mode}; treeSave();
+
+
+/* ===================== CATÉGORIES ET VISIBILITÉ DES CARTES ===================== */
+const CARD_CAT_DEFAULT = [{id:'green', name:'Verte'}, {id:'blue', name:'Bleue'}, {id:'violet', name:'Violette'}, {id:'special', name:'Spéciale'}, {id:'autre', name:'Autre'}];
+const cardCats = () => (state.cardCats && state.cardCats.length) ? state.cardCats : (state.cardCats = CARD_CAT_DEFAULT.map(x => Object.assign({}, x)));
+/* Une carte sans catégorie reconnue va dans « Autre » */
+function cardCat(k) { const id = k.cat || k.c; return cardCats().some(x => x.id === id) ? id : 'autre'; }
+const cardVisible = k => !((state.cardHidden || {})[k.id]);
+
+/* ===================== CARTES : CRÉATION ET MODIFICATION ===================== */
+const CARD_COLORS = [['green', 'Verte'], ['blue', 'Bleue'], ['violet', 'Violette'], ['special', 'Spéciale']];
+const CARD_SWATCHES = ['#4E9A72','#4A7FBF','#7E6BB4','#C8A23A','#E8799B','#3E9DA8','#B8443E','#E07A3B','#5B6B8C','#2F2F3A'];
+const cardColorOf = k => k.col || TREE_CC_COLOR(k.c) || '#6B7A99';
+const CARD_ICON_LIST = ['star','book','bookopen','check','phone','eye','users','headphones','puzzle','award','bulb','shield','bolt','flag','ticket','heart','pen','smile','tag'];
+/* Applique les cartes créées et les modifications des cartes d'origine */
+function mergeCustomCards() {
+  (state.customCards || []).forEach(k => { if (!CARD_BY_ID[k.id]) { CARDS.push(k); CARD_BY_ID[k.id] = k; } });
+  Object.entries(state.cardEdits || {}).forEach(([id, e]) => { if (CARD_BY_ID[id]) Object.assign(CARD_BY_ID[id], e); });
+  if (!state.cardReq) state.cardReq = chainSeed();
 }
-function treeSetMode(child, mode) { const r = treeReq(child); treeTd().req[child] = {ids: r.ids, mode}; treeSave(); }
-/* Dessin */
-function treeBounds(pos) {
-  const xs = Object.values(pos).map(p => p.x), ys = Object.values(pos).map(p => p.y);
-  const x0 = Math.min(...xs) - 70, x1 = Math.max(...xs) + 70, y0 = Math.min(...ys) - 70, y1 = Math.max(...ys) + 70;
-  return {x: x0, y: y0, w: Math.max(300, x1 - x0), h: Math.max(200, y1 - y0)};
+function cardEditState(id) {
+  const k = id ? CARD_BY_ID[id] : null;
+  return k ? {id, n: k.n, d: k.d || '', cat: cardCat(k), col: cardColorOf(k), price: k.price != null ? k.price : PRICE[k.c], i: k.i || 'star', img: k.img || '', vis: cardVisible(k), ids: cardReq(id).ids.slice(), mode: cardReq(id).mode, unlocks: cardChildren(id).slice(), custom: !!(state.customCards || []).some(x => x.id === id)}
+    : {id: null, n: '', d: '', cat: 'green', col: TREE_CC_COLOR('green'), price: PRICE.green, i: 'star', img: '', vis: true, ids: [], mode: 'or', unlocks: [], custom: true};
 }
-function treeHTML(cid, sid, edit) {
-  const c = getClass(cid), s = getStudent(c, sid), pos = treeLayout();
-  const b = treeBounds(pos);
-  if (!treeVP) treeVP = {x: b.x, y: b.y, w: b.w};
-  const edges = CARDS.flatMap(k => treeReq(k.id).ids.map(p => {
-    const a = pos[p], z = pos[k.id], st = treeState(s, c, k.id), dash = st === 'lock' ? 'stroke-dasharray="6 6"' : '';
-    return `<line data-edge="${p}>${k.id}" x1="${a.x}" y1="${a.y}" x2="${z.x}" y2="${z.y}" stroke="var(--line-2)" stroke-width="3" ${dash}/>`;
-  })).join('');
-  const nodes = CARDS.map(k => {
-    const p = pos[k.id], st = treeState(s, c, k.id), col = TREE_CC[k.c] || '#6B7A99';
-    const ring = st === 'got' ? col : st === 'free' ? col : st === 'retired' ? 'var(--soft)' : 'var(--line-2)';
-    const fill = st === 'got' ? col : st === 'retired' ? 'var(--surface-2)' : 'var(--surface)';
-    const ink = st === 'got' ? '#FFFFFF' : st === 'free' ? col : 'var(--soft)';
-    const op = st === 'lock' ? .45 : st === 'retired' ? .6 : 1;
-    const dash = st === 'lock' ? 'stroke-dasharray="5 4"' : '';
-    const handle = edit ? `<circle class="th" data-node="${k.id}" data-h="1" cx="${p.x + 30}" cy="${p.y}" r="7" fill="var(--primary)" stroke="#fff" stroke-width="2" style="cursor:crosshair"/>` : '';
-    const label = treeSelId === k.id ? `<text x="${p.x}" y="${p.y + 46}" text-anchor="middle" font-size="15" font-weight="700" fill="var(--ink)">${esc(k.n)}</text>` : '';
-    return `<g data-node="${k.id}" style="cursor:${edit ? 'grab' : 'pointer'}" opacity="${op}"><title>${esc(k.n)}</title>
-      <circle cx="${p.x}" cy="${p.y}" r="27" fill="${fill}" stroke="${ring}" stroke-width="3" ${dash}/>
-      <svg x="${p.x - 13}" y="${p.y - 13}" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="${ink}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICONS[k.i] || ''}</svg>${handle}${label}</g>`;
-  }).join('');
-  const legend = `<div class="tlegend"><span class="tl got">Obtenue</span><span class="tl free">Disponible</span><span class="tl lock">Verrouillée</span><span class="tl ret">Inutilisable</span></div>`;
-  return `<div class="treewrap" data-cid="${cid}" data-sid="${sid}" data-edit="${edit ? 1 : 0}">
-    <svg class="treesvg" viewBox="${treeVP.x} ${treeVP.y} ${treeVP.w} ${treeVP.h}" preserveAspectRatio="xMidYMid meet">${edges}${nodes}</svg>${legend}</div>`;
+let cEd = null;
+function openCardEditor(id) { mergeCustomCards(); cEd = cardEditState(id || null); cardEditorRender(); }
+function cardEditorRender() {
+  const others = CARDS.filter(o => o.id !== cEd.id).slice().sort((a, b) => (a.n || '').localeCompare(b.n || '', 'fr'));
+  const chip = (arr, oid, fn) => `<button class="chip ${arr.includes(oid) ? 'on' : ''}" aria-pressed="${arr.includes(oid)}" onclick="${fn}('${oid}')">${esc(CARD_BY_ID[oid].n)}</button>`;
+  openSheet(`<h2>${cEd.id ? 'Modifier la carte' : 'Nouvelle carte'}</h2>
+    <label>Nom</label><input type="text" id="ce-n" value="${esc(cEd.n)}" placeholder="Nom de la carte">
+    <label>Texte résumant l'usage du bonus</label><textarea id="ce-d" placeholder="Ce que permet la carte">${esc(cEd.d)}</textarea>
+    <label>Catégorie</label>
+    <select id="ce-cat">${cardCats().map(c => `<option value="${c.id}" ${cEd.cat === c.id ? 'selected' : ''}>${esc(c.name)}</option>`).join('')}</select>
+    <label>Couleur de la carte</label>
+    <div class="swatches">${CARD_SWATCHES.map(h => `<button class="sw2 ${cEd.col === h ? 'on' : ''}" style="background:${h}" aria-label="Couleur ${h}" onclick="cardEdSet('col','${h}')"></button>`).join('')}</div>
+    <label class="linkl">Autre couleur <input type="color" id="ce-col" value="${cEd.col}" onchange="cardEdSet('col',this.value)"></label>
+    <label>Icône</label>
+    <div class="ilots">${CARD_ICON_LIST.map(i => `<button class="chip ${!cEd.img && cEd.i === i ? 'on' : ''}" aria-label="Icône ${i}" onclick="cardEdSet('i','${i}')">${ico(i)}</button>`).join('')}</div>
+    <div class="chips-row" style="margin-top:8px"><label class="chip">Icône personnalisée<input type="file" accept="image/*" id="ce-img" onchange="cardEdImg(this)" style="display:none"></label>${cEd.img ? `<span class="cimgprev"><img src="${cEd.img}" alt=""></span><button class="chip" onclick="cardEdSet('img','')">Retirer</button>` : ''}</div>
+    <label>XP à dépenser pour l'acheter</label><input type="number" inputmode="numeric" id="ce-p" min="0" value="${cEd.price}">
+    <label>Carte(s) nécessaire(s) avant l'achat</label>
+    <div class="ilots">${others.map(o => chip(cEd.ids, o.id, 'cardEdPre')).join('') || '<span class="muted">Aucune autre carte.</span>'}</div>
+    <div class="ilots" style="margin-top:8px"><button class="chip ${cEd.mode !== 'and' ? 'on' : ''}" onclick="cardEdSet('mode','or')">Au moins une (OU)</button><button class="chip ${cEd.mode === 'and' ? 'on' : ''}" onclick="cardEdSet('mode','and')">Toutes (ET)</button></div>
+    <label>Carte(s) débloquée(s) après l'achat</label>
+    <div class="ilots">${others.map(o => chip(cEd.unlocks, o.id, 'cardEdUnl')).join('') || '<span class="muted">Aucune autre carte.</span>'}</div>
+    <label class="linkl"><input type="checkbox" id="ce-vis" ${cEd.vis ? 'checked' : ''} onchange="cardEdSet('vis',this.checked)"> Carte affichée (décocher pour la masquer : elle ne peut plus être achetée)</label>
+    <div class="gen-acts"><button class="btn primary" onclick="cardEdSave()">Enregistrer</button>${cEd.id && cEd.custom ? `<button class="btn" onclick="cardEdDelete()">Supprimer</button>` : ''}</div>`);
 }
-function treeRefresh() {
-  const w = document.querySelector('.treewrap'); if (!w || !treeArgs) return;
-  w.outerHTML = treeHTML(treeArgs.cid, treeArgs.sid, treeEdit);
-  treeApplyVP();
+function cardEdFromForm() {
+  cEd.n = (($('ce-n') || {}).value || '').trim();
+  cEd.d = (($('ce-d') || {}).value || '').trim();
+  cEd.price = parseInt((($('ce-p') || {}).value), 10); if (isNaN(cEd.price) || cEd.price < 0) cEd.price = 0;
+  const cc = ($('ce-col') || {}).value; if (cc) cEd.col = cc;
+  const vis = $('ce-vis'); if (vis) cEd.vis = vis.checked;
+  const cat = $('ce-cat'); if (cat && cardCats().some(x => x.id === cat.value)) cEd.cat = cat.value;
 }
-function treeApplyVP() {
-  const svg = document.querySelector('.treesvg'); if (!svg || !treeVP) return;
-  const ratio = svg.clientWidth ? svg.clientHeight / svg.clientWidth : 0.7;
-  svg.setAttribute('viewBox', `${treeVP.x} ${treeVP.y} ${treeVP.w} ${treeVP.w * ratio}`);
+/* Image importée : carrée, 96 px */
+function cardEdImg(input) {
+  const f = input.files && input.files[0]; if (!f) return;
+  const img = new Image(), url = URL.createObjectURL(f);
+  img.onload = () => {
+    const cv = document.createElement('canvas'); cv.width = cv.height = 96;
+    const m = Math.min(img.width, img.height), cx = cv.getContext('2d');
+    cx.drawImage(img, (img.width - m) / 2, (img.height - m) / 2, m, m, 0, 0, 96, 96);
+    cardEdFromForm(); cEd.img = cv.toDataURL('image/png'); cardEditorRender();
+    URL.revokeObjectURL(url);
+  };
+  img.src = url;
 }
-function treeToSvg(svg, clientX, clientY) {
-  const r = svg.getBoundingClientRect(), k = treeVP.w / r.width;
-  return {x: treeVP.x + (clientX - r.left) * k, y: treeVP.y + (clientY - r.top) * k};
-}
-function treeDown(e) {
-  const svg = e.target.closest && e.target.closest('.treesvg'); if (!svg) return;
-  const wrap = svg.closest('.treewrap'), edit = wrap && wrap.dataset.edit === '1';
-  treePtrs.set(e.pointerId, {x: e.clientX, y: e.clientY});
-  e.preventDefault();
-  if (treePtrs.size === 2) { const [a, b] = [...treePtrs.values()]; treePinch = {d: Math.hypot(a.x - b.x, a.y - b.y), w: treeVP.w}; treeDrag = null; return; }
-  const node = e.target.closest('[data-node]');
-  if (edit && node) {
-    const id = node.dataset.node, p = treeLayout()[id];
-    const pt = treeToSvg(svg, e.clientX, e.clientY);
-    treeDrag = node.dataset.h ? {type: 'link', from: id, svg, moved: false, pt} : {type: 'move', id, svg, moved: false, sx: pt.x, sy: pt.y, ox: p.x - pt.x, oy: p.y - pt.y, px: p.x, py: p.y};
-    try { svg.setPointerCapture(e.pointerId); } catch (err) {}
-  } else {
-    treeDrag = {type: 'pan', svg, moved: false, lx: e.clientX, ly: e.clientY};
-  }
-}
-function treeMove(e) {
-  if (!treePtrs.has(e.pointerId)) return;
-  treePtrs.set(e.pointerId, {x: e.clientX, y: e.clientY});
-  if (treePinch && treePtrs.size >= 2) {
-    const [a, b] = [...treePtrs.values()], d = Math.hypot(a.x - b.x, a.y - b.y);
-    treeVP.w = Math.max(120, Math.min(4000, treePinch.w * treePinch.d / (d || 1))); treeApplyVP(); return;
-  }
-  if (!treeDrag) return;
-  const svg = treeDrag.svg, r = svg.getBoundingClientRect(), k = treeVP.w / r.width;
-  if (treeDrag.type === 'pan') {
-    const dx = e.clientX - treeDrag.lx, dy = e.clientY - treeDrag.ly;
-    if (Math.abs(dx) + Math.abs(dy) > 3) treeDrag.moved = true;
-    treeVP.x -= dx * k; treeVP.y -= dy * k; treeDrag.lx = e.clientX; treeDrag.ly = e.clientY; treeApplyVP();
-  } else if (treeDrag.type === 'move') {
-    const pt = treeToSvg(svg, e.clientX, e.clientY);
-    if (!treeDrag.moved && Math.hypot(pt.x - treeDrag.sx, pt.y - treeDrag.sy) < 6) return;
-    treeDrag.moved = true;
-    const nx = pt.x + treeDrag.ox, ny = pt.y + treeDrag.oy;
-    treeTd().pos[treeDrag.id] = {x: Math.round(nx), y: Math.round(ny)};
-    const p = treeLayout()[treeDrag.id], g = svg.querySelector(`g[data-node="${treeDrag.id}"]`);
-    if (g) g.setAttribute('transform', `translate(${nx - treeDrag.px},${ny - treeDrag.py})`);
-    treeRedrawEdges(svg);
-  } else if (treeDrag.type === 'link') {
-    treeDrag.moved = true;
-    const pt = treeToSvg(svg, e.clientX, e.clientY), p = treeLayout()[treeDrag.from];
-    let ln = svg.querySelector('#tree-rubber'); if (!ln) { ln = document.createElementNS('http://www.w3.org/2000/svg', 'line'); ln.id = 'tree-rubber'; ln.setAttribute('stroke', 'var(--primary)'); ln.setAttribute('stroke-width', '3'); ln.setAttribute('stroke-dasharray', '6 5'); ln.style.pointerEvents = 'none'; svg.appendChild(ln); }
-    ln.setAttribute('x1', p.x); ln.setAttribute('y1', p.y); ln.setAttribute('x2', pt.x); ln.setAttribute('y2', pt.y);
-  }
-}
-function treeRedrawEdges(svg) {
-  const pos = Object.assign(treeLayout(), {}); // positions courantes (pos déjà mises à jour)
-  svg.querySelectorAll('line[data-edge]').forEach(l => {
-    const [pre, child] = l.dataset.edge.split('>');
-    const a = pos[pre], z = pos[child]; if (!a || !z) return;
-    l.setAttribute('x1', a.x); l.setAttribute('y1', a.y); l.setAttribute('x2', z.x); l.setAttribute('y2', z.y);
+function cardEdSet(k, v) { cardEdFromForm(); cEd[k] = v; cardEditorRender(); }
+function cardEdPre(oid) { cardEdFromForm(); cEd.ids = cEd.ids.includes(oid) ? cEd.ids.filter(x => x !== oid) : cEd.ids.concat([oid]); cardEditorRender(); }
+function cardEdUnl(oid) { cardEdFromForm(); cEd.unlocks = cEd.unlocks.includes(oid) ? cEd.unlocks.filter(x => x !== oid) : cEd.unlocks.concat([oid]); cardEditorRender(); }
+function cardEdSave() {
+  cardEdFromForm(); mergeCustomCards();
+  if (!cEd.n) { toast('Donne un nom à la carte'); return; }
+  const id = cEd.id || ('k' + Date.now().toString(36));
+  if (cEd.ids.some(p => cardLoops(id, p))) { toast('Lien impossible : cela créerait une boucle'); return; }
+  if (cEd.unlocks.some(o => cardLoops(o, id))) { toast('Lien impossible : cela créerait une boucle'); return; }
+  state.cardReq = state.cardReq || {};
+  state.cardReq[id] = {ids: cEd.ids.filter(x => x !== id), mode: cEd.mode === 'and' ? 'and' : 'or'};
+  CARDS.forEach(o => {
+    if (o.id === id) return;
+    const r = cardReq(o.id), has = r.ids.includes(id), want = cEd.unlocks.includes(o.id);
+    if (want && !has) state.cardReq[o.id] = {ids: r.ids.concat([id]), mode: r.mode};
+    if (!want && has) state.cardReq[o.id] = {ids: r.ids.filter(x => x !== id), mode: r.mode};
   });
-}
-function treeUp(e) {
-  if (!treePtrs.has(e.pointerId)) return;
-  treePtrs.delete(e.pointerId);
-  if (treePinch && treePtrs.size < 2) treePinch = null;
-  if (!treeDrag) return;
-  const d = treeDrag; treeDrag = null;
-  if (d.type === 'move') {
-    if (!d.moved) { treeSelId = d.id; treeOpenEditor(d.id); return; }
-    treeSave(); treeRefresh(); return;
+  state.cardHidden = state.cardHidden || {};
+  if (cEd.vis) delete state.cardHidden[id]; else state.cardHidden[id] = true;
+  const data = {n: cEd.n, d: cEd.d, col: cEd.col, price: cEd.price, cat: cEd.cat, i: cEd.i || 'star', img: cEd.img || ''};
+  if (CARD_BY_ID[id] && !(state.customCards || []).some(x => x.id === id)) {
+    state.cardEdits = state.cardEdits || {};
+    state.cardEdits[id] = data;
+  } else {
+    state.customCards = (state.customCards || []).filter(x => x.id !== id);
+    state.customCards.push(Object.assign({id, r: id, c: 'green'}, data));
   }
-  if (d.type === 'link') {
-    const r = document.elementFromPoint(e.clientX, e.clientY), tgt = r && r.closest && r.closest('[data-node]');
-    const svgRubber = d.svg.querySelector('#tree-rubber'); if (svgRubber) svgRubber.remove();
-    if (tgt && !tgt.dataset.h && tgt.dataset.node !== d.from) {
-      /* glisser A sur B : A devient prérequis de B */
-      if (treeAddPrereq(tgt.dataset.node, d.from)) toast('Lien ajouté');
-    }
-    treeRefresh(); return;
-  }
-  if (d.type === 'pan' && !d.moved) {
-    const node = e.target.closest && e.target.closest('[data-node]');
-    if (node) { treeSelId = node.dataset.node; treeRefresh(); }
-  }
+  save(); mergeCustomCards(); closeSheet(); toast('Carte enregistrée dans « ' + ((cardCats().find(x => x.id === data.cat)) || {name: 'Autre'}).name + ' »'); openSettingsPage('cartes');
 }
-document.addEventListener('pointerdown', treeDown, {passive: false});
-document.addEventListener('pointermove', treeMove, {passive: false});
-document.addEventListener('pointerup', treeUp);
-document.addEventListener('pointercancel', treeUp);
-/* Éditeur d'une carte : prérequis (cases) et mode OU / ET */
-function treeOpenEditor(id) {
-  const k = treeCard(id), r = treeReq(id);
-  const others = CARDS.filter(o => o.id !== id);
-  openSheet(`<h2>${esc(k.n)}</h2>
-    <p class="muted" style="font-size:14px">Prérequis : coche les cartes qui doivent être obtenues avant celle-ci.</p>
-    <div class="ilots">${others.map(o => `<button class="chip ${r.ids.includes(o.id) ? 'on' : ''}" aria-pressed="${r.ids.includes(o.id)}" onclick="treeTogglePre('${id}','${o.id}')">${esc(o.n)}</button>`).join('')}</div>
-    <h3>Si plusieurs prérequis</h3>
-    <div class="ilots"><button class="chip ${r.mode !== 'and' ? 'on' : ''}" onclick="treeSetMode('${id}','or');treeOpenEditor('${id}')">Au moins un (OU)</button><button class="chip ${r.mode === 'and' ? 'on' : ''}" onclick="treeSetMode('${id}','and');treeOpenEditor('${id}')">Tous (ET)</button></div>`);
+function cardEdDelete() {
+  const id = cEd.id; if (!id) return;
+  const owned = state.classes.some(c => c.students.some(st => (st.cards || []).some(x => x.key === id)));
+  if (owned) { toast('Carte déjà obtenue par des élèves : impossible de la supprimer'); return; }
+  state.customCards = (state.customCards || []).filter(x => x.id !== id);
+  delete (state.cardReq || {})[id];
+  Object.keys(state.cardReq || {}).forEach(k => { state.cardReq[k] = {ids: state.cardReq[k].ids.filter(x => x !== id), mode: state.cardReq[k].mode}; });
+  const idx = CARDS.findIndex(x => x.id === id); if (idx >= 0) CARDS.splice(idx, 1); delete CARD_BY_ID[id];
+  save(); closeSheet(); toast('Carte supprimée'); openSettingsPage('cartes');
 }
-function treeTogglePre(child, pre) {
-  if (treeReq(child).ids.includes(pre)) treeRemovePrereq(child, pre);
-  else if (!treeAddPrereq(child, pre)) return;
-  treeOpenEditor(child); treeRefresh();
+function cardsPageHTML() {
+  mergeCustomCards();
+  const cats = cardCats();
+  const catsEd = cats.map(c => {
+    const n = CARDS.filter(x => cardCat(x) === c.id).length;
+    return `<div class="catrow"><input type="text" value="${esc(c.name)}" aria-label="Nom de la catégorie" onchange="catRename('${c.id}',this.value)"><small>${n} carte${n > 1 ? 's' : ''}</small>${n === 0 && c.id !== 'autre' ? `<button class="chip" onclick="catDelete('${c.id}')">Supprimer</button>` : ''}</div>`;
+  }).join('');
+  const groups = cats.map(c => {
+    const list = CARDS.filter(x => cardCat(x) === c.id);
+    if (!list.length) return '';
+    return `<h3 class="ccat" style="--cc:${TREE_CC_COLOR(c.id) || '#6B7A99'}"><span class="ccdot"></span>${esc(c.name)}</h3><div class="cgrid">` + list.map(x => {
+      const pr = x.price != null ? x.price : PRICE[x.c], col = cardColorOf(x), rq = cardReq(x.id), vis = cardVisible(x);
+      const req = rq.ids.map(p => esc(CARD_BY_ID[p] ? CARD_BY_ID[p].n : '?')).join(rq.mode === 'and' ? ' et ' : ' ou ');
+      return `<button class="cblock ${vis ? '' : 'hidden'}" style="--tc:${col}" onclick="openCardEditor('${x.id}')"><span class="cbi">${cardIconHTML(x)}</span><b>${esc(x.n)}</b><small>${pr} XP${req ? ' · après ' + req : ''}${vis ? '' : ' · masquée'}</small></button>`;
+    }).join('') + '</div>';
+  }).join('');
+  return `<div class="ilots" style="margin-bottom:8px"><button class="btn primary wide" onclick="openCardEditor(null)">Nouvelle carte</button></div>
+    <h3>Catégories</h3><p class="muted" style="font-size:13px">Renomme une catégorie, ou ajoute-en autant que tu veux. Les cartes sans catégorie reconnue vont dans « Autre ».</p>
+    ${catsEd}
+    <div class="chips-row" style="margin-top:6px"><input type="text" id="cat-new" placeholder="Nouvelle catégorie"><button class="chip on" onclick="catAdd()">Ajouter</button></div>
+    ${groups}`;
 }
-/* Mode « Arbre » dans la classe : choix de l'élève, consultation, modification */
-function openTree(cid) {
-  const c = getClass(cid); treeArgs = null;
-  if (!treeStu || !c.students.some(x => x.id === treeStu)) treeStu = c.students[0] ? c.students[0].id : null;
-  if (!treeStu) { openSheet(`<h2>Arbre de compétences</h2><p class="muted">Aucun élève dans cette classe.</p>`); return; }
-  treeArgs = {cid, sid: treeStu};
-  const picks = c.students.slice().sort((a, b) => (a.nom || '').localeCompare(b.nom || '', 'fr')).map(x => `<button class="chip ${x.id === treeStu ? 'on' : ''}" onclick="treeStuPick('${cid}','${x.id}')">${esc(nameOf(x))}</button>`).join('');
-  openSheet(`<h2>Arbre de compétences</h2>
-    <div class="ilots">${picks}</div>
-    <div class="ilots" style="margin:8px 0"><button class="chip ${treeEdit ? 'on' : ''}" aria-pressed="${treeEdit}" onclick="treeToggleEdit('${cid}')">${treeEdit ? 'Fin des modifications' : 'Modifier l\'arbre'}</button></div>
-    ${treeEdit ? `<div class="ilots" style="margin-bottom:8px"><button class="chip" onclick="treeReset('${cid}')">Rétablir l'arbre par défaut</button></div>` : ''}
-    ${treeEdit ? '<p class="muted" style="font-size:13px">Glisse une carte pour la déplacer. Glisse depuis le point bleu d\'une carte sur une autre : la première devient prérequis de la seconde. Touche une carte pour ses prérequis.</p>' : '<p class="muted" style="font-size:13px">Touche une carte pour voir son nom. Pince ou glisse pour zoomer et déplacer l\'arbre.</p>'}
-    ${treeHTML(cid, treeStu, treeEdit)}`);
-}
-function treeStuPick(cid, sid) { treeStu = sid; openTree(cid); }
-function treeReset(cid) { state.tree = {pos:{}, req: treeSeed()}; state.treeVer = 2; save(); treeVP = null; openTree(cid); }
-function treeToggleEdit(cid) { treeEdit = !treeEdit; openTree(cid); }
+function catRename(id, v) { const c = cardCats().find(x => x.id === id); if (!c) return; c.name = (v || '').trim() || c.name; save(); openSettingsPage('cartes'); }
+function catAdd() { const v = (($('cat-new') || {}).value || '').trim(); if (!v) return; const id = 'c' + Date.now().toString(36); cardCats().push({id, name: v}); save(); openSettingsPage('cartes'); }
+function catDelete(id) { if (CARDS.some(x => cardCat(x) === id)) { toast('Catégorie non vide'); return; } state.cardCats = cardCats().filter(x => x.id !== id); save(); openSettingsPage('cartes'); }
+const TREE_CC_COLOR = k => ({green:'#4E9A72', blue:'#4A7FBF', violet:'#7E6BB4', special:'#C8A23A'})[k] || null;
 
 /* Étiquettes d'information sur les élèves (modifiables dans les réglages) */
 const DEFAULT_TAGS = [
@@ -695,14 +641,15 @@ CARDS.forEach(k => { k.code = CARD_CODES[k.id]; });
 const RANK = {green:0, blue:1, violet:2};
 /* Tarif d'une carte : prix de base moins le prix de la plus haute carte de niveau inférieur déjà achetée sur la même ligne */
 function costFor(s, k, ch) {
-  const base = PRICE[k.c];
+  const base = k.price != null ? k.price : PRICE[k.c];
   let disc = 0, from = null;
   const lowers = [];
   s.cards.forEach(x => {
     const o = CARD_BY_ID[x.key];
     if (o && (x.chapter === undefined || x.chapter === ch) && o.c in RANK && o.r === k.r && RANK[o.c] < RANK[k.c]) {
       lowers.push(x);
-      if (PRICE[o.c] > disc) { disc = PRICE[o.c]; from = o; }
+      const po = o.price != null ? o.price : PRICE[o.c];
+      if (po > disc) { disc = po; from = o; }
     }
   });
   return {price:base - disc, base, from, lowers};
@@ -711,6 +658,7 @@ function costFor(s, k, ch) {
 /* ============ Utilitaires ============ */
 const $ = id => document.getElementById(id);
 const ICONS = {
+  cards: '<rect x="6" y="3" width="12" height="16" rx="2"/><path d="M4 7v12a2 2 0 002 2h10"/><path d="M9.5 9h5M9.5 12h5"/>',
   trash: '<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/><path d="M10 11v6M14 11v6"/>',
   screen: '<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>',
   timer: '<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9.5 2.5h5M12 2.5V5"/>',
@@ -785,7 +733,8 @@ ICONS.moon = '<path d="M20 14.5A8 8 0 019.5 4 8 8 0 1020 14.5z"/>';
 ICONS.pulse = '<path d="M3 12h4l2.5-6 4 12 2.5-6H21"/>';
 const ico = (n, cls) => `<svg class="ic${cls ? ' ' + cls : ''}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[n] || ICONS.tag}</svg>`;
 const tagIcon = t => `<span class="ti" style="color:${esc(t.color || '#6B7A99')}">${ico(t.icon || 'tag')}</span>`;
-const cardIcon = (k, col) => `<span class="ci ${col || k.c || ''}">${ico((k && k.i) || 'tag')}</span>`;
+const cardIconHTML = k => k && k.img ? `<img src="${k.img}" alt="" class="cimg">` : ico((k && k.i) || 'tag');
+const cardIcon = (k, col) => `<span class="ci ${col || k.c || ''}">${cardIconHTML(k)}</span>`;
 /* Infobulle d'une carte : au survol sur PC (attribut title), au toucher sur iPhone */
 let tipHideT = null;
 function tipEl() { let t = $('ctip'); if (!t) { t = document.createElement('div'); t.id = 'ctip'; document.body.appendChild(t); } return t; }
@@ -1036,6 +985,7 @@ function updateScreenTitle() {
 
 function render() {
   normClasses(state);
+  mergeCustomCards();
   tipClose();
   if (view.name === 'class' && !getClass(view.id)) view = {name:'home'};
   classTint();
@@ -1115,7 +1065,6 @@ function classHTML() {
       <button class="tool ${view.mode === 'xp' ? 'on' : ''}" aria-label="XP pour toute la classe" onclick="enterMode('xp','openClassXP','${c.id}')"><span class="e">${ico('star')}</span>XP classe</button>
       <button class="tool ${view.mode === 'tirage' ? 'on' : ''}" aria-label="Tirage au sort" onclick="enterMode('tirage','openDraw','${c.id}')"><span class="e">${ico('shuffle')}</span>Tirage</button>
       <button class="tool ${view.mode === 'histo' ? 'on' : ''}" aria-label="Historique de la classe" onclick="enterMode('histo','openHisto','${c.id}')"><span class="e">${ico('history')}</span>Histo</button>
-      <button class="tool ${view.mode === 'arbre' ? 'on' : ''}" aria-label="Arbre de compétences" onclick="enterMode('arbre','openTree','${c.id}')"><span class="e">${ico('star')}</span>Arbre</button>
       <button class="tool ${view.plan || view.cplan ? 'on' : ''}" aria-label="Plan de classe" onclick="startPlanAny()"><span class="e">${ico('grid')}</span>Plan</button></div>
     ${view.mode ? `<div class="modebody">${view.modeHtml || ''}</div>` : `    ${lastFabHTML(c)}
     ${!view.plan && !view.cplan && !view.label && !view.mode ? `<button class="btn primary wide addstu" aria-label="Ajouter un élève" onclick="openStudentForm('${c.id}')">${ico('userplus')} Ajouter un élève</button>` : ''}
@@ -1463,7 +1412,7 @@ function idxGo(e) {
 
 /* ============ Feuilles, dialogue, toast ============ */
 let sheetSeq = 0;
-const MODE_TITLES = ['Appel rapide', 'Importer une liste', 'XP pour toute la classe', 'Tirage au sort', 'Historique', 'Arbre de compétences'];
+const MODE_TITLES = ['Appel rapide', 'Importer une liste', 'XP pour toute la classe', 'Tirage au sort', 'Historique'];
 /* Un mode s'affiche dans la classe, à la place de la liste élèves */
 function enterMode(name, fn, ...args) {
   if (view.mode === name) { exitMode(); return; }
@@ -1887,6 +1836,7 @@ function setStudentLink(cid, sid, kind, oid) {
   }
   save(); openStudent(cid, sid);
 }
+let sepOpen = false;
 function toggleSep(cid, sid, oid) {
   const c = getClass(cid), a = getStudent(c, sid), b = getStudent(c, oid);
   a.sep = a.sep || []; b.sep = b.sep || [];
@@ -1910,7 +1860,7 @@ function linksHTML(cid, s) {
   return `<h3 style="margin:10px 0 6px">Genre et duos</h3>
     <div class="ilots">${genreChips(cid, s)}</div>
     ${linkSelect(c, s, 'together', 'Toujours avec (duo validé)')}
-    <label class="linkl">Ne pas mettre avec (plusieurs possibles)</label><div class="ilots sepchips">${c.students.filter(x => x.id !== s.id).sort((a, b) => (a.nom || '').localeCompare(b.nom || '', 'fr')).map(o => `<button class="chip ${(s.sep || []).includes(o.id) ? 'on' : ''}" aria-pressed="${(s.sep || []).includes(o.id)}" onclick="toggleSep('${c.id}','${s.id}','${o.id}')">${esc(nameOf(o))}</button>`).join('')}</div>`;
+    <label class="linkl">Ne pas mettre avec (plusieurs possibles)</label><details class="sepdrop" ${sepOpen ? 'open' : ''} ontoggle="sepOpen=this.open"><summary>${(s.sep || []).length ? (s.sep || []).map(id => esc(nameOf(c.students.find(x => x.id === id) || {nom: '?', prenom: ''}))).join(', ') : 'Personne'}</summary><div class="sepopts">${c.students.filter(x => x.id !== s.id).sort((a, b) => (a.nom || '').localeCompare(b.nom || '', 'fr')).map(o => `<button class="chip ${(s.sep || []).includes(o.id) ? 'on' : ''}" aria-pressed="${(s.sep || []).includes(o.id)}" onclick="toggleSep('${c.id}','${s.id}','${o.id}')">${(s.sep || []).includes(o.id) ? '✓ ' : ''}${esc(nameOf(o))}</button>`).join('')}</div></details>`;
 }
 
 /* ===================== GENRE ET DUOS POUR LA CLASSE ===================== */
@@ -1952,7 +1902,6 @@ function openStudent(cid, sid) {
       <button class="icon" aria-label="Fermer" onclick="closeSheet()">${ico('x')}</button></div>
     <h3 style="margin:10px 0 6px">Îlot</h3><div class="ilots" id="ilot-chips">${ilotChips(cid, sid)}</div>
     ${linksHTML(cid, s)}
-    <h3 style="margin:12px 0 6px">Arbre de compétences</h3>${treeHTML(cid, sid, false)}
     <button class="acc" id="tag-acc" aria-expanded="false" onclick="toggleTagsMenu()"><span>Étiquettes</span><span class="asum" id="tag-sum">${tagSummary(s)}</span><span class="ach">${ico('chev')}</span></button>
     <div class="tagchips" id="tag-chips" style="display:none">${tagChips(cid, sid)}</div>
     <button class="acc" id="note-acc" aria-expanded="false" onclick="toggleNotes()"><span>Notes diverses</span><span class="asum" id="note-sum">${noteSummary(s)}</span><span class="ach">${ico('chev')}</span></button>
@@ -2317,11 +2266,12 @@ function ilotMaxSheet() {
 }
 function ilotMaxSet(n) { state.ilotMax = n > 0 ? n : null; save(); if (view.name === 'class') render(); ilotMaxSheet(); }
 function ilotMaxStep(d) { const cur = ilotMax() || 4; ilotMaxSet(Math.max(1, Math.min(12, cur + d))); }
+function islandXP(c, l) { return c.students.filter(st => (st.ilot || '') === l).reduce((a, st) => a + (st.xp || 0), 0); }
 function planBarHTML(c) {
   const cur = view.planLetter || '', cnt = l => c.students.filter(s => (s.ilot || '') === l).length;
   const mx = ilotMax();
   return `<div class="planbar" id="planbar"><div class="pbar-l"><button class="chip genbtn" onclick="openIlotGen('${c.id}')">Générer</button><button class="chip" onclick="ilotMaxSheet()">${mx ? 'Max ' + mx : 'Sans limite'}</button></div><div class="pbtns">${ILOTS.concat('').map(l => l
-    ? `<button class="pbtn ${cur === l ? 'on' : ''} ${mx && cnt(l) > mx ? 'over' : ''}" style="${ilotStyle(l)}" onclick="setPlanLetter('${l}')"><b>${l}</b><small>${cnt(l)}${mx ? '/' + mx : ''}</small></button>`
+    ? `<button class="pbtn ${cur === l ? 'on' : ''} ${mx && cnt(l) > mx ? 'over' : ''}" style="${ilotStyle(l)}" onclick="setPlanLetter('${l}')"><b>${l}</b><small>${cnt(l)}${mx ? '/' + mx : ''} · ${islandXP(c, l)} XP</small></button>`
     : `<button class="pbtn none ${cur === '' ? 'on' : ''}" onclick="setPlanLetter('')"><b>∅</b><small>${cnt('')}</small></button>`).join('')}</div>
     <div class="phint"><span>${cur ? `Glisse un élève ou touche-le pour l'îlot ${cur}` : 'Glisse un élève dans une case'}</span><button class="chip" onclick="startPlan()">Terminé</button></div></div>`;
 }
@@ -2408,7 +2358,7 @@ function clearTagFilter() { view.tags = []; if ($('tf-chips')) renderTagFilter()
 
 /* ============ Légende des codes de cartes ============ */
 function openCodes() {
-  const grp = col => `<div class="${col}"><span class="buyhead ${col}">${COLOR_LABEL[col]}</span>${CARDS.filter(k => k.c === col).map(k =>
+  const grp = col => `<div class="${col}"><span class="buyhead ${col}">${COLOR_LABEL[col]}</span>${CARDS.filter(k => k.c === col && cardVisible(k)).map(k =>
     `<div class="inv ${col}"><span class="dot ${col}" style="margin:0">${k.code}</span><span class="em">${cardIcon(k)}</span><div class="it">${esc(k.n)}<small>${esc(k.d)}</small></div></div>`).join('')}</div>`;
   openSheet(`<div class="shead"><div><h2>Légende</h2><small>Codes des cartes et étiquettes</small></div>
     <button class="icon" aria-label="Fermer" onclick="closeSheet()">${ico('x')}</button></div>${['green', 'blue', 'violet', 'special'].map(grp).join('')}${tagsLegend()}`);
@@ -2443,7 +2393,8 @@ function giveCard(s, k, price, lowers, chapter) {
 }
 function buyCard(cid, sid, kid) {
   const c = getClass(cid), s = getStudent(c, sid), k = CARD_BY_ID[kid], ci = costFor(s, k, c.chapter), price = ci.price;
-  const st = treeState(s, c, kid);
+  if (!cardVisible(k)) { buzz([50, 50, 50]); toast('Carte masquée'); return; }
+  const st = cardState(s, c, kid);
   if (st === 'lock') { buzz([50, 50, 50]); toast('Carte verrouillée : une carte préalable est manquante'); return; }
   if (st === 'retired') { buzz([50, 50, 50]); toast('Carte inutilisable : une carte suivante a déjà été obtenue'); return; }
   if (s.xp < price) { buzz([50, 50, 50]); toast('XP insuffisants'); return; }
@@ -2873,12 +2824,13 @@ function openSettings() {
     <h3>XP et conditions</h3>
     ${row(ico('star'), 'Conditions pour gagner des XP', state.conditions.length + ' conditions', 'conds')}
     ${row(ico('sliders'), 'Roue rapide', '8 actions autour du doigt', 'roue')}
+    ${row(ico('cards'), 'Cartes et dépendances', (CARDS.length) + ' cartes', 'cartes')}
     ${row(ico('history'), 'Paliers du chrono', (chronoTiers().length) + ' paliers de retrait', 'paliers')}
     <h3>Aide</h3>
     ${row(ico('info'), 'Aide et tutoriel', 'Accueil, classe, élève, réglages', 'tuto')}`);
 }
 
-const TUTO = [["Accueil", [["Minuteur", "Le bouton minuteur, en haut à droite de l'accueil, ouvre un écran plein. Choisis une durée (1, 5, 10, 15, 20 ou 30 minutes, ou une durée libre), puis touche Démarrer. Quand le temps est écoulé, l'écran clignote et le son retentit jusqu'à ce que tu touches Arrêter le son. Le minuteur continue si tu quittes l'écran, tant que l'appli reste ouverte ; si l'iPhone se verrouille, le signal peut arriver avec un léger retard."], ["Mode présentation", "Le mode présentation a un bouton d'orientation, en haut à gauche : Auto, Portrait ou Paysage. En Auto, il suit l'orientation réelle de l'appareil. Sur téléphone en portrait, la liste des élèves occupe tout l'écran, triée par nom de famille, sans widget. Sur téléphone en paysage, la liste et un seul widget à droite. Sur iPad et ordinateur en paysage, quatre widgets. Le choix Portrait ou Paysage reste enregistré sur l'appareil. Les boutons + et − sont dans la liste, et Quitter ferme le mode."], ["Les classes", "Chaque classe est une carte colorée, groupée par niveau (5e, 4e, 3e, Autre). Touche une carte pour ouvrir la classe. Le bouton ••• ouvre les options de la classe."], ["Trier", "Les boutons Par niveau, A–Z et XP gagnés changent l'ordre. Le tri affiché à l'ouverture se choisit dans Réglages, Accueil et tri."], ["Créer une classe", "Touche « Nouvelle classe » en bas. Donne le nom, le niveau et le professeur principal. Tu peux ensuite importer ou ajouter les élèves."], ["Colonnes", "Le nombre de colonnes (1, 2 ou 3) se règle dans Réglages, Apparence. Sur grand écran, la page s'élargit."], ["Rappels", "Une bannière rappelle la sauvegarde du jour, puis une fois par semaine de supprimer les anciennes sauvegardes dans Fichiers."], ["Raccourci de thème", "Touche cinq fois de suite dans le vide (hors des classes et des boutons) en moins de 2 secondes : le thème passe sur Ubuntu, le style par défaut. Touche de nouveau cinq fois : tu retrouves le thème que tu avais avant."], ["Recherche globale", "La loupe, en haut de l'accueil, cherche un élève dans toutes les classes à la fois. Tape au moins deux lettres : la recherche ignore les accents. Un appui sur un résultat ouvre la classe et la fiche de l'élève."]]], ["Classe", [["Podium et recherche", "Les trois premiers apparaissent en haut. La barre « Chercher un élève » filtre la liste par nom ou prénom."], ["Mode présentation", "Le mode présentation a un bouton d'orientation, en haut à gauche : Auto, Portrait ou Paysage. En Auto, il suit l'orientation réelle de l'appareil. Sur téléphone en portrait, la liste des élèves occupe tout l'écran, triée par nom de famille, sans widget. Sur téléphone en paysage, la liste et un seul widget à droite. Sur iPad et ordinateur en paysage, quatre widgets. Le choix Portrait ou Paysage reste enregistré sur l'appareil. Les boutons + et − sont dans la liste, et Quitter ferme le mode."], ["Trier et filtrer", "Le menu de tri propose A–Z, Îlot, XP, Cartes et Discrets. « Discrets » place en haut les élèves qui ont le moins participé pendant la séance en cours (la demi-journée de la dernière attribution d'XP). « Filtrer » affiche les élèves d'une étiquette."], ["Barre d'outils", "Élèves : affiche la liste des élèves (retour depuis un mode). Import, Appel, XP classe, Tirage et Histo ouvrent leur mode à la place de la liste ; le top 5 et la bande de la classe restent visibles, avec le bouton Retour. Un nouvel appui sur le bouton du mode revient à la liste. Le bouton Élèves reste toujours en couleur, car c'est l'écran principal. Plan ouvre le plan de la classe. Le bouton + Ajouter un élève, en haut de la liste, crée un élève."], ["Une ligne élève", "Touche le nom pour ouvrir la fiche. Les boutons + et − donnent ou retirent des XP selon une condition. Un appui long d'une seconde sur la ligne ouvre la roue rapide : huit cartes apparaissent autour de ton doigt, quatre au-dessus et quatre en dessous. Glisse vers une carte : elle s'éclaire. Relâche pour lancer l'action. La page ne défile pas pendant la roue. Les cartes reprennent l'habillage du style choisi, comme les cartes de classe."], ["Annuler", "Après une action, un message reste 4 secondes avec « Annuler ». Passé ce délai, corrige avec un retrait ou un gain, et garde une trace dans l'historique."], ["Tirage au sort", "Le bouton Tirage ouvre la liste des élèves de la classe, avec une case à cocher pour chacun. Les absents du jour sont décochés par défaut. Touche Tirer au sort : un bruit de roue tourne, de plus en plus espacé vers la fin, puis le son choisi retentit. Dans Réglages, Personnalisation, Son du tirage, tu choisis entre Ressort, Quai, Fanfare et Trombone, et la puissance sonore de 1 à 5. « Tirer un autre » continue sans répéter un élève déjà tiré."], ["Étiqueter", "Le mode Étiqueter applique une étiquette (PAI, PAP…) à plusieurs élèves à la fois. « Tous » et « Aucun » sélectionnent en un geste."], ["Plan de classe", "Le bouton Plan ouvre le plan de la classe. Avec la formule actuelle, il regroupe les élèves en îlots A à F. Avec la formule personnalisée (Réglages, Personnalisation, Formule du plan), tu composes le plan : la barre d'outils ajoute des tables carrées, rectangulaires ou rondes, un tableau et un bureau, à faire glisser sur le plan. Touche un élément pour le sélectionner, puis déplace-le, redimensionne-le avec la poignée du coin, fais-le pivoter avec la poignée du haut, ou supprime-le avec la croix. Les élèves se glissent dans les tables (plusieurs par table) ; ceux qui ne sont assis nulle part attendent dans le bac « Non placés ». Une fois le plan au point, touche « Valider » : il est verrouillé pour éviter les déplacements accidentels. « Modifier » le déverrouille. Tu peux exporter le plan en image ou l'imprimer en PDF. Pour travailler sur une grande salle, utilise les boutons + et − pour zoomer, et Tout voir pour revenir à la vue complète. Quand le plan est dézoomé, les élèves s'affichent par leur prénom ; en cas de doublon, on ajoute l'initiale du nom, puis davantage de lettres si nécessaire. Le bouton Aimanté cale les éléments sur un quadrillage pour aligner les rangées ; Libre désactive ce calage. Sélection multiple te permet de toucher plusieurs éléments, pour les déplacer, les dupliquer ou les supprimer ensemble. Dupliquer crée une copie décalée à côté de l'élément choisi. Pour te déplacer dans un plan zoomé, fais glisser une zone vide. Avec la formule personnalisée, les lettres d'îlots n'apparaissent plus devant les prénoms. Elles restent enregistrées : repasse à la formule actuelle pour les retrouver. Chaque table porte une lettre (A, B, C…), comme les îlots, visible sur le plan, à l'impression et dans l'export. Le modèle de plan (tables, tableau, bureau) se gère dans Réglages, Personnalisation, Modèle de plan : tu peux l'installer depuis une classe, le modifier, le changer ou le supprimer. Tant qu'il existe, il s'applique à toute classe dont le plan est vide, y compris si tu vides un plan à la main. Pour le plan classique (îlots A à F), le bouton Générer propose une répartition selon trois curseurs : équilibre des XP, binômes à séparer, mixité. Rien n'est modifié avant Appliquer ; ensuite, ajuste à la main en touchant un îlot puis un élève."], ["Options de la classe", "••• permet de modifier la classe, de passer au chapitre suivant, de défaire le passage, d'exporter un PDF (période et style au choix) et de supprimer la classe."], ["Chapitres", "Passer au chapitre suivant archive un bilan (XP, gains, retraits, achats, cartes utilisées). Les XP ne changent jamais. Deux cases décident si les cartes en attente sont marquées utilisées et si les compteurs « par chapitre » repartent à zéro."], ["Appel rapide", "Le bouton Appel ouvre une grille de tous les élèves. Un appui sur un élève le bascule présent ou absent. Choisis la date de l'appel si ce n'est pas aujourd'hui, puis Valider l'appel : les absences sont notées dans l'historique de chaque élève."], ["Dernier élève modifié", "Un bouton bien visible, en bas à droite de la classe, indique « Dernier élève » avec le prénom du dernier élève modifié (XP, absence ou fiche). Il pulse brièvement à l'ouverture de la classe. Un appui ouvre sa fiche : pratique pour attribuer plusieurs XP au même élève."], ["Genre des élèves", "Dans le menu des options de la classe, Genre des élèves s'ouvre comme l'appel rapide : choisis le pinceau Fille ou Garçon en haut, puis touche chaque prénom. Un seul appui suffit. Effacer retire le genre. Tout est enregistré tout de suite."], ["Dupliquer une classe", "Dans le menu des options de la classe, Dupliquer crée une copie : élèves, genre, duos et plan sont conservés. Par défaut, les XP et l'historique repartent à zéro ; coche la case pour les garder. L'originale n'est pas modifiée."], ["Arbre de compétences", "Le bouton Arbre, dans la barre de la classe, affiche l'arbre commun à toutes les classes. Choisis un élève pour voir sa progression. Quatre états : obtenue, disponible, verrouillée, et inutilisable (une carte qui en suit une autre devient inutilisable dès que la suivante est obtenue). Par défaut, chaque ligne suit la même chaîne : Relecture, Support, Encyclopédie ; Réponse, Chance, Pari ; Appel, Binôme, Alliance ; Mots, Musique, Libre ; Vision, Diversion, Espions. Touche une carte pour voir son nom. Pince ou glisse pour zoomer et déplacer l'arbre. Modifier l'arbre : glisse une carte pour la déplacer ; glisse depuis le point bleu d'une carte sur une autre pour en faire le prérequis ; touche une carte pour cocher ses prérequis (OU ou ET). Rétablir l'arbre par défaut remet la chaîne d'origine. Une carte ne peut pas être prérequis de sa propre chaîne. Un déblocage vaut pour le chapitre en cours. La fiche de l'élève affiche aussi l'arbre."]]], ["Élève", [["Solde et total", "Le solde est l'XP disponible, le total l'XP gagné depuis le début. La jauge sous le nom montre la progression vers 8, 22 puis 50 XP."], ["Gagner ou retirer des XP", "Choisis une condition pour gagner des XP. Les conditions à gain limité par chapitre se donnent depuis la fiche, et peuvent aussi être placées sur la roue rapide. Le retrait demande un montant et un motif facultatif, et réduit aussi le total. Les conditions sont regroupées par catégorie, avec leur icône ; les retraits sont en rouge."], ["Cartes", "L'achat de carte se fait ici. Une carte de rang inférieur sur la même ligne propose son tarif réduit. Le remboursement et le marquage « utilisée » sont aussi ici. L'appui maintenu sur un badge de carte affiche son nom."], ["Absence et oubli", "Absent ou présent pour la journée. L'oubli d'affaires bloque le gain d'XP pendant 30, 45, 60 ou 90 minutes (durée réglable), sans retirer d'XP ; la jauge affiche le temps restant."], ["Étiquettes et notes", "Ajoute des étiquettes (PAI, PAP…) et des notes libres. Elles sont repliables et synchronisées."], ["Historique", "Tous les événements de l'élève : gains, retraits, achats, absences, oublis. La liste s'affiche par tranches de 80 événements ; « Voir plus » charge la suite."], ["Genre et duos", "Dans la fiche de l'élève, section Genre et duos : Fille ou Garçon, un élève « Toujours avec » (duo validé, qui ne sera jamais séparé par le générateur), et « Ne pas mettre avec » : tu coches autant d'élèves que tu veux, sans limite, à séparer dans le générateur. Les liens sont réciproques et enregistrés tout de suite."]]], ["Réglages", [["Sauvegarde", "Exporte un fichier (enregistre-le dans Fichiers, dans un dossier « Jokers sauvegardes »). Importe un fichier pour restaurer. Trois copies automatiques restent dans l'appli. Le contrôle de cohérence signale les anomalies sans rien modifier."], ["Mode Purge", "Supprime toutes les classes et tous les élèves, après confirmation. Les étiquettes, les cartes ajoutées et les réglages sont conservés. Une purge est définitive."], ["Étiquettes", "Modifie les quinze étiquettes : nom, icône, couleur."], ["Conditions d'XP", "Chaque condition a une catégorie (Participation, Travail, Comportement, Évaluation, Progression), une icône et une couleur. Une condition au montant négatif est un retrait : elle retire des XP et s'affiche en rouge, avec une trace « Retrait » dans l'historique. La limite par chapitre s'applique aussi aux retraits."], ["Accueil et tri", "Choisis le tri affiché à l'ouverture de l'accueil : par niveau, A–Z ou XP gagnés."], ["Roue rapide", "Dans Réglages, Personnalisation, choisis les actions des huit cartes : quatre en haut, quatre en bas. Une carte vide reste visible, en pointillé, et n'est pas cliquable. Actions possibles : une condition d'XP, un retrait d'XP, la présence (absent ou présent), l'oubli d'affaires, ou annuler la dernière action. Réinitialiser rétablit la configuration de départ, commune à toutes les classes."], ["Son du minuteur", "Choisis le son de fin de minuteur parmi quatre sons intégrés à l'appli : Bip, Cloche, Carillon et Tonalité douce. Touche un son pour l'écouter, puis choisis-le. Ce choix vaut pour tous les minuteurs. Tu peux aussi régler la puissance sonore, du niveau 1 (très doux) au niveau 5 (très fort)."], ["Formule du plan", "Choisis la formule du plan de classe, pour toutes les classes : la formule actuelle (îlots A à F) ou la formule personnalisée (tables, tableau, bureau, élèves placés librement). Îlots : les élèves sont rangés dans six groupes, A à F. Le bouton Max N, dans la barre du plan, règle le nombre maximum d'élèves par îlot pour toutes les classes ; un îlot qui dépasse la limite apparaît en rouge. Sans limite, le plan n'en impose aucune."], ["Apparence", "Choisis le style (Éducatif, Vero, Tu règles aussi le style au démarrage, le nom des styles, le nombre de colonnes et la couleur d'accentuation. Trois palettes sont proposées pour tous les styles : Pastel (par défaut), Vives et Métalliques. Une couleur de base, une couleur personnalisée au nuancier, ou un code hexa complètent le choix. Le choix d'accentuation se fait par style et s'enregistre sur cet appareil."], ["Classe d'essai", "Ajoute une classe fictive de 30 élèves avec un historique, pour essayer l'appli sans risque."], ["Synchronisation", "Sur claude.ai, les données se synchronisent avec ton compte. Sur le site GitHub, la synchronisation n'est pas disponible : l'appli reste locale."], ["Mes citations", "Ajoute tes propres citations pour le widget Citation : une par ligne, l'auteur après un tiret. Elles s'ajoutent à celles de l'appli."], ["Corbeille", "Un élève ou une classe supprimé part dans la corbeille, où il reste 7 ou 30 jours (au choix). Pendant ce délai, Restaurer le remet en place. Supprimer maintenant l'efface tout de suite. Après le délai, il disparaît définitivement."], ["Titre d'écran", "Une petite étiquette, dans la bannière de l'accueil ou de la classe, indique l'écran ou le mode où tu te trouves, par exemple « Écran : Classe « 5C » · Mode plan (îlots) ». Elle sert de repère pour signaler un problème."]]]];
+const TUTO = [["Accueil", [["Minuteur", "Le bouton minuteur, en haut à droite de l'accueil, ouvre un écran plein. Choisis une durée (1, 5, 10, 15, 20 ou 30 minutes, ou une durée libre), puis touche Démarrer. Quand le temps est écoulé, l'écran clignote et le son retentit jusqu'à ce que tu touches Arrêter le son. Le minuteur continue si tu quittes l'écran, tant que l'appli reste ouverte ; si l'iPhone se verrouille, le signal peut arriver avec un léger retard."], ["Mode présentation", "Le mode présentation a un bouton d'orientation, en haut à gauche : Auto, Portrait ou Paysage. En Auto, il suit l'orientation réelle de l'appareil. Sur téléphone en portrait, la liste des élèves occupe tout l'écran, triée par nom de famille, sans widget. Sur téléphone en paysage, la liste et un seul widget à droite. Sur iPad et ordinateur en paysage, quatre widgets. Le choix Portrait ou Paysage reste enregistré sur l'appareil. Les boutons + et − sont dans la liste, et Quitter ferme le mode."], ["Les classes", "Chaque classe est une carte colorée, groupée par niveau (5e, 4e, 3e, Autre). Touche une carte pour ouvrir la classe. Le bouton ••• ouvre les options de la classe."], ["Trier", "Les boutons Par niveau, A–Z et XP gagnés changent l'ordre. Le tri affiché à l'ouverture se choisit dans Réglages, Accueil et tri."], ["Créer une classe", "Touche « Nouvelle classe » en bas. Donne le nom, le niveau et le professeur principal. Tu peux ensuite importer ou ajouter les élèves."], ["Colonnes", "Le nombre de colonnes (1, 2 ou 3) se règle dans Réglages, Apparence. Sur grand écran, la page s'élargit."], ["Rappels", "Une bannière rappelle la sauvegarde du jour, puis une fois par semaine de supprimer les anciennes sauvegardes dans Fichiers."], ["Raccourci de thème", "Touche cinq fois de suite dans le vide (hors des classes et des boutons) en moins de 2 secondes : le thème passe sur Ubuntu, le style par défaut. Touche de nouveau cinq fois : tu retrouves le thème que tu avais avant."], ["Recherche globale", "La loupe, en haut de l'accueil, cherche un élève dans toutes les classes à la fois. Tape au moins deux lettres : la recherche ignore les accents. Un appui sur un résultat ouvre la classe et la fiche de l'élève."]]], ["Classe", [["Podium et recherche", "Les trois premiers apparaissent en haut. La barre « Chercher un élève » filtre la liste par nom ou prénom."], ["Mode présentation", "Le mode présentation a un bouton d'orientation, en haut à gauche : Auto, Portrait ou Paysage. En Auto, il suit l'orientation réelle de l'appareil. Sur téléphone en portrait, la liste des élèves occupe tout l'écran, triée par nom de famille, sans widget. Sur téléphone en paysage, la liste et un seul widget à droite. Sur iPad et ordinateur en paysage, quatre widgets. Le choix Portrait ou Paysage reste enregistré sur l'appareil. Les boutons + et − sont dans la liste, et Quitter ferme le mode."], ["Trier et filtrer", "Le menu de tri propose A–Z, Îlot, XP, Cartes et Discrets. « Discrets » place en haut les élèves qui ont le moins participé pendant la séance en cours (la demi-journée de la dernière attribution d'XP). « Filtrer » affiche les élèves d'une étiquette."], ["Barre d'outils", "Élèves : affiche la liste des élèves (retour depuis un mode). Import, Appel, XP classe, Tirage et Histo ouvrent leur mode à la place de la liste ; le top 5 et la bande de la classe restent visibles, avec le bouton Retour. Un nouvel appui sur le bouton du mode revient à la liste. Le bouton Élèves reste toujours en couleur, car c'est l'écran principal. Plan ouvre le plan de la classe. Le bouton + Ajouter un élève, en haut de la liste, crée un élève. Chaque îlot affiche son nombre d'élèves et le total de ses XP."], ["Une ligne élève", "Touche le nom pour ouvrir la fiche. Les boutons + et − donnent ou retirent des XP selon une condition. Un appui long d'une seconde sur la ligne ouvre la roue rapide : huit cartes apparaissent autour de ton doigt, quatre au-dessus et quatre en dessous. Glisse vers une carte : elle s'éclaire. Relâche pour lancer l'action. La page ne défile pas pendant la roue. Les cartes reprennent l'habillage du style choisi, comme les cartes de classe."], ["Annuler", "Après une action, un message reste 4 secondes avec « Annuler ». Passé ce délai, corrige avec un retrait ou un gain, et garde une trace dans l'historique."], ["Tirage au sort", "Le bouton Tirage ouvre la liste des élèves de la classe, avec une case à cocher pour chacun. Les absents du jour sont décochés par défaut. Touche Tirer au sort : un bruit de roue tourne, de plus en plus espacé vers la fin, puis le son choisi retentit. Dans Réglages, Personnalisation, Son du tirage, tu choisis entre Ressort, Quai, Fanfare et Trombone, et la puissance sonore de 1 à 5. « Tirer un autre » continue sans répéter un élève déjà tiré."], ["Étiqueter", "Le mode Étiqueter applique une étiquette (PAI, PAP…) à plusieurs élèves à la fois. « Tous » et « Aucun » sélectionnent en un geste."], ["Plan de classe", "Le bouton Plan ouvre le plan de la classe. Avec la formule actuelle, il regroupe les élèves en îlots A à F. Avec la formule personnalisée (Réglages, Personnalisation, Formule du plan), tu composes le plan : la barre d'outils ajoute des tables carrées, rectangulaires ou rondes, un tableau et un bureau, à faire glisser sur le plan. Touche un élément pour le sélectionner, puis déplace-le, redimensionne-le avec la poignée du coin, fais-le pivoter avec la poignée du haut, ou supprime-le avec la croix. Les élèves se glissent dans les tables (plusieurs par table) ; ceux qui ne sont assis nulle part attendent dans le bac « Non placés ». Une fois le plan au point, touche « Valider » : il est verrouillé pour éviter les déplacements accidentels. « Modifier » le déverrouille. Tu peux exporter le plan en image ou l'imprimer en PDF. Pour travailler sur une grande salle, utilise les boutons + et − pour zoomer, et Tout voir pour revenir à la vue complète. Quand le plan est dézoomé, les élèves s'affichent par leur prénom ; en cas de doublon, on ajoute l'initiale du nom, puis davantage de lettres si nécessaire. Le bouton Aimanté cale les éléments sur un quadrillage pour aligner les rangées ; Libre désactive ce calage. Sélection multiple te permet de toucher plusieurs éléments, pour les déplacer, les dupliquer ou les supprimer ensemble. Dupliquer crée une copie décalée à côté de l'élément choisi. Pour te déplacer dans un plan zoomé, fais glisser une zone vide. Avec la formule personnalisée, les lettres d'îlots n'apparaissent plus devant les prénoms. Elles restent enregistrées : repasse à la formule actuelle pour les retrouver. Chaque table porte une lettre (A, B, C…), comme les îlots, visible sur le plan, à l'impression et dans l'export. Le modèle de plan (tables, tableau, bureau) se gère dans Réglages, Personnalisation, Modèle de plan : tu peux l'installer depuis une classe, le modifier, le changer ou le supprimer. Tant qu'il existe, il s'applique à toute classe dont le plan est vide, y compris si tu vides un plan à la main. Pour le plan classique (îlots A à F), le bouton Générer propose une répartition selon trois curseurs : équilibre des XP, binômes à séparer, mixité. Rien n'est modifié avant Appliquer ; ensuite, ajuste à la main en touchant un îlot puis un élève. Chaque îlot affiche son nombre d'élèves et le total de ses XP."], ["Options de la classe", "••• permet de modifier la classe, de passer au chapitre suivant, de défaire le passage, d'exporter un PDF (période et style au choix) et de supprimer la classe."], ["Chapitres", "Passer au chapitre suivant archive un bilan (XP, gains, retraits, achats, cartes utilisées). Les XP ne changent jamais. Deux cases décident si les cartes en attente sont marquées utilisées et si les compteurs « par chapitre » repartent à zéro."], ["Appel rapide", "Le bouton Appel ouvre une grille de tous les élèves. Un appui sur un élève le bascule présent ou absent. Choisis la date de l'appel si ce n'est pas aujourd'hui, puis Valider l'appel : les absences sont notées dans l'historique de chaque élève."], ["Dernier élève modifié", "Un bouton bien visible, en bas à droite de la classe, indique « Dernier élève » avec le prénom du dernier élève modifié (XP, absence ou fiche). Il pulse brièvement à l'ouverture de la classe. Un appui ouvre sa fiche : pratique pour attribuer plusieurs XP au même élève."], ["Genre des élèves", "Dans le menu des options de la classe, Genre des élèves s'ouvre comme l'appel rapide : choisis le pinceau Fille ou Garçon en haut, puis touche chaque prénom. Un seul appui suffit. Effacer retire le genre. Tout est enregistré tout de suite."], ["Dupliquer une classe", "Dans le menu des options de la classe, Dupliquer crée une copie : élèves, genre, duos et plan sont conservés. Par défaut, les XP et l'historique repartent à zéro ; coche la case pour les garder. L'originale n'est pas modifiée."]]], ["Élève", [["Solde et total", "Le solde est l'XP disponible, le total l'XP gagné depuis le début. La jauge sous le nom montre la progression vers 8, 22 puis 50 XP."], ["Gagner ou retirer des XP", "Choisis une condition pour gagner des XP. Les conditions à gain limité par chapitre se donnent depuis la fiche, et peuvent aussi être placées sur la roue rapide. Le retrait demande un montant et un motif facultatif, et réduit aussi le total. Les conditions sont regroupées par catégorie, avec leur icône ; les retraits sont en rouge."], ["Cartes", "L'achat de carte se fait ici. Une carte de rang inférieur sur la même ligne propose son tarif réduit. Le remboursement et le marquage « utilisée » sont aussi ici. L'appui maintenu sur un badge de carte affiche son nom."], ["Absence et oubli", "Absent ou présent pour la journée. L'oubli d'affaires bloque le gain d'XP pendant 30, 45, 60 ou 90 minutes (durée réglable), sans retirer d'XP ; la jauge affiche le temps restant."], ["Étiquettes et notes", "Ajoute des étiquettes (PAI, PAP…) et des notes libres. Elles sont repliables et synchronisées."], ["Historique", "Tous les événements de l'élève : gains, retraits, achats, absences, oublis. La liste s'affiche par tranches de 80 événements ; « Voir plus » charge la suite."], ["Genre et duos", "Dans la fiche de l'élève, section Genre et duos : Fille ou Garçon, un élève « Toujours avec » (duo validé, qui ne sera jamais séparé par le générateur), et « Ne pas mettre avec » : une liste déroulante ; touche un nom pour l'activer, touche-le à nouveau pour le désactiver. Sans limite, à séparer dans le générateur. Les liens sont réciproques et enregistrés tout de suite."]]], ["Réglages", [["Sauvegarde", "Exporte un fichier (enregistre-le dans Fichiers, dans un dossier « Jokers sauvegardes »). Importe un fichier pour restaurer. Trois copies automatiques restent dans l'appli. Le contrôle de cohérence signale les anomalies sans rien modifier."], ["Mode Purge", "Supprime toutes les classes et tous les élèves, après confirmation. Les étiquettes, les cartes ajoutées et les réglages sont conservés. Une purge est définitive."], ["Étiquettes", "Modifie les quinze étiquettes : nom, icône, couleur."], ["Conditions d'XP", "Chaque condition a une catégorie (Participation, Travail, Comportement, Évaluation, Progression), une icône et une couleur. Une condition au montant négatif est un retrait : elle retire des XP et s'affiche en rouge, avec une trace « Retrait » dans l'historique. La limite par chapitre s'applique aussi aux retraits."], ["Accueil et tri", "Choisis le tri affiché à l'ouverture de l'accueil : par niveau, A–Z ou XP gagnés."], ["Roue rapide", "Dans Réglages, Personnalisation, choisis les actions des huit cartes : quatre en haut, quatre en bas. Une carte vide reste visible, en pointillé, et n'est pas cliquable. Actions possibles : une condition d'XP, un retrait d'XP, la présence (absent ou présent), l'oubli d'affaires, ou annuler la dernière action. Réinitialiser rétablit la configuration de départ, commune à toutes les classes."], ["Son du minuteur", "Choisis le son de fin de minuteur parmi quatre sons intégrés à l'appli : Bip, Cloche, Carillon et Tonalité douce. Touche un son pour l'écouter, puis choisis-le. Ce choix vaut pour tous les minuteurs. Tu peux aussi régler la puissance sonore, du niveau 1 (très doux) au niveau 5 (très fort)."], ["Formule du plan", "Choisis la formule du plan de classe, pour toutes les classes : la formule actuelle (îlots A à F) ou la formule personnalisée (tables, tableau, bureau, élèves placés librement). Îlots : les élèves sont rangés dans six groupes, A à F. Le bouton Max N, dans la barre du plan, règle le nombre maximum d'élèves par îlot pour toutes les classes ; un îlot qui dépasse la limite apparaît en rouge. Sans limite, le plan n'en impose aucune."], ["Apparence", "Choisis le style (Éducatif, Vero, Tu règles aussi le style au démarrage, le nom des styles, le nombre de colonnes et la couleur d'accentuation. Trois palettes sont proposées pour tous les styles : Pastel (par défaut), Vives et Métalliques. Une couleur de base, une couleur personnalisée au nuancier, ou un code hexa complètent le choix. Le choix d'accentuation se fait par style et s'enregistre sur cet appareil."], ["Classe d'essai", "Ajoute une classe fictive de 30 élèves avec un historique, pour essayer l'appli sans risque."], ["Synchronisation", "Sur claude.ai, les données se synchronisent avec ton compte. Sur le site GitHub, la synchronisation n'est pas disponible : l'appli reste locale."], ["Mes citations", "Ajoute tes propres citations pour le widget Citation : une par ligne, l'auteur après un tiret. Elles s'ajoutent à celles de l'appli."], ["Corbeille", "Un élève ou une classe supprimé part dans la corbeille, où il reste 7 ou 30 jours (au choix). Pendant ce délai, Restaurer le remet en place. Supprimer maintenant l'efface tout de suite. Après le délai, il disparaît définitivement."], ["Titre d'écran", "Une petite étiquette, dans la bannière de l'accueil ou de la classe, indique l'écran ou le mode où tu te trouves, par exemple « Écran : Classe « 5C » · Mode plan (îlots) ». Elle sert de repère pour signaler un problème."], ["Cartes et dépendances", "Réglages, Cartes et dépendances : toutes les cartes, par catégorie, en blocs de couleur. Touche une carte pour la modifier, ou Nouvelle carte pour en créer une. Pour chaque carte : le nom, le texte qui résume l'usage du bonus, la catégorie (liste déroulante), la couleur (pastille prédéfinie ou couleur libre), l'icône (liste ou image importée, recadrée en carré), les XP à dépenser, la ou les cartes nécessaires avant l'achat (OU ou ET), la ou les cartes débloquées après l'achat, et la case « Carte affichée » : une carte masquée disparaît de l'interface et ne peut plus être achetée. Une boucle est refusée. Une carte déjà obtenue par un élève ne peut pas être supprimée. Catégories : renomme-les, ajoute-en autant que tu veux, supprime celles qui sont vides. Les cartes sans catégorie reconnue vont dans « Autre ». Après l'enregistrement, un message indique la catégorie choisie."]]]];
 let tutoIdx = 0;
 function setTutoIdx(i) { tutoIdx = i; openSettingsPage('tuto'); }
 function tutoHTML() {
@@ -3544,7 +3496,7 @@ function pressWidgetBody(k, c, labels, full) {
     return `<div class="ccards">${last.map(x => {
       const nm = x.label.replace(/^Carte achetée : /, '').split(' (')[0], k = CARDS.find(q => q.n === nm) || {n: nm, i: 'tag', c: ''};
       const hex = CC[k.c] || '#6B7A99', ink = inkOn(hex), hh = x.t ? new Date(x.t).toLocaleTimeString('fr-FR', {hour: '2-digit', minute: '2-digit'}) : '';
-      return `<div class="ccard-w" style="background:${hex};color:${ink}"><span class="ccard-ic">${ico(k.i || 'tag')}</span><div class="ccard-t"><b>${esc(k.n)}</b><span>${esc(x.name)}</span></div><small>${hh}</small></div>`;
+      return `<div class="ccard-w" style="background:${hex};color:${ink}"><span class="ccard-ic">${cardIconHTML(k)}</span><div class="ccard-t"><b>${esc(k.n)}</b><span>${esc(x.name)}</span></div><small>${hh}</small></div>`;
     }).join('')}</div>`;
   }
   if (k === 'texte') { const q = qpool()[pressQuoteIdx % qpool().length], fs = quoteSize(q.t, full); return `<blockquote class="wq" style="font-size:${fs}px">${esc(q.t)}</blockquote><cite class="wa">${esc(q.a)}</cite><div class="wbtns"><button class="chip" aria-label="Réduire le texte" onclick="pressQuoteSize(-1)">A−</button><button class="chip" aria-label="Agrandir le texte" onclick="pressQuoteSize(1)">A+</button><button class="chip" onclick="pressNextQuote()">Autre citation</button></div>`; }
@@ -3879,6 +3831,7 @@ function openSettingsPage(page) {
     objectif: ['Objectif de classe', objectifHTML()],
     citations: ['Mes citations', citationsHTML()],
     corbeille: ['Corbeille', trashHTML()],
+    cartes: ['Cartes et dépendances', cardsPageHTML()],
     horaires: ['Emploi du temps', horairesHTML()],
     paliers: ['Paliers du chrono', paliersHTML()],
     demo: ["Classe d'essai", `<p class="muted" style="font-size:14px">Ajoute une classe fictive de 30 élèves avec 11 séances d'historique (XP, cartes, absences, retraits). Tu pourras la supprimer ensuite.</p>
