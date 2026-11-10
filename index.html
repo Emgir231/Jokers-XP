@@ -290,7 +290,8 @@ button.banner.banner,.banner.banner{border-radius:22px;background:var(--notice);
 .rt-size{display:inline-flex;align-items:center;gap:6px;font-weight:700}
 .rt-num{width:76px;padding:6px 8px;border-radius:12px;border:1px solid var(--line);font:inherit;background:var(--surface);color:var(--ink)}
 /* Une fenêtre ouverte depuis le plan plein écran passe devant lui (ordre d'empilement) */
-body:has(#fullpanel.on) .sheet, body:has(#fullpanel.on) .backdrop, body:has(#fullpanel.on) .pop, body:has(#fullpanel.on) .popbk{z-index:160}
+/* Fenêtres ouvertes depuis le plan plein écran : leur conteneur passe devant (les voiles et boîtes de dialogue restent dans l'ordre entre eux) */
+body:has(#fullpanel.on) #layer, body:has(#fullpanel.on) #dialog{position:relative;z-index:160}
 /* Texte personnalisé en plein écran : la zone de saisie occupe tout l'espace disponible */
 .pwidget.full .wbody{display:flex;flex-direction:column;flex:1;min-height:0}
 .pwidget.full .rt-bar{flex:none}
