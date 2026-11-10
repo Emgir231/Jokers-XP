@@ -306,6 +306,10 @@ body:has(#fullpanel.on) #layer, body:has(#fullpanel.on) #dialog{position:relativ
 .pzx{display:flex;flex-direction:column;gap:12px;min-height:0}
 .pzx>.pwidget{flex:1 1 0;min-height:0;overflow:hidden}
 .pzm .wcol, .pzr .wcol, .pzx .wcol{min-width:0}
+/* Carte trop chère : grisée mais cliquable, pour expliquer pourquoi */
+.btn.off{opacity:.45}
+/* Messages : toujours visibles, y compris au-dessus d'un écran plein écran */
+#toast{z-index:200}
 </style>
 </head>
 <body>
@@ -2619,7 +2623,7 @@ function openBuy(cid, sid) {
         const act = col === 'special' ? `openSpecial('${cid}','${sid}','${k.id}')` : `buyCard('${cid}','${sid}','${k.id}')`;
         const note = ci && ci.from ? `<small><b>${ci.price} XP</b> au lieu de ${ci.base} (remplace ${ci.lowers.map(x => esc((CARD_BY_ID[x.key] || {}).n || x.key)).join(' et ')})</small>` : '';
         return `<div class="inv ${col}"><span class="em">${cardIcon(k)}</span><div class="it">${esc(k.n)}<small>${esc(k.d)}</small>${note}</div>
-          <button class="btn" ${dis ? 'disabled' : ''} onclick="${act}">${ci ? ci.price + ' XP' : 'Choisir'}</button></div>`;
+          <button class="btn${dis ? ' off' : ''}" aria-disabled="${dis ? 'true' : 'false'}" onclick="${act}">${ci ? ci.price + ' XP' : 'Choisir'}</button></div>`;
       }).join('') + '</div>';
   };
   openSheet(`<h2>Acheter une carte</h2><p class="muted"><b>${esc(s.nom)}</b> ${esc(s.prenom)}, ${s.xp} XP disponibles</p>
@@ -2639,7 +2643,7 @@ function buyCard(cid, sid, kid) {
   const st = cardState(s, c, kid);
   if (st === 'lock') { buzz([50, 50, 50]); toast('Carte verrouillée : une carte préalable est manquante'); return; }
   if (st === 'retired') { buzz([50, 50, 50]); toast('Carte inutilisable : une carte suivante a déjà été obtenue'); return; }
-  if (s.xp < price) { buzz([50, 50, 50]); toast('XP insuffisants'); return; }
+  if (s.xp < price) { buzz([50, 50, 50]); toast(`XP insuffisants : il manque ${price - s.xp} XP pour ${s.prenom || s.nom}`); return; }
   const u = snapUndo([s]);
   giveCard(s, k, price, ci.lowers, c.chapter);
   done(`${k.n} pour ${s.prenom || s.nom} (−${price} XP)`, u);
