@@ -315,6 +315,22 @@ body:has(#fullpanel.on) #layer, body:has(#fullpanel.on) #dialog{position:relativ
 #presscreen .ptile span{font-size:calc(var(--tf) * .74);color:var(--soft)}
 #presscreen .ptile small{font-size:calc(var(--tf) * .8);font-weight:700}
 #presscreen .ptile.abs{opacity:.4;filter:grayscale(1)}
+
+/* ===== Widget Tirage au sort ===== */
+#presscreen .w-tirage .wdraw{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;cursor:pointer;user-select:none;-webkit-user-select:none;border-radius:16px}
+#presscreen .w-tirage .wdraw:active{background:var(--surface-2)}
+#presscreen .w-tirage .wdraw-name b{display:block;font-size:clamp(26px,3.6vw,52px);line-height:1.1}
+#presscreen .w-tirage .wdraw-name span{display:block;font-size:clamp(16px,2vw,28px);color:var(--soft);margin-top:4px}
+#presscreen .w-tirage .wdraw.spin .wdraw-name{opacity:.75}
+#presscreen .w-tirage .wdraw-hint{font-size:clamp(16px,1.8vw,22px);color:var(--soft)}
+#presscreen .w-tirage .wdraw-left{font-size:14px;color:var(--soft);font-weight:600}
+#presscreen .pwidget.full.w-tirage .wbody{padding:2vh 2vw;align-items:stretch;justify-content:stretch;text-align:left}
+#presscreen .w-tirage .wdraw-full{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:20px;flex:1;min-height:0;height:100%}
+#presscreen .w-tirage .wdraw-full .wdraw-name b{font-size:clamp(48px,7vw,120px)}
+#presscreen .w-tirage .wdraw-full .wdraw-name span{font-size:clamp(24px,3vw,48px)}
+#presscreen .w-tirage .wdraw-side{display:flex;flex-direction:column;gap:10px;min-height:0}
+#presscreen .w-tirage .wdraw-side p{font-size:14px;margin:0}
+#presscreen .w-tirage .wdraw-side .drawlist{flex:1;min-height:0;max-height:none;margin:0}
 </style>
 </head>
 <body>
@@ -1063,7 +1079,6 @@ function classHTML() {
       <button class="tool ${view.mode === 'import' ? 'on' : ''}" aria-label="Importer une liste d'élèves" onclick="enterMode('import','openImport','${c.id}')"><span class="e">${ico('tray')}</span>Import</button>
       <button class="tool ${view.mode === 'appel' ? 'on' : ''}" aria-label="Faire l'appel" onclick="enterMode('appel','openQuickCall','${c.id}')"><span class="e">${ico('check')}</span>Appel${nAbs ? ' ' + nAbs : ''}</button>
       <button class="tool ${view.mode === 'xp' ? 'on' : ''}" aria-label="XP pour toute la classe" onclick="enterMode('xp','openClassXP','${c.id}')"><span class="e">${ico('star')}</span>XP classe</button>
-      <button class="tool ${view.mode === 'tirage' ? 'on' : ''}" aria-label="Tirage au sort" onclick="enterMode('tirage','openDraw','${c.id}')"><span class="e">${ico('shuffle')}</span>Tirage</button>
       <button class="tool ${view.mode === 'histo' ? 'on' : ''}" aria-label="Historique de la classe" onclick="enterMode('histo','openHisto','${c.id}')"><span class="e">${ico('history')}</span>Histo</button>
       <button class="tool ${view.plan || view.cplan ? 'on' : ''}" aria-label="Plan de classe" onclick="startPlanAny()"><span class="e">${ico('grid')}</span>Plan</button></div>
     ${`    ${lastFabHTML(c)}
@@ -1449,10 +1464,10 @@ function closeSheet() {
   if (sh) sh.classList.add('out'); if (bk) bk.classList.add('out');
   setTimeout(() => { if (my === sheetSeq) L.innerHTML = ''; }, 560);
 }
-function confirmDialog(title, text, ok = 'Confirmer', danger = false) {
+function confirmDialog(title, text, ok = 'Confirmer', danger = false, cancel = 'Annuler') {
   return new Promise(res => {
     $('dialog').innerHTML = `<div class="backdrop dim"></div><div class="dlg" role="alertdialog"><h3>${esc(title)}</h3><p>${esc(text)}</p>
-      <div class="dbtns"><button class="btn" id="dn">Annuler</button><button class="btn ${danger ? 'danger' : 'primary'}" id="dy">${esc(ok)}</button></div></div>`;
+      <div class="dbtns"><button class="btn" id="dn">${esc(cancel)}</button><button class="btn ${danger ? 'danger' : 'primary'}" id="dy">${esc(ok)}</button></div></div>`;
     $('dn').onclick = () => { $('dialog').innerHTML = ''; res(false); };
     $('dy').onclick = () => { $('dialog').innerHTML = ''; res(true); };
   });
@@ -1615,8 +1630,11 @@ function ttPick(day, sid, wk) {
 
 /* ===================== NOUVEAUTÉS ===================== */
 /* Identifiant de la série de nouveautés : change à chaque nouvelle série */
-const NEWS_ID = 'news-2026-11-12-b';
+const NEWS_ID = 'news-2026-11-17-a';
 const NEWS_ITEMS = [
+  'Sauvegarde : en fusionnant une sauvegarde complète, l’emploi du temps et la date de la semaine Q1 sont repris si l’appareil n’en a pas ; s’ils sont différents, l’appli te demande lequel garder. Réglages : la page des horaires s’appelle désormais Horaires des créneaux.',
+  'Présentation : nouveau widget Tirage au sort. Touche le widget pour tirer un élève ; en plein écran, coche ou décoche les élèves et réinitialise les noms. Le bouton Tirage de l’écran de classe est retiré.',
+  'Sauvegarde : le menu … d’une classe permet d’exporter cette classe seule ou son bilan en tableau (CSV). La page Emploi du temps permet de l’exporter. Le bouton Fusionner une sauvegarde reconnaît ces fichiers. Réglages, Sauvegarde : bilan de toutes les classes en tableau.',
   'Présentation (iPad en paysage) : tous les élèves sont visibles dans des cases, avec prénom et nom. Touche une case pour ajouter ou retirer des XP. Le bouton Afficher l’XP, à côté de Réduire, montre l’XP des élèves ; il est masqué à chaque ouverture.',
   'Accueil : les boutons minuteur et présentation de l’en-tête sont retirés. La présentation s’ouvre depuis l’écran de chaque classe, avec le bouton en haut à droite.'
 ];
@@ -1740,6 +1758,8 @@ function openClassMenu(id) {
       <button class="btn" onclick="newChapter('${id}')">Passer au chapitre suivant</button>
       ${canUndoChapter(id) ? `<button class="btn" onclick="undoChapter('${id}')">Annuler le passage de chapitre</button>` : ''}
       <button class="btn" onclick="openExportPdf('${id}')">Exporter en PDF</button>
+      <button class="btn" onclick="exportClassFile('${id}')">Exporter la classe (fichier)</button>
+      <button class="btn" onclick="exportBilan('${id}')">Exporter le bilan (tableur)</button>
       <button class="btn danger-o" onclick="delClass('${id}')">Supprimer la classe</button></div>`);
 }
 let lastChapter = null;
@@ -3075,10 +3095,10 @@ function openSettings() {
     <section class="sblock" style="--cc:#3E9DA8"><h3 class="sbh">Widgets</h3>
     ${row(ico('star'), 'Objectif de classe', "Total d'XP visé : " + (state.objectif || 0), 'objectif')}
     ${row(ico('star'), 'Mes citations', parseQuotes(state.quotesRaw || '').length + ' ajoutée(s)', 'citations')}
-    ${row(ico('history'), 'Emploi du temps', 'Créneaux du chrono de séance', 'horaires')}    </section>`);
+    ${row(ico('history'), 'Horaires des créneaux', 'Heures de début et de fin, pour le chrono de séance', 'horaires')}    </section>`);
 }
 
-const TUTO = [["Accueil", [["Liste des classes", "Les classes sont groupées par niveau (5e, 4e, 3e). En haut, Total XP affiche le total de toutes les classes, sans la classe d'essai. Touche une carte pour ouvrir la classe. Sur la carte : le nom, le nombre d'élèves, le total d'XP, et une icône de siège quand le plan est fait. La présentation s'ouvre depuis l'écran de la classe, avec le bouton écran en haut à droite (voir la rubrique Classe). Le minuteur se trouve dans le widget Minuteur de la présentation. Une bannière jaune apparaît quand une sauvegarde est due : touche-la pour l'exporter."], ["Créer une classe", "Le bouton + crée une classe : nom, niveau, chapitre et professeur. Une classe peut aussi être dupliquée depuis son menu d'options."], ["Rechercher un élève", "La loupe, en haut à droite, cherche un élève dans toutes les classes à la fois. Tape au moins deux lettres, les accents sont ignorés. Touche un résultat : la classe s'ouvre sur la fiche de l'élève."], ["Réglages", "La roue dentée, en haut à droite, ouvre les réglages en cinq blocs : Données, Apparence, XP, Sons et Widgets."], ["Gestes", "Toucher : ouvrir ou choisir. Appui long (environ une seconde) : afficher un libellé, ou ouvrir la roue rapide sur un élève. Glisser : déplacer un élève dans le plan. Pincer à deux doigts : zoomer dans le plan ou la présentation. Toucher la croix : fermer une fenêtre ou un écran. Raccourci de style : touche cinq fois de suite une zone vide de l'accueil pour basculer sur le style Ubuntu ; recommence pour revenir au style précédent."]]], ["Classe", [["Barre des outils", "Une rangée d'icônes sous le podium : Élèves (retour à la liste), Import, Appel, XP classe, Tirage, Histo et Plan. Chaque icône ouvre son écran séparé, plein écran, fermé par la croix en haut à droite. Toucher à nouveau l'icône ferme l'écran. Un appui long affiche le nom de l'outil, sans l'ouvrir."], ["Podium", "Le top 5 de la classe, en barres de couleur : émeraude (1er), platine (2e), or (3e), argent (4e), bronze (5e). Les ex æquo sont tous affichés."], ["Liste des élèves", "Sur iPad, les élèves sont en vignettes : prénom en gros, XP en dessous, et une petite icône fille ou garçon si le genre est renseigné. Sur iPhone, une ligne par élève. Le tri par défaut est par nom de famille."], ["Gagner des XP", "Touche un élève : la grille de conditions s'ouvre en petite fenêtre au-dessus du menu. Touche une condition pour l'attribuer. La fenêtre reste ouverte pour enchaîner plusieurs gains. Un halo vert confirme le gain."], ["Retirer des XP", "Dans la fiche de l'élève, le bouton − XP ouvre une grille de retrait séparée, avec les conditions négatives et un montant libre (motif facultatif). Un halo rouge confirme le retrait."], ["Annuler", "Après un gain, un bouton Annuler apparaît pendant environ 6 secondes. Il annule le dernier gain seulement."], ["Fiche", "Le bouton Fiche de la grille ouvre la fiche de l'élève (voir la rubrique Élève)."], ["Bouton « Dernier élève »", "En bas à droite, il rappelle le dernier élève modifié (XP, absence ou fiche). Un appui ouvre sa fiche."], ["Plan", "Le bouton Plan ouvre le plan de la classe dans un écran séparé, plein écran, fermé par la croix. Le type de plan (îlots A à F, ou personnalisé) se règle dans Réglages, Apparence, Formule du plan. Les élèves non placés sont dans la zone Non placés, au-dessus des îlots. Sur le plan classique : Générer propose une répartition selon les équilibres d'XP, les binômes et la mixité ; rien n'est écrit avant Appliquer. La capacité maximale par îlot se règle avec le bouton Max."], ["Présentation", "Le bouton écran ouvre la présentation, en paysage sur iPad : le total d'XP et le nom de la classe en haut, puis les widgets. La zone des noms est à gauche : tous les élèves y apparaissent dans des cases (prénom et nom), dont la taille s'adapte à l'effectif. Touche une case pour choisir Ajouter ou Retirer des XP, avec tes conditions habituelles. Le bouton Afficher l'XP montre l'XP de chaque élève dans les cases ; l'XP est masqué à chaque ouverture de la présentation, et il est aussi caché dans les fenêtres Ajouter et Retirer tant qu'il est masqué. Le bouton Réduire replie la zone en une bande étroite (bouton Noms), et les six widgets se partagent alors l'écran. Elle se rouvre avec le même bouton. Chaque widget a un bouton Plein écran, qui masque la zone des noms. Le widget Texte personnalisé se met en forme en plein écran : police, taille en pixels, couleur, surlignage, souligné, barré. En vignette, il affiche un texte simple, tronqué avec … si besoin. Quitter ferme la présentation."], ["Options de la classe", "Le bouton « … » ouvre le menu : Genre des élèves (pinceau Fille, Garçon ou Effacer, puis un appui par élève), Genre et duos, Dupliquer la classe, passer au chapitre suivant, modifier ou supprimer la classe."], ["Étiquettes", "Le bouton Étiquettes de la liste filtre les élèves par étiquette ; un appui sur un élève l'attribue ou la retire."]]], ["Élève", [["Solde et total", "La fiche affiche les XP disponibles (ce que l'élève peut dépenser) et les XP gagnés au total. En haut, le récapitulatif Aujourd'hui donne le total des gains et des retraits du jour ; Actions du jour détaille chaque ligne."], ["+ XP et − XP", "Deux boutons côte à côte. + XP ouvre la grille de gain. − XP ouvre la grille de retrait. Les boutons + (vert) et − (rouge) gardent les mêmes couleurs dans tous les styles."], ["Carte", "Le bouton Carte ouvre la boutique des cartes : elles se paient en XP. Une carte verrouillée (prérequis manquant) ou inutilisable ne peut pas être achetée. Une carte masquée n'apparaît pas."], ["Cartes possédées et utilisées", "Les cartes obtenues apparaissent directement dans la fiche. Utilisée marque la carte comme jouée ; Remettre la rend à nouveau disponible ; le bouton d'annulation rembourse la carte."], ["Oubli d'affaires", "Bloque les gains d'XP pendant 1 heure. Le blocage peut être levé à tout moment."], ["Absent ou présent", "Marquer absent note l'absence du jour dans l'historique. Marquer présent l'annule."], ["Îlot, genre et duos", "Îlot : choisis la lettre de l'îlot (A à F) ou Aucun. Genre et duos : Fille, Garçon ou Non renseigné ; Toujours avec (un duo qui ne se sépare pas) ; Ne pas mettre avec (une liste à cocher, sans limite)."], ["Étiquettes", "Attribue une ou plusieurs étiquettes à l'élève, depuis la liste déroulante de la fiche."], ["Historique et notes", "Le bouton ouvre un écran séparé, plein écran, fermé par la croix : les notes diverses de l'élève et l'historique complet de ses gains, retraits, cartes et absences."], ["Modifier, corriger, supprimer", "Modifier change le nom, le prénom ou le genre. Corriger XP ajuste le solde avec un motif. Supprimer envoie l'élève à la corbeille, pendant 7 ou 30 jours selon le réglage."]]], ["Réglages", [["Données", "Sauvegarde et import : exporte un fichier JSON, ou importe-en un. Sauvegardes automatiques : copies gardées sur l'appareil. Corbeille : restaure ou supprime les élèves et classes supprimés. Classe d'essai : crée ou supprime une classe fictive pour tester, qui n'est pas comptée dans les totaux. Étiquettes des élèves. Synchronisation. Aide et tutoriel."], ["Apparence", "Style (Ubuntu ou Girly). Mode clair ou sombre, quand le style le propose : Girly est toujours clair. Couleur d'accentuation : une couleur personnalisée (nuancier ou code hexa), ou la couleur de base. La luminosité éclaircit ou assombrit cette couleur. Le texte des boutons s'adapte automatiquement pour rester lisible. Nombre de colonnes, image de fond. Formule du plan : îlots ou personnalisé. Modèle de plan : enregistrer, modifier, changer ou supprimer le modèle par défaut."], ["XP", "Conditions pour gagner des XP : nom, catégorie, icône, couleur, montant (négatif = retrait), limite par chapitre. Cartes et dépendances : créer ou modifier une carte (nom, texte d'usage, couleur, icône, XP, prérequis OU ou ET, cartes débloquées, affichée ou masquée), gérer les catégories. Roue rapide : les huit actions autour du doigt. Paliers du chrono : retraits automatiques au fil de la séance."], ["Sons", "Son du minuteur, son du tirage, alerte du chrono de séance, et niveau sonore. Chaque son se choisit parmi quatre ou plus, s'écoute avant d'être choisi, et sa puissance se règle de 1 à 5."], ["Widgets", "Objectif de classe (total d'XP visé), Mes citations (ajoute tes propres citations, une par ligne, l'auteur après un tiret), Emploi du temps (créneaux du chrono de séance)."]]]];
+const TUTO = [["Accueil", [["Liste des classes", "Les classes sont groupées par niveau (5e, 4e, 3e). En haut, Total XP affiche le total de toutes les classes, sans la classe d'essai. Touche une carte pour ouvrir la classe. Sur la carte : le nom, le nombre d'élèves, le total d'XP, et une icône de siège quand le plan est fait. La présentation s'ouvre depuis l'écran de la classe, avec le bouton écran en haut à droite (voir la rubrique Classe). Le minuteur se trouve dans le widget Minuteur de la présentation. Une bannière jaune apparaît quand une sauvegarde est due : touche-la pour l'exporter."], ["Créer une classe", "Le bouton + crée une classe : nom, niveau, chapitre et professeur. Une classe peut aussi être dupliquée depuis son menu d'options."], ["Rechercher un élève", "La loupe, en haut à droite, cherche un élève dans toutes les classes à la fois. Tape au moins deux lettres, les accents sont ignorés. Touche un résultat : la classe s'ouvre sur la fiche de l'élève."], ["Réglages", "La roue dentée, en haut à droite, ouvre les réglages en cinq blocs : Données, Apparence, XP, Sons et Widgets."], ["Gestes", "Toucher : ouvrir ou choisir. Appui long (environ une seconde) : afficher un libellé, ou ouvrir la roue rapide sur un élève. Glisser : déplacer un élève dans le plan. Pincer à deux doigts : zoomer dans le plan ou la présentation. Toucher la croix : fermer une fenêtre ou un écran. Raccourci de style : touche cinq fois de suite une zone vide de l'accueil pour basculer sur le style Ubuntu ; recommence pour revenir au style précédent."]]], ["Classe", [["Barre des outils", "Une rangée d'icônes sous le podium : Élèves (retour à la liste), Import, Appel, XP classe, Histo et Plan. Le tirage au sort se trouve dans le widget Tirage au sort de la présentation. Chaque icône ouvre son écran séparé, plein écran, fermé par la croix en haut à droite. Toucher à nouveau l'icône ferme l'écran. Un appui long affiche le nom de l'outil, sans l'ouvrir."], ["Podium", "Le top 5 de la classe, en barres de couleur : émeraude (1er), platine (2e), or (3e), argent (4e), bronze (5e). Les ex æquo sont tous affichés."], ["Liste des élèves", "Sur iPad, les élèves sont en vignettes : prénom en gros, XP en dessous, et une petite icône fille ou garçon si le genre est renseigné. Sur iPhone, une ligne par élève. Le tri par défaut est par nom de famille."], ["Gagner des XP", "Touche un élève : la grille de conditions s'ouvre en petite fenêtre au-dessus du menu. Touche une condition pour l'attribuer. La fenêtre reste ouverte pour enchaîner plusieurs gains. Un halo vert confirme le gain."], ["Retirer des XP", "Dans la fiche de l'élève, le bouton − XP ouvre une grille de retrait séparée, avec les conditions négatives et un montant libre (motif facultatif). Un halo rouge confirme le retrait."], ["Annuler", "Après un gain, un bouton Annuler apparaît pendant environ 6 secondes. Il annule le dernier gain seulement."], ["Fiche", "Le bouton Fiche de la grille ouvre la fiche de l'élève (voir la rubrique Élève)."], ["Bouton « Dernier élève »", "En bas à droite, il rappelle le dernier élève modifié (XP, absence ou fiche). Un appui ouvre sa fiche."], ["Plan", "Le bouton Plan ouvre le plan de la classe dans un écran séparé, plein écran, fermé par la croix. Le type de plan (îlots A à F, ou personnalisé) se règle dans Réglages, Apparence, Formule du plan. Les élèves non placés sont dans la zone Non placés, au-dessus des îlots. Sur le plan classique : Générer propose une répartition selon les équilibres d'XP, les binômes et la mixité ; rien n'est écrit avant Appliquer. La capacité maximale par îlot se règle avec le bouton Max."], ["Présentation", "Le bouton écran ouvre la présentation, en paysage sur iPad : le total d'XP et le nom de la classe en haut, puis les widgets. La zone des noms est à gauche : tous les élèves y apparaissent dans des cases (prénom et nom), dont la taille s'adapte à l'effectif. Touche une case pour choisir Ajouter ou Retirer des XP, avec tes conditions habituelles. Le bouton Afficher l'XP montre l'XP de chaque élève dans les cases ; l'XP est masqué à chaque ouverture de la présentation, et il est aussi caché dans les fenêtres Ajouter et Retirer tant qu'il est masqué. Le bouton Réduire replie la zone en une bande étroite (bouton Noms), et les six widgets se partagent alors l'écran. Elle se rouvre avec le même bouton. Chaque widget a un bouton Plein écran, qui masque la zone des noms. Widget Tirage au sort : en vignette, touche le widget pour tirer un élève ; le nom s'affiche en grand avec le nombre d'élèves restants. En plein écran, le nom tiré est à gauche (touche-le pour tirer à nouveau) et la liste des élèves à droite : coche ou décoche qui participe, les absents sont décochés par défaut, les élèves déjà tirés sont grisés, et Réinitialiser les noms remet tout le monde dans le tirage. Après une heure, l'appli demande si tu gardes les élèves déjà tirés. Le widget Texte personnalisé se met en forme en plein écran : police, taille en pixels, couleur, surlignage, souligné, barré. En vignette, il affiche un texte simple, tronqué avec … si besoin. Quitter ferme la présentation."], ["Options de la classe", "Le bouton « … » ouvre le menu : Genre des élèves (pinceau Fille, Garçon ou Effacer, puis un appui par élève), Genre et duos, Dupliquer la classe, passer au chapitre suivant, modifier ou supprimer la classe."], ["Étiquettes", "Le bouton Étiquettes de la liste filtre les élèves par étiquette ; un appui sur un élève l'attribue ou la retire."]]], ["Élève", [["Solde et total", "La fiche affiche les XP disponibles (ce que l'élève peut dépenser) et les XP gagnés au total. En haut, le récapitulatif Aujourd'hui donne le total des gains et des retraits du jour ; Actions du jour détaille chaque ligne."], ["+ XP et − XP", "Deux boutons côte à côte. + XP ouvre la grille de gain. − XP ouvre la grille de retrait. Les boutons + (vert) et − (rouge) gardent les mêmes couleurs dans tous les styles."], ["Carte", "Le bouton Carte ouvre la boutique des cartes : elles se paient en XP. Une carte verrouillée (prérequis manquant) ou inutilisable ne peut pas être achetée. Une carte masquée n'apparaît pas."], ["Cartes possédées et utilisées", "Les cartes obtenues apparaissent directement dans la fiche. Utilisée marque la carte comme jouée ; Remettre la rend à nouveau disponible ; le bouton d'annulation rembourse la carte."], ["Oubli d'affaires", "Bloque les gains d'XP pendant 1 heure. Le blocage peut être levé à tout moment."], ["Absent ou présent", "Marquer absent note l'absence du jour dans l'historique. Marquer présent l'annule."], ["Îlot, genre et duos", "Îlot : choisis la lettre de l'îlot (A à F) ou Aucun. Genre et duos : Fille, Garçon ou Non renseigné ; Toujours avec (un duo qui ne se sépare pas) ; Ne pas mettre avec (une liste à cocher, sans limite)."], ["Étiquettes", "Attribue une ou plusieurs étiquettes à l'élève, depuis la liste déroulante de la fiche."], ["Historique et notes", "Le bouton ouvre un écran séparé, plein écran, fermé par la croix : les notes diverses de l'élève et l'historique complet de ses gains, retraits, cartes et absences."], ["Modifier, corriger, supprimer", "Modifier change le nom, le prénom ou le genre. Corriger XP ajuste le solde avec un motif. Supprimer envoie l'élève à la corbeille, pendant 7 ou 30 jours selon le réglage."]]], ["Réglages", [["Données", "Sauvegarde et import : exporte un fichier JSON, ou importe-en un. Le bouton Fusionner une sauvegarde accepte aussi le fichier d'une seule classe (fusionnée si elle existe, ajoutée sinon) et celui d'un emploi du temps (qui remplace l'actuel). Quand tu fusionnes une sauvegarde complète, son emploi du temps (créneaux, semaines Q1 et Q2, date de départ, horaires) est repris si celui de l'appareil est vide ; s'il est différent, l'appli te demande lequel garder. Exporter le bilan de toutes les classes crée un tableau (CSV) avec une ligne par élève : classe, nom, prénom, solde, total, cartes. Le menu … d'une classe propose aussi Exporter la classe (fichier) et Exporter le bilan (tableur) pour cette classe seule ; la page Emploi du temps propose Exporter l'emploi du temps. Sauvegardes automatiques : copies gardées sur l'appareil. Corbeille : restaure ou supprime les élèves et classes supprimés. Classe d'essai : crée ou supprime une classe fictive pour tester, qui n'est pas comptée dans les totaux. Étiquettes des élèves. Synchronisation. Aide et tutoriel."], ["Apparence", "Style (Ubuntu ou Girly). Mode clair ou sombre, quand le style le propose : Girly est toujours clair. Couleur d'accentuation : une couleur personnalisée (nuancier ou code hexa), ou la couleur de base. La luminosité éclaircit ou assombrit cette couleur. Le texte des boutons s'adapte automatiquement pour rester lisible. Nombre de colonnes, image de fond. Formule du plan : îlots ou personnalisé. Modèle de plan : enregistrer, modifier, changer ou supprimer le modèle par défaut."], ["XP", "Conditions pour gagner des XP : nom, catégorie, icône, couleur, montant (négatif = retrait), limite par chapitre. Cartes et dépendances : créer ou modifier une carte (nom, texte d'usage, couleur, icône, XP, prérequis OU ou ET, cartes débloquées, affichée ou masquée), gérer les catégories. Roue rapide : les huit actions autour du doigt. Paliers du chrono : retraits automatiques au fil de la séance."], ["Sons", "Son du minuteur, son du tirage, alerte du chrono de séance, et niveau sonore. Chaque son se choisit parmi quatre ou plus, s'écoute avant d'être choisi, et sa puissance se règle de 1 à 5."], ["Widgets", "Objectif de classe (total d'XP visé), Mes citations (ajoute tes propres citations, une par ligne, l'auteur après un tiret), Horaires des créneaux (heures de début et de fin, pour le chrono de séance)."]]]];
 let tutoIdx = 0;
 function setTutoIdx(i) { tutoIdx = i; openSettingsPage('tuto'); }
 function tutoHTML() {
@@ -3245,71 +3265,64 @@ function drawSave() {
   if (!drawSt.drawn.length) { lsSet(drawKey(drawSt.cid), null); return; }
   lsSet(drawKey(drawSt.cid), JSON.stringify({drawn: drawSt.drawn, startedAt: drawSt.startedAt, askedHour: drawSt.askedHour}));
 }
-function openDraw(cid) {
-  if (!drawSt || drawSt.cid !== cid) drawSt = drawLoad(cid);
-  drawPrep();
-}
-function drawToggle(sid, on) {
-  drawSt.off = on ? drawSt.off.filter(id => id !== sid) : [...drawSt.off, sid];
-  drawPrep();
-}
-function drawPrep() {
-  const c = getClass(drawSt.cid), pool = drawPool();
-  const rows = c.students.map(x => {
-    const drawnAlready = drawSt.drawn.includes(x.id);
-    const checked = !drawSt.off.includes(x.id) && !drawnAlready;
-    return `<label class="drawrow ${drawnAlready ? 'done' : ''}"><input type="checkbox" ${checked ? 'checked' : ''} ${drawnAlready ? 'disabled' : ''} onchange="drawToggle('${x.id}', this.checked)"><span>${esc(x.prenom || '')} <b>${esc(x.nom)}</b></span>${isAbsent(x) ? '<small>absent</small>' : ''}${drawnAlready ? '<small>déjà tiré</small>' : ''}</label>`;
+/* ===== Widget Tirage au sort (présentation) : même mémoire par classe que l'ancien tirage ===== */
+function wdrawSt() { if (!drawSt || drawSt.cid !== pressCid) drawSt = drawLoad(pressCid); return drawSt; }
+function wdrawNameHTML(st) { return st ? `<b>${esc(st.prenom || st.nom)}</b>${st.prenom ? `<span>${esc(st.nom)}</span>` : ''}` : ''; }
+function wdrawBody(c, full) {
+  const d = wdrawSt(), pool = drawPool(), n = pool.length;
+  const last = d.last ? getStudent(c, d.last) : null;
+  const left = `<div class="wdraw-left">${n} élève${n > 1 ? 's' : ''} restant${n > 1 ? 's' : ''}</div>`;
+  const zone = !c.students.length
+    ? `<div class="wdraw"><div class="wdraw-hint">Aucun élève dans cette classe.</div></div>`
+    : n
+      ? `<div class="wdraw" role="button" aria-label="Tirer au sort" onclick="wdrawGo()"><div class="wdraw-name">${last ? wdrawNameHTML(last) : '<div class="wdraw-hint">Touche pour tirer au sort</div>'}</div>${left}</div>`
+      : d.drawn.length
+        ? `<div class="wdraw"><div class="wdraw-name">${last ? wdrawNameHTML(last) : ''}</div><div class="wdraw-hint">Plus personne à tirer.</div><button class="chip on" onclick="wdrawReset()">Recommencer</button></div>`
+        : `<div class="wdraw"><div class="wdraw-hint">Aucun élève coché pour le tirage.${full ? '' : ' Ouvre le plein écran pour en cocher.'}</div></div>`;
+  if (!full) return zone;
+  const rows = c.students.slice().sort((x, y) => (x.nom || '').localeCompare(y.nom || '', 'fr') || (x.prenom || '').localeCompare(y.prenom || '', 'fr')).map(x => {
+    const done = d.drawn.includes(x.id), on = !d.off.includes(x.id) && !done;
+    return `<label class="drawrow ${done ? 'done' : ''}"><input type="checkbox" ${on ? 'checked' : ''} ${done ? 'disabled' : ''} onchange="wdrawToggle('${x.id}', this.checked)"><span>${esc(x.prenom || '')} <b>${esc(x.nom)}</b></span>${isAbsent(x) ? '<small>absent</small>' : ''}${done ? '<small>déjà tiré</small>' : ''}</label>`;
   }).join('');
-  openSheet(`<div class="shead"><b>Tirage au sort</b></div>
-    <p class="muted" style="font-size:14px">${pool.length} élève${pool.length > 1 ? 's' : ''} dans le tirage. Les absents sont décochés par défaut ; décoche ou recoche qui tu veux.</p>
-    <div class="drawlist">${rows}</div>
-    <div class="drawbtns"><button class="btn primary wide" ${pool.length ? '' : 'disabled'} onclick="drawGo()">Tirer au sort</button>${drawSt.drawn.length ? '<button class="btn wide" onclick="drawReset()">Réinitialiser les noms</button>' : ''}</div>`);
+  return `<div class="wdraw-full">${zone}<div class="wdraw-side"><p class="muted">Coche les élèves à inclure dans le tirage. Les absents sont décochés par défaut.</p><div class="drawlist">${rows}</div>
+    <button class="btn wide" ${d.drawn.length ? '' : 'disabled'} onclick="wdrawReset()">Réinitialiser les noms</button></div></div>`;
 }
-function drawGo() {
-  if (drawBusy) return;
-  const pool = drawPool();
-  if (!pool.length) { drawEmpty(); return; }
-  if (drawSt.drawn.length && drawSt.startedAt && !drawSt.askedHour && Date.now() - drawSt.startedAt >= DRAW_HOUR) { drawAskHour(); return; }
+function wdrawToggle(sid, on) { const d = wdrawSt(); d.off = on ? d.off.filter(id => id !== sid) : [...d.off, sid]; renderPress(); }
+function wdrawReset() { const d = wdrawSt(); d.drawn = []; d.last = null; d.startedAt = 0; d.askedHour = false; drawSave(); closeSheet(); renderPress(); }
+function wdrawKeep() { const d = wdrawSt(); d.askedHour = true; drawSave(); closeSheet(); wdrawGo(); }
+/* Plus d'une heure après le début du tirage : garder les élèves tirés ou tout réinitialiser */
+function wdrawAskHour() {
+  openSheet(`<h2>Tirage au sort</h2>
+    <p class="muted" style="font-size:14px">Le tirage a commencé il y a plus d'une heure. Que veux-tu faire des élèves déjà tirés ?</p>
+    <div class="drawbtns"><button class="btn primary wide" onclick="wdrawKeep()">Garder les élèves tirés (ils restent exclus)</button><button class="btn wide" onclick="wdrawReset()">Réinitialiser les noms</button></div>`);
+  markSmall();
+}
+function wdrawGo() {
+  if (drawBusy || !pressCid) return;
+  const d = wdrawSt(), pool = drawPool();
+  if (!pool.length) { renderPress(); return; }
+  if (d.drawn.length && d.startedAt && !d.askedHour && Date.now() - d.startedAt >= DRAW_HOUR) { wdrawAskHour(); return; }
   drawBusy = true;
-  const c = getClass(drawSt.cid);
   const pick = pool[Math.floor(Math.random() * pool.length)];
-  const box = `<div class="drawbox" id="drawbox"></div>`;
-  openSheet(`<div class="shead"><b>Tirage au sort</b></div>${box}<div class="drawbtns" id="drawbtns"></div>`);
-  const cardFor = s => `<div class="ccard drawcard"><div class="cname">${esc(s.prenom || '')} ${esc(s.nom)}</div><div class="cmeta">${esc(c.name)}</div></div>`;
-  const names = c.students;
-  let i = 0, delay = 60, steps = 16 + Math.floor(Math.random() * 6);
+  const show = st => document.querySelectorAll('#presscreen .wdraw-name').forEach(el => { el.innerHTML = wdrawNameHTML(st); });
+  document.querySelectorAll('#presscreen .wdraw').forEach(el => el.classList.add('spin'));
+  let i = Math.floor(Math.random() * pool.length), delay = 60, step = 0;
+  const steps = 16 + Math.floor(Math.random() * 6);
   startWheelSpin();
   const spin = () => {
-    const el = $('drawbox'); if (!el) { drawBusy = false; stopWheelSpin(); return; }
-    if (i < steps) {
-      el.innerHTML = cardFor(names[i % names.length]);
-      i++; delay = Math.min(260, delay * 1.12); setWheelSpinGap(delay);
+    if (!pressCid || !document.querySelector('#presscreen .wdraw-name')) { drawBusy = false; stopWheelSpin(); return; }
+    if (step < steps) {
+      show(pool[i % pool.length]); i++; step++;
+      delay = Math.min(260, delay * 1.12); setWheelSpinGap(delay);
       setTimeout(spin, delay);
     } else {
-      el.innerHTML = cardFor(pick);
       stopWheelSpin(); playDrawSound(drawSoundId());
-      drawSt.drawn.push(pick.id); drawSt.last = pick.id; drawBusy = false;
-      if (!drawSt.startedAt) drawSt.startedAt = Date.now();
-      drawSave();
-      const left = drawPool().length;
-      $('drawbtns').innerHTML = `<button class="btn primary wide" ${left ? '' : 'disabled'} onclick="drawGo()">Tirer un autre</button><button class="btn wide" onclick="drawPrep()">Retour à la liste</button>`;
+      d.drawn.push(pick.id); d.last = pick.id; if (!d.startedAt) d.startedAt = Date.now();
+      drawSave(); drawBusy = false; renderPress();
     }
   };
   spin();
 }
-function drawEmpty() {
-  openSheet(`<div class="shead"><b>Tirage au sort</b></div>
-    <div class="drawbox"><div class="drawend">Plus personne à tirer.</div></div>
-    <div class="drawbtns"><button class="btn primary wide" onclick="drawReset()">Recommencer</button><button class="btn wide" onclick="drawPrep()">Retour à la liste</button></div>`);
-}
-function drawReset() { drawSt.drawn = []; drawSt.last = null; drawSt.startedAt = 0; drawSt.askedHour = false; drawSave(); drawPrep(); }
-/* Plus d'une heure après le début du tirage : proposer de garder les élèves tirés ou de tout réinitialiser */
-function drawAskHour() {
-  openSheet(`<div class="shead"><b>Tirage au sort</b></div>
-    <p class="muted" style="font-size:14px">Le tirage a commencé il y a plus d'une heure. Que veux-tu faire des élèves déjà tirés ?</p>
-    <div class="drawbtns"><button class="btn primary wide" onclick="drawKeep()">Garder les élèves tirés (ils restent exclus)</button><button class="btn wide" onclick="drawReset()">Réinitialiser les noms</button></div>`);
-}
-function drawKeep() { drawSt.askedHour = true; drawSave(); drawGo(); }
 
 /* ===================== PLAN PERSONNALISÉ ===================== */
 const CP_W = 1000, CP_H = 750, CP_MIN = 50, CP_STEP = 50;
@@ -3680,7 +3693,7 @@ document.addEventListener('visibilitychange', () => { if (document.visibilitySta
 /* ===================== WIDGETS DE PRÉSENTATION ===================== */
 const QUOTES_BASE = [{"t": "Apprendre sans réfléchir mène à l'égarement ; réfléchir sans apprendre mène à l'épuisement.", "a": "Confucius, Entretiens"}, {"t": "Apprendre sans se lasser, enseigner sans se lasser.", "a": "Confucius, Entretiens"}, {"t": "Mieux vaut une tête bien faite que bien pleine.", "a": "Montaigne, Essais"}, {"t": "Aide-moi à faire seul.", "a": "Maria Montessori"}, {"t": "Le hasard ne favorise que les esprits préparés.", "a": "Louis Pasteur"}, {"t": "La vie est brève, l'art est long.", "a": "Hippocrate, Aphorismes"}, {"t": "Le commencement est la partie la plus importante de toute œuvre.", "a": "Platon, La République"}, {"t": "Nous sommes comme des nains juchés sur les épaules de géants.", "a": "Bernard de Chartres, cité par Jean de Salisbury"}, {"t": "Si j'ai vu plus loin, c'est en me tenant sur les épaules de géants.", "a": "Isaac Newton, lettre à Robert Hooke"}, {"t": "L'imagination est plus importante que le savoir.", "a": "Albert Einstein"}, {"t": "La chose la plus importante est de ne jamais cesser de se poser des questions.", "a": "Albert Einstein (attribuée)"}, {"t": "La vie, c'est comme une bicyclette : pour garder l'équilibre, il faut avancer.", "a": "Albert Einstein (attribuée)"}, {"t": "L'éducation est l'arme la plus puissante que l'on puisse utiliser pour changer le monde.", "a": "Nelson Mandela (attribuée)"}, {"t": "Je ne perds jamais : soit je gagne, soit j'apprends.", "a": "Nelson Mandela (attribuée)"}, {"t": "Quand tu sais mieux, tu fais mieux.", "a": "Maya Angelou (attribuée)"}, {"t": "Dans la vie, rien n'est à craindre, tout est à comprendre.", "a": "Marie Curie (attribuée)"}, {"t": "Ouvrir une école, c'est fermer une prison.", "a": "Victor Hugo (attribuée)"}, {"t": "Un investissement dans la connaissance rapporte toujours les meilleurs intérêts.", "a": "Benjamin Franklin (attribuée)"}, {"t": "Je n'ai jamais laissé l'école interférer avec mon éducation.", "a": "Mark Twain (attribuée)"}, {"t": "Éduquer l'esprit sans éduquer le cœur n'est pas une éducation du tout.", "a": "Aristote (attribuée)"}, {"t": "Je sais que je ne sais rien.", "a": "Socrate, rapporté par Platon (Apologie)"}, {"t": "Une vie sans examen ne vaut pas la peine d'être vécue.", "a": "Socrate, rapporté par Platon (Apologie)"}, {"t": "La patience est amère, mais son fruit est doux.", "a": "Jean-Jacques Rousseau (attribuée)"}, {"t": "Rien ne sert de courir ; il faut partir à point.", "a": "Jean de La Fontaine, Le Lièvre et la Tortue"}, {"t": "Patience et longueur de temps font plus que force ni que rage.", "a": "Jean de La Fontaine, Fables"}, {"t": "Tomber sept fois, se relever huit.", "a": "Proverbe japonais"}, {"t": "Petit à petit, l'oiseau fait son nid.", "a": "Proverbe français"}, {"t": "Qui veut aller loin ménage sa monture.", "a": "Proverbe français"}, {"t": "Qui ne tente rien n'a rien.", "a": "Proverbe français"}, {"t": "Rome ne s'est pas faite en un jour.", "a": "Proverbe français"}, {"t": "Mieux vaut tard que jamais.", "a": "Proverbe français"}, {"t": "Chaque expert a d'abord été débutant.", "a": "Proverbe"}, {"t": "Répéter est la mère des études.", "a": "Proverbe latin, repetitio est mater studiorum"}, {"t": "La mémoire est le trésor de toutes choses.", "a": "Cicéron (attribuée)"}, {"t": "L'expérience est le nom que chacun donne à ses erreurs.", "a": "Oscar Wilde, Lady Windermere's Fan"}, {"t": "Un voyage de mille lieues commence par un pas.", "a": "Lao Tseu, Tao Te King"}, {"t": "Connaître les autres, c'est l'intelligence ; se connaître soi-même, c'est la sagesse.", "a": "Lao Tseu, Tao Te King"}, {"t": "Ce n'est pas parce que les choses sont difficiles que nous n'osons pas ; c'est parce que nous n'osons pas qu'elles sont difficiles.", "a": "Sénèque (attribuée)"}, {"t": "J'ai manqué plus de 9 000 tirs dans ma carrière. J'ai perdu presque 300 matchs. Vingt-six fois, on m'a fait confiance pour le tir de la victoire, et je l'ai raté. J'ai échoué encore et encore dans ma vie. C'est pour ça que je réussis.", "a": "Michael Jordan, publicité Nike, 1997 (vérifié)"}, {"t": "Je n'ai pas échoué. J'ai simplement trouvé dix mille façons qui ne fonctionnent pas.", "a": "Thomas Edison (attribuée)"}, {"t": "La vie est soit une aventure audacieuse, soit rien.", "a": "Helen Keller (attribuée)"}, {"t": "Seuls, nous pouvons si peu ; ensemble, nous pouvons beaucoup.", "a": "Helen Keller (attribuée)"}, {"t": "L'important n'est pas de gagner, mais de bien combattre.", "a": "Pierre de Coubertin (attribuée)"}, {"t": "Fais chaque jour une chose qui te fait peur.", "a": "Eleanor Roosevelt (attribuée)"}, {"t": "Tout ce qu'un homme peut imaginer, d'autres hommes pourront le réaliser.", "a": "Jules Verne (attribuée)"}, {"t": "Tous nos rêves peuvent devenir réalité si nous avons le courage de les poursuivre.", "a": "Walt Disney (attribuée)"}, {"t": "Si tu veux construire un bateau, ne commence pas par rassembler du bois : donne aux hommes le goût de la mer.", "a": "Antoine de Saint-Exupéry (attribuée, paraphrase)"}, {"t": "On ne naît pas savant, on le devient.", "a": "Proverbe"}];
 let pressQuoteIdx = 0;
-const WIDGET_KINDS = [['vide', 'Vide'], ['minuteur', 'Minuteur'], ['plan', 'Plan (lecture seule)'], ['texte', 'Citation'], ['top5', 'Top 5'], ['seance', 'Fin de séance'], ['dissip', 'Chrono de dissipation'], ['sonore', 'Niveau sonore'], ['objectif', 'Objectif de classe'], ['consigne', 'Texte personnalisé'], ['cartes', 'Cartes obtenues']];
+const WIDGET_KINDS = [['vide', 'Vide'], ['minuteur', 'Minuteur'], ['plan', 'Plan (lecture seule)'], ['texte', 'Citation'], ['top5', 'Top 5'], ['seance', 'Fin de séance'], ['dissip', 'Chrono de dissipation'], ['sonore', 'Niveau sonore'], ['objectif', 'Objectif de classe'], ['consigne', 'Texte personnalisé'], ['cartes', 'Cartes obtenues'], ['tirage', 'Tirage au sort']];
 const PRESS_DEFAULT = ['minuteur', 'plan', 'top5', 'texte', 'sonore', 'cartes'];
 function pressWidgetKinds() { const w = (state.pressWidgets && state.pressWidgets.length >= 4) ? state.pressWidgets.slice(0, 6) : PRESS_DEFAULT.slice(); while (w.length < 6) w.push(PRESS_DEFAULT[w.length]); return w.map(k => k === 'chrono' ? 'dissip' : k); }
 function pressTop5List(c, labels) {
@@ -3777,6 +3790,7 @@ function pressPlanSVG(c) {
 }
 function pressWidgetBody(k, c, labels, full) {
   if (k === 'minuteur') return pressTimerBody();
+  if (k === 'tirage') return wdrawBody(c, full);
   if (k === 'plan') return `<div class="wplanbox">${pressPlanSVG(c)}</div>`;
   if (k === 'top5') return pressTop5List(c, labels);
   if (k === 'seance') { const i = seanceInfo(new Date()); return `<div class="wt" id="seance-disp">${i ? fmtClock(i.sec * 1000) : '--:--'}</div><div class="wa" id="seance-msg">${i ? 'Fin de ' + i.slot.id + ' à ' + i.end.replace(':', ' h ') : 'Pas de cours en ce moment'}</div>`; }
@@ -4184,6 +4198,8 @@ function openSettingsPage(page) {
       <div class="two" style="grid-template-columns:1fr 1fr;margin-top:12px"><button class="btn primary" onclick="exportData()">Exporter</button>
         <button class="btn" onclick="document.getElementById('merge-file').click()">Fusionner une sauvegarde</button></div>
       <p class="muted" style="font-size:13px;margin-top:8px">Fusionner garde le plus complet : tous les événements d'historique, et la décision de plan la plus récente. Les réglages restent ceux de cet appareil.</p>
+      <p class="muted" style="font-size:13px;margin-top:6px">Ce bouton accepte aussi le fichier d'une seule classe (fusionnée si elle existe, ajoutée sinon) et le fichier d'un emploi du temps (qui remplace l'actuel).</p>
+      <button class="btn wide" style="margin-top:10px" onclick="exportBilan()">Exporter le bilan de toutes les classes (tableur)</button>
       <details style="margin-top:10px"><summary class="muted" style="font-size:14px">Remplacer toutes les données par une sauvegarde (risqué)</summary>
         <button class="btn" style="margin-top:8px" onclick="document.getElementById('imp-file').click()">Remplacer par une sauvegarde</button></details>
       <input type="file" id="imp-file" accept=".json,application/json" style="display:none" onchange="importData(this)">
@@ -4209,9 +4225,10 @@ function openSettingsPage(page) {
     objectif: ['Objectif de classe', objectifHTML()],
     citations: ['Mes citations', citationsHTML()],
     corbeille: ['Corbeille', trashHTML()],
-    edt: ['Emploi du temps', ttPageHTML()],
+    edt: ['Emploi du temps', ttPageHTML() + `<button class="btn primary wide" style="margin-top:14px" onclick="exportTTFile()">Exporter l'emploi du temps</button>
+      <p class="muted" style="font-size:13px;margin-top:6px">Le fichier contient les créneaux, les semaines Q1 et Q2, la date de référence et les horaires. Pour l'importer : Réglages, Sauvegarde, Fusionner une sauvegarde.</p>`],
     cartes: ['Cartes et dépendances', cardsPageHTML()],
-    horaires: ['Emploi du temps', horairesHTML()],
+    horaires: ['Horaires des créneaux', horairesHTML()],
     paliers: ['Paliers du chrono', paliersHTML()],
     demo: ["Classe d'essai", `<p class="muted" style="font-size:14px">Ajoute une classe fictive de 30 élèves avec 11 séances d'historique (XP, cartes, absences, retraits). Tu pourras la supprimer ensuite.</p>
       <button class="btn wide" style="margin-top:10px" onclick="addDemoClass()">Ajouter une classe d'essai</button>`]
@@ -4326,6 +4343,107 @@ async function exportData() {
   }
   state.lastExport = Date.now(); save(); toast('Sauvegarde exportée'); openSettingsPage('backup');
 }
+/* ============ Exports partiels (une classe, emploi du temps) et bilan tableur ============ */
+const fileDay = () => new Date().toISOString().slice(0, 10);
+const fileSafe = t => String(t || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^A-Za-z0-9-]+/g, '-').replace(/^-+|-+$/g, '') || 'classe';
+/* Enregistre un fichier : capacité « downloads » (page publiée), sinon partage iOS, sinon téléchargement */
+async function saveFileOut(name, data, mime, title) {
+  let dl = null;
+  try { dl = window.claude ? await window.claude.use('downloads') : null; } catch (e) { dl = null; }
+  if (dl) {
+    try { await dl.save({filename:name, data}); return true; }
+    catch (e) { if (e && e.code === 'declined') return false; toast("L'export n'est pas disponible ici"); return false; }
+  }
+  const file = new File([data], name, {type:mime});
+  try {
+    if (navigator.canShare && navigator.canShare({files:[file]})) await navigator.share({files:[file], title});
+    else downloadFile(file);
+  } catch (e) {
+    if (e && e.name === 'AbortError') return false;
+    toast('Export impossible ici'); return false;
+  }
+  return true;
+}
+async function exportClassFile(cid) {
+  const c = getClass(cid); if (!c) return;
+  const tagIds = new Set(c.students.flatMap(st => st.tags || []));
+  const cardIds = new Set(c.students.flatMap(st => (st.cards || []).map(x => x.key)));
+  const d = {type:'jokers-classe', version:1, exportedAt:new Date().toISOString(), classe:clone(c),
+    tagDefs:(state.tagDefs || []).filter(t => tagIds.has(t.id)).map(clone),
+    customCards:(state.customCards || []).filter(k => cardIds.has(k.id)).map(clone)};
+  if (await saveFileOut(`jokers-xp-classe-${fileSafe(c.name)}-${fileDay()}.json`, JSON.stringify(d, null, 1), 'application/json', 'Classe ' + c.name)) toast('Classe exportée');
+}
+async function exportTTFile() {
+  const tt = clone(ttInit());
+  const used = new Set(Object.values(tt.cells || {}).flatMap(x => [x && x.q1, x && x.q2]).filter(Boolean));
+  const d = {type:'jokers-edt', version:1, exportedAt:new Date().toISOString(), tt,
+    schedule:state.schedule && state.schedule.length ? clone(state.schedule) : null,
+    classes:state.classes.filter(c => used.has(c.id)).map(c => ({id:c.id, name:c.name}))};
+  if (await saveFileOut(`jokers-xp-emploi-du-temps-${fileDay()}.json`, JSON.stringify(d, null, 1), 'application/json', 'Emploi du temps')) toast('Emploi du temps exporté');
+}
+async function importClassFile(d) {
+  const cl = d.classe;
+  if (!cl || !cl.id || !Array.isArray(cl.students)) { toast("Ce fichier de classe n'est pas valide"); return; }
+  const exists = state.classes.some(c => c.id === cl.id);
+  const n = cl.students.length;
+  const ok = await confirmDialog(exists ? `Fusionner la classe ${cl.name} ?` : `Ajouter la classe ${cl.name} ?`,
+    exists ? `La classe ${cl.name} existe déjà : l'historique des deux versions est réuni sans doublon, le solde est recalculé, et le plan et le texte personnalisé les plus récents sont gardés. Les élèves présents seulement dans le fichier sont ajoutés.`
+           : `Le fichier contient ${n} élève${n > 1 ? 's' : ''}. La classe sera ajoutée à tes classes.`,
+    exists ? 'Fusionner' : 'Ajouter', false);
+  if (!ok) return;
+  state.tagDefs = state.tagDefs || [];
+  (d.tagDefs || []).forEach(t => { if (t && t.id && !state.tagDefs.some(x => x.id === t.id)) state.tagDefs.push(clone(t)); });
+  state.customCards = state.customCards || [];
+  (d.customCards || []).forEach(k => { if (k && k.id && !state.customCards.some(x => x.id === k.id)) state.customCards.push(clone(k)); });
+  try { mergeCustomCards(); } catch (e) {}
+  const m = mergeStates(state, {classes:[cl]});
+  state = m.state; normClasses(state); if (!state.conditions) state.conditions = clone(DEFAULT_CONDITIONS);
+  view = {name:'home'}; ensureTones(); if (!state.homeSort) state.homeSort = 'level';
+  done(exists ? `Classe ${cl.name} fusionnée` : `Classe ${cl.name} ajoutée`);
+}
+async function importTTFile(d) {
+  if (!d.tt || typeof d.tt !== 'object') { toast("Ce fichier d'emploi du temps n'est pas valide"); return; }
+  const tt = clone(d.tt); tt.cells = tt.cells || {};
+  const fileNames = new Map((d.classes || []).map(x => [x.id, x.name]));
+  const byNm = new Map(state.classes.map(c => [norm(c.name), c.id]));
+  const missing = new Set();
+  const mapId = id => {
+    if (!id) return null;
+    if (state.classes.some(c => c.id === id)) return id;
+    const nm = fileNames.get(id); const found = nm ? byNm.get(norm(nm)) : null;
+    if (found) return found;
+    missing.add(nm || 'classe inconnue'); return null;
+  };
+  Object.values(tt.cells).forEach(x => { if (x && typeof x === 'object') { x.q1 = mapId(x.q1); x.q2 = mapId(x.q2); } });
+  const miss = [...missing];
+  const ok = await confirmDialog("Remplacer l'emploi du temps ?",
+    "L'emploi du temps actuel (créneaux, semaines Q1 et Q2, date de référence, horaires) sera remplacé par celui du fichier." +
+    (miss.length ? ` Classes introuvables sur cet appareil, leurs créneaux resteront vides : ${miss.join(', ')}.` : ''),
+    'Remplacer', true);
+  if (!ok) return;
+  state.tt = tt;
+  if (Array.isArray(d.schedule) && d.schedule.length) state.schedule = clone(d.schedule); else delete state.schedule;
+  save(); toast(miss.length ? 'Emploi du temps importé, avec des créneaux vides' : 'Emploi du temps importé');
+  openSettingsPage('edt');
+}
+/* Bilan tableur : une ligne par élève (séparateur point-virgule, accents conservés) */
+function csvCell(v) { const t = String(v == null ? '' : v); return /[;"\r\n]/.test(t) ? `"${t.replace(/"/g, '""')}"` : t; }
+function bilanCSV(classes) {
+  const rows = [['Classe', 'Nom', 'Prénom', 'Solde XP', 'Total XP', 'Nombre de cartes', 'Cartes possédées']];
+  classes.slice().sort(byName).forEach(c => {
+    c.students.slice().sort((a, b) => (a.nom || '').localeCompare(b.nom || '', 'fr') || (a.prenom || '').localeCompare(b.prenom || '', 'fr')).forEach(st => {
+      const cards = (st.cards || []).map(x => { const k = CARD_BY_ID[x.key]; return (k ? k.n : x.key) + (x.used ? ' (utilisée)' : ''); });
+      rows.push([c.name, st.nom, st.prenom, st.xp || 0, st.total || 0, cards.length, cards.join(', ')]);
+    });
+  });
+  return '\uFEFF' + rows.map(r => r.map(csvCell).join(';')).join('\r\n') + '\r\n';
+}
+async function exportBilan(cid) {
+  const list = cid ? [getClass(cid)].filter(Boolean) : realClasses();
+  if (!list.length) { toast('Aucune classe à exporter'); return; }
+  const name = `jokers-xp-bilan-${cid ? fileSafe(list[0].name) : 'toutes-les-classes'}-${fileDay()}.csv`;
+  if (await saveFileOut(name, bilanCSV(list), 'text/csv', 'Bilan Jokers XP')) toast('Bilan exporté');
+}
 /* ============ Fusion de deux sauvegardes (sans rien perdre) ============ */
 /* Principes : l'historique est une suite d'événements datés et identifiés : on garde l'union, sans doublon.
    Le solde (xp) est recalculé à partir de l'historique fusionné. Le total garde le plus grand des deux (cumul).
@@ -4373,6 +4491,27 @@ function mergeStates(cur, oth) {
   });
   return {state: out, rep};
 }
+/* Fusion d'une sauvegarde complète : emploi du temps (créneaux, Q1/Q2, date de départ, horaires) */
+function ttHasCourses(t) { return !!t && Object.values(t.cells || {}).some(x => x && (x.q1 || x.q2)); }
+function ttSig(t, sch) {
+  const cells = {};
+  Object.keys((t && t.cells) || {}).sort().forEach(k => { const x = t.cells[k]; if (x && (x.q1 || x.q2)) cells[k] = [!!x.split, x.q1 || null, x.q2 || null]; });
+  return JSON.stringify([(t && t.start) || null, cells, (sch && sch.length ? sch : DEFAULT_SCHEDULE).map(x => [x.id, x.start, x.end])]);
+}
+async function mergeTTChoice(d) {
+  if (!d || !ttHasCourses(d.tt)) return '';
+  if (ttSig(state.tt, state.schedule) === ttSig(d.tt, d.schedule)) return '';
+  const take = () => {
+    state.tt = clone(d.tt); state.tt.cells = state.tt.cells || {};
+    if (Array.isArray(d.schedule) && d.schedule.length) state.schedule = clone(d.schedule); else delete state.schedule;
+  };
+  if (!ttHasCourses(state.tt)) { take(); return ', emploi du temps repris'; }
+  const ok = await confirmDialog('Reprendre l\'emploi du temps ?',
+    'La sauvegarde contient un autre emploi du temps (créneaux, semaines Q1 et Q2, date de départ, horaires). Veux-tu le reprendre à la place de celui de cet appareil ?',
+    'Reprendre celui du fichier', false, "Garder celui de l'appareil");
+  if (ok) { take(); return ', emploi du temps repris'; }
+  return '';
+}
 function describeMerge(rep) {
   return `${rep.entriesAdded} événement${rep.entriesAdded > 1 ? 's' : ''} ajouté${rep.entriesAdded > 1 ? 's' : ''} à l'historique, ` +
     `${rep.plansChanged} décision${rep.plansChanged > 1 ? 's' : ''} de plan retenue${rep.plansChanged > 1 ? 's' : ''} depuis l'autre sauvegarde, ` +
@@ -4385,14 +4524,17 @@ function importData(input, mode) {
   r.onload = async () => {
     try {
       const d = JSON.parse(r.result);
+      if (d && d.type === 'jokers-classe') { await importClassFile(d); return; }
+      if (d && d.type === 'jokers-edt') { await importTTFile(d); return; }
       if (!d || !Array.isArray(d.classes)) throw new Error('format');
       if (mode === 'merge') {
         const m = mergeStates(state, d);
-        const ok2 = await confirmDialog('Fusionner les sauvegardes ?', describeMerge(m.rep) + ' Tes réglages restent ceux de cet appareil.', 'Fusionner', false);
+        const ok2 = await confirmDialog('Fusionner les sauvegardes ?', describeMerge(m.rep) + ' Tes réglages restent ceux de cet appareil. Si l\'emploi du temps est différent, l\'appli te demandera lequel garder.', 'Fusionner', false);
         if (!ok2) return;
         state = m.state; normClasses(state); if (!state.conditions) state.conditions = clone(DEFAULT_CONDITIONS);
+        const ttMsg = await mergeTTChoice(d);
         view = {name:'home'}; ensureTones(); if (!state.homeSort) state.homeSort = 'level';
-        done('Sauvegardes fusionnées'); return;
+        done('Sauvegardes fusionnées' + ttMsg); return;
       }
       const nb = d.classes.length;
       const ok = await confirmDialog('Remplacer les données ?', `Cette sauvegarde contient ${nb} classe${nb > 1 ? 's' : ''}. Tes données actuelles seront remplacées.`, 'Remplacer', true);
