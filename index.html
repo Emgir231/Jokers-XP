@@ -1460,6 +1460,47 @@ body[data-theme] .pausebar .ic{width:20px;height:20px;flex:none}
 body[data-theme] #presscreen:has(#pausebar) .pbody.port{top:calc(env(safe-area-inset-top,0px) + 104px + var(--pausebar-h,72px))!important}
 @media (max-width:700px){body[data-theme] .pausebar{font-size:14px;padding:8px 14px;margin-top:6px}}
 body[data-theme=seance].th-circuit .pausebar{background:var(--t-panneau);color:var(--t-encre);box-shadow:inset 0 0 0 1px rgba(255,176,32,.35)}
+
+/* ===== Texte personnalisé ===== */
+body[data-theme]{--rt-c-vert:#1E6B3A;--rt-c-bleu:#1F4E9A;--rt-c-violet:#6A3FA0;--rt-c-rouge:#B3261E;--rt-c-orange:#9A4A00;--rt-h-jaune:#FFF0A8;--rt-h-vert:#CDEFD6;--rt-h-bleu:#CFE3FA;--rt-h-violet:#E4D6FA;--rt-h-rouge:#FFD2CC;--rt-h-orange:#FFE0BF}
+body[data-theme=seance].th-circuit{--rt-c-vert:#6FD89A;--rt-c-bleu:#9DBEFF;--rt-c-violet:#C9AEFF;--rt-c-rouge:#FF9086;--rt-c-orange:#FFB46B;--rt-h-jaune:rgba(255,200,61,.32);--rt-h-vert:rgba(43,196,106,.32);--rt-h-bleu:rgba(90,140,255,.34);--rt-h-violet:rgba(170,120,255,.34);--rt-h-rouge:rgba(240,72,72,.34);--rt-h-orange:rgba(255,140,40,.34)}
+body[data-theme=seance].th-circuit #presscreen.pclair{--rt-c-vert:#1E6B3A;--rt-c-bleu:#1F4E9A;--rt-c-violet:#6A3FA0;--rt-c-rouge:#B3261E;--rt-c-orange:#9A4A00;--rt-h-jaune:#FFF0A8;--rt-h-vert:#CDEFD6;--rt-h-bleu:#CFE3FA;--rt-h-violet:#E4D6FA;--rt-h-rouge:#FFD2CC;--rt-h-orange:#FFE0BF}
+body[data-theme] .rt .rt-c-noir{color:var(--t-encre)}
+body[data-theme] .rt .rt-c-vert{color:var(--rt-c-vert)}body[data-theme] .rt-dc-vert{background:var(--rt-c-vert)}
+body[data-theme] .rt .rt-c-bleu{color:var(--rt-c-bleu)}body[data-theme] .rt-dc-bleu{background:var(--rt-c-bleu)}
+body[data-theme] .rt .rt-c-violet{color:var(--rt-c-violet)}body[data-theme] .rt-dc-violet{background:var(--rt-c-violet)}
+body[data-theme] .rt .rt-c-rouge{color:var(--rt-c-rouge)}body[data-theme] .rt-dc-rouge{background:var(--rt-c-rouge)}
+body[data-theme] .rt .rt-c-orange{color:var(--rt-c-orange)}body[data-theme] .rt-dc-orange{background:var(--rt-c-orange)}
+body[data-theme] .rt-dc-noir{background:var(--t-encre)}
+body[data-theme] .rt .rt-h-jaune{background:var(--rt-h-jaune);border-radius:.15em;box-decoration-break:clone;-webkit-box-decoration-break:clone}body[data-theme] .rt-dh-jaune{background:var(--rt-h-jaune)}
+body[data-theme] .rt .rt-h-vert{background:var(--rt-h-vert);border-radius:.15em;box-decoration-break:clone;-webkit-box-decoration-break:clone}body[data-theme] .rt-dh-vert{background:var(--rt-h-vert)}
+body[data-theme] .rt .rt-h-bleu{background:var(--rt-h-bleu);border-radius:.15em;box-decoration-break:clone;-webkit-box-decoration-break:clone}body[data-theme] .rt-dh-bleu{background:var(--rt-h-bleu)}
+body[data-theme] .rt .rt-h-violet{background:var(--rt-h-violet);border-radius:.15em;box-decoration-break:clone;-webkit-box-decoration-break:clone}body[data-theme] .rt-dh-violet{background:var(--rt-h-violet)}
+body[data-theme] .rt .rt-h-rouge{background:var(--rt-h-rouge);border-radius:.15em;box-decoration-break:clone;-webkit-box-decoration-break:clone}body[data-theme] .rt-dh-rouge{background:var(--rt-h-rouge)}
+body[data-theme] .rt .rt-h-orange{background:var(--rt-h-orange);border-radius:.15em;box-decoration-break:clone;-webkit-box-decoration-break:clone}body[data-theme] .rt-dh-orange{background:var(--rt-h-orange)}
+body[data-theme]:not(.th-circuit) .rt [class*="rt-h-"]:not([class*="rt-c-"]),body[data-theme=seance].th-circuit #presscreen.pclair .rt [class*="rt-h-"]:not([class*="rt-c-"]){color:#151A3A}
+body[data-theme] .rt .rt-b{font-weight:700}
+body[data-theme] .rt .rt-f-luciole{font-family:'Luciole',system-ui,sans-serif}
+body[data-theme] .rt > div{min-height:1.2em}
+body[data-theme] .rt .rt-al-c{text-align:center}
+body[data-theme] .rt .rt-al-j{text-align:justify}
+body[data-theme] .rt .rt-li,body[data-theme] .rt .rt-ol{position:relative;padding-left:1.6em}
+body[data-theme] .rt .rt-li::before{content:'•';position:absolute;left:.45em}
+body[data-theme] .rt .rt-ol{counter-increment:rtn}
+body[data-theme] .rt :not(.rt-ol) + .rt-ol,body[data-theme] .rt .rt-ol:first-child{counter-reset:rtn 1}
+body[data-theme] .rt .rt-ol::before{content:counter(rtn) '.';position:absolute;left:0;min-width:1.3em;text-align:right;font-variant-numeric:tabular-nums}
+body[data-theme] .rt-bar{gap:6px 10px;align-items:center}
+body[data-theme] .rt-grp{display:inline-flex;align-items:center;gap:4px;flex-wrap:wrap}
+body[data-theme] .rt-tog{min-width:40px;height:40px;padding:0 8px;display:inline-grid;place-items:center;border-radius:12px;border:1px solid var(--t-trait);background:var(--t-carte);color:var(--t-encre);font:inherit;font-weight:800;cursor:pointer}
+body[data-theme] .rt-tog .ic{width:20px;height:20px}
+body[data-theme] .rt-tog:disabled{opacity:.35;cursor:default}
+body[data-theme] .rt-tog.rt-n{min-width:40px;font-size:14px}
+body[data-theme] .rt-dot{width:30px;height:30px;padding:0;border-radius:50%;border:2px solid var(--t-carte);box-shadow:0 0 0 1px var(--t-trait2);cursor:pointer}
+body[data-theme] .rt-sel,body[data-theme] .rt-num{min-height:40px;border-radius:12px;border:1px solid var(--t-trait);background:var(--t-carte);color:var(--t-encre);font:inherit}
+body[data-theme] .rt-mini{position:relative;flex:1 1 auto;align-self:stretch;width:100%;min-height:0;overflow:hidden}
+body[data-theme] .rt-mini .rt-view{position:absolute;left:0;top:0;transform-origin:0 0;min-height:0;white-space:pre-wrap;text-align:left;color:var(--t-encre);pointer-events:none}
+body[data-theme] #presscreen .pwidget.w-consigne:not(.full) .wbody{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;min-height:0;overflow:hidden}
+body[data-theme=seance].th-circuit .rt-tog{border-radius:8px}
 </style>
 </head>
 <body>
@@ -1754,6 +1795,16 @@ function costFor(s, k, ch) {
 /* ============ Utilitaires ============ */
 const $ = id => document.getElementById(id);
 const ICONS = {
+  bold: '<path d="M7 5h6a3.5 3.5 0 010 7H7zM7 12h7a3.5 3.5 0 010 7H7z"/>',
+  underline: '<path d="M7 4v7a5 5 0 0010 0V4M5 20h14"/>',
+  strike: '<path d="M16 6.5C15.3 5 13.9 4 12 4c-2.5 0-4 1.3-4 3.1 0 1.4.9 2.3 2.4 2.9M5 12h14M8 17.5c.7 1.5 2.2 2.5 4.2 2.5 2.6 0 4.3-1.4 4.3-3.3 0-.9-.3-1.6-.9-2.2"/>',
+  alignleft: '<path d="M4 6h16M4 10h10M4 14h16M4 18h10"/>',
+  aligncenter: '<path d="M4 6h16M7 10h10M4 14h16M7 18h10"/>',
+  alignjustify: '<path d="M4 6h16M4 10h16M4 14h16M4 18h16"/>',
+  listnum: '<path d="M10 6h10M10 12h10M10 18h10M4 4.5l1.5-.5v4M3.8 10.8a1.2 1.2 0 012.2.6c0 .9-2 1.8-2 2.6h2.2M3.8 16.2h2.1l-1.1 1.4a1.1 1.1 0 11-1 1.6"/>',
+  redo: '<g transform="matrix(-1 0 0 1 24 0)"><path d="M9 14l-5-5 5-5"/><path d="M4 9h10a6 6 0 010 12h-3"/></g>',
+  sizereset: '<path d="M3 19 8 6l5 13M4.8 14.5h6.4"/><path d="M21 13a4.5 4.5 0 11-1.3-3.2M20 6v3.8h-3.8"/>',
+  eraser: '<path d="M8 20h12M5.6 15.4l8.8-8.8a2 2 0 012.8 0l1.2 1.2a2 2 0 010 2.8L11 18H8.2z"/><path d="M9.5 11.5l4 4"/>',
   type: '<path d="M4 7V4h16v3M9 20h6M12 4v16"/>',
   handraise: '<g transform="translate(3 1) scale(.88)"><path d="M7 13V7a1.5 1.5 0 013 0v4M10 11V4.5a1.5 1.5 0 013 0V11M13 11V5.5a1.5 1.5 0 013 0V12M16 12V8.5a1.5 1.5 0 013 0V15a6 6 0 01-6 6h-1a6 6 0 01-5-2.7l-2.6-4a1.6 1.6 0 012.6-1.8L7 14"/></g><path d="M2.5 5l2 1.4M2 9.5h2.4"/>',
   mic: '<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0013 0M12 17.5V21M8.5 21h7"/>',
@@ -3152,8 +3203,9 @@ function ttPick(day, sid, wk) {
 
 /* ===================== NOUVEAUTÉS ===================== */
 /* Identifiant de la série de nouveautés : change à chaque nouvelle série */
-const NEWS_ID = 'news-2026-11-18-flash-fin';
+const NEWS_ID = 'news-2026-11-19-texte';
 const NEWS_ITEMS = [
+  'Widget Texte personnalisé revu : gras, listes à puces et numérotées, alignement à gauche, centré ou justifié, Annuler et Rétablir. Les couleurs restent lisibles dans les deux thèmes, la mise en forme ne casse plus les styles déjà là, et la vignette montre le texte en réduit, mise en forme comprise.',
   'Question flash : quand tout est fait, le widget affiche « Tout est fait pour aujourd’hui » avec la prochaine date de réactivation. Les dates comptent maintenant depuis le premier passage : J+1, J+3, J+7, J+30, J+60, puis J+120, J+240.',
   'L’appli s’appelle désormais Atout. Tes classes, tes élèves et tes réglages ne changent pas.',
   'Nouveau widget Question flash : une question à la fois, Réponse, puis Réussie ou À revoir. Révisions espacées par classe, bouton + pour ajouter une question, Banque pour en afficher une ou relancer son suivi. Banque par niveau : Réglages, Questions flash. Rappel discret de pause toutes les 20 minutes en présentation.',
@@ -4577,7 +4629,7 @@ function generateClassPdf(cid) {
     <button class="btn primary wide" onclick="savePdf()">Enregistrer le PDF</button>
     <button class="btn wide" style="margin-top:8px" onclick="sharePdf()">Partager</button>`;
 }
-const TUTO = [["Accueil", [["Liste des classes", "À gauche, le bloc du jour montre le cours en cours, ou le prochain cours de la journée, d'après ton emploi du temps : touche Ouvrir la classe pour y aller. Les cours suivants du jour sont listés dessous. Sans emploi du temps renseigné, le bloc propose de le remplir. Les classes sont groupées par niveau (5e en vert, 4e en bleu, 3e en rouge). En haut, la pastille jaune affiche le total d'XP de toutes les classes, sans la classe d'essai. Touche une carte pour ouvrir la classe. Sur la carte : le nom, le nombre d'élèves, le total d'XP, et une icône de siège quand le plan est fait. La présentation s'ouvre depuis l'écran de la classe, avec le bouton Projeter de la barre d'outils (voir la rubrique Classe). Le minuteur se trouve dans le widget Minuteur de la présentation. Une bannière jaune apparaît quand une sauvegarde est due : touche-la pour l'exporter."], ["Créer une classe", "La case Nouvelle classe, à la fin de la liste, crée une classe : nom, niveau, chapitre et professeur. Une classe peut aussi être dupliquée depuis son menu d'options."], ["Rechercher un élève", "Le champ Chercher un élève, en haut (une loupe sur téléphone), cherche un élève dans toutes les classes à la fois. Tape au moins deux lettres, les accents sont ignorés. Touche un résultat : la classe s'ouvre sur la fiche de l'élève."], ["Réglages", "Le bouton à curseurs, en haut à droite, ouvre les réglages en page plein écran. Sur iPad, la liste est à gauche (Données, Apparence, Plan de classe, XP et cartes, Sons, Widgets) et la page choisie à droite. Sur iPhone, la liste s'affiche d'abord, puis la page choisie en pleine page ; le bouton Réglages ramène à la liste. La croix ferme les réglages."], ["Gestes", "Toucher : ouvrir ou choisir. Appui long (environ une seconde) sur une carte ou une étiquette : afficher son nom. Glisser : déplacer un élève dans le plan. Pincer à deux doigts : zoomer dans le plan ou la présentation. Toucher la croix : fermer une fenêtre ou un écran."]]], ["Classe", [["Disposition", "Sur iPad en largeur, l'écran a trois colonnes : la barre d'outils à gauche, la liste des élèves au milieu et la fiche de l'élève touché à droite, sans fenêtre par-dessus. Sur iPad en hauteur, la fiche s'ouvre en pleine page. Sur iPhone, les outils sont dans une barre en bas de l'écran et la fiche s'ouvre en pleine page : le bouton avec le nom de la classe ramène à la liste."], ["Barre des outils", "De haut en bas : retour aux classes, Élèves (retour à la liste), Appel (le nombre d'absents du jour s'affiche dessus), XP classe, Histo, Plan et Import. En bas : Projeter ouvre la présentation, et « … » les options de la classe. Chaque outil ouvre son écran séparé, plein écran : un bandeau de la couleur du niveau en haut, avec le nom de l'outil et de la classe, et la croix blanche à droite pour fermer. Sur iPhone, Import se trouve dans le bouton + Élève, et « … » en haut à droite. Le tirage au sort se trouve dans le widget Tirage au sort de la présentation."], ["Top 5", "Sous le nom de la classe, la ligne Top 5 donne les cinq premiers selon le total d'XP gagnés depuis le début ; les ex æquo sont signalés par +1, +2. Touche-la pour voir le classement en grand. Pastilles de rang : 1 Émeraude, 2 Platine, 3 Or, 4 Argent, 5 Bronze. Sur iPhone, c'est le bouton Top 5 sous la recherche."], ["Liste des élèves", "Une ligne par élève : lettre d'îlot, nom et prénom, cartes en attente, étiquettes, jauge vers le prochain palier, XP disponibles, puis les boutons − (rouge) et + (vert). Un élève absent est grisé. Sous la recherche : Tri (A-Z, îlot, XP, cartes, élèves discrets), Filtrer par étiquette, Étiqueter en série et Codes des cartes. Le bouton + Élève ajoute un élève."], ["Gagner des XP", "Le bouton + d'une ligne, ou Ajouter des XP dans la fiche, ouvre le panneau Ajouter des XP : une tuile verte par condition, rangées par catégorie. Une condition qui a atteint sa limite est grisée : tu peux la toucher quand même, l'appli demande confirmation. Le panneau reste ouvert pour enchaîner les gains. Autre montant : un nombre d'XP et un motif facultatif, puis Ajouter. Un halo vert confirme le gain."], ["Retirer des XP", "Le bouton − d'une ligne, ou Retirer des XP dans la fiche, ouvre le panneau Retirer des XP : Oubli d'affaires en haut, puis le nombre d'XP (−1, −2, −3, −5, −10 ou un autre nombre), un motif facultatif et le bouton Retirer. Le haut du panneau passe de Ajouter à Retirer. Un halo rouge confirme le retrait."], ["Annuler", "Après un gain ou un retrait, un bouton Annuler apparaît en bas de l'écran pendant environ 6 secondes. Dans le panneau Ajouter des XP, le bouton Annuler le dernier gain retire le dernier gain de l'élève, même s'il date d'un autre cours, après confirmation : le solde, le total et le compteur de la condition sont corrigés."], ["Fiche", "Touche le nom d'un élève pour ouvrir sa fiche (voir la rubrique Élève). Sur iPad en largeur, la croix en haut de la fiche la referme."], ["Plan", "Le bouton Plan ouvre le plan de la classe dans un écran séparé, plein écran, fermé par la croix. Le type de plan (îlots A à F, ou personnalisé) se règle dans Réglages, Plan de classe, Formule du plan. Les élèves non placés sont dans la zone Non placés, au-dessus des îlots. Sur le plan classique : Générer propose une répartition selon les équilibres d'XP, les binômes et la mixité ; rien n'est écrit avant Appliquer. La capacité maximale par îlot se règle avec le bouton Max. Couleurs des îlots : A rouge, B orange, C jaune, D vert, E bleu, F violet. Dans la présentation, le widget Plan (lecture seule) ajuste la taille des noms pour qu'ils tiennent dans chaque îlot ; si le plan personnalisé n'est pas encore créé, il l'indique."], ["Présentation", "Le bouton Projeter ouvre la présentation, en paysage sur iPad : un bandeau de la couleur du niveau en haut, avec le nom de la classe, le total d'XP en jaune et Quitter, puis les widgets, chacun dans son aplat de couleur. La zone des noms est à gauche : tous les élèves y apparaissent dans des cases (prénom et nom), dont la taille s'adapte à l'effectif. Touche une case pour choisir Ajouter ou Retirer des XP, avec tes conditions habituelles. Le bouton Afficher l'XP montre l'XP de chaque élève dans les cases ; l'XP est masqué à chaque ouverture de la présentation, et il est aussi caché dans les fenêtres Ajouter et Retirer tant qu'il est masqué. Le bouton Réduire replie la zone en une bande étroite (bouton Noms), et les six widgets se partagent alors l'écran. Elle se rouvre avec le même bouton. Le choix du widget se fait dans la liste en haut à gauche de chaque emplacement. Le bouton en haut à droite (quatre coins) l'affiche en plein écran et masque la zone des noms ; Réduire le remet à sa place. Sur iPhone, chaque élève a une carte avec son prénom, ses XP et les boutons − et +. Widget Tirage au sort : en vignette, touche le widget pour tirer un élève ; le nom s'affiche en grand avec le nombre d'élèves restants. En plein écran, le nom tiré est à gauche (touche-le pour tirer à nouveau) et la liste des élèves à droite : coche ou décoche qui participe, les absents sont décochés par défaut, les élèves déjà tirés sont grisés, et Réinitialiser les noms remet tout le monde dans le tirage. Après une heure, l'appli demande si tu gardes les élèves déjà tirés. Le widget Texte personnalisé se met en forme en plein écran : police, taille en pixels, couleur, surlignage, souligné, barré. En vignette, il affiche un texte simple, tronqué avec … si besoin. Quitter ferme la présentation. Deux widgets de classement : Top 5 général (total d'XP gagnés depuis le début) et Top 5 du chapitre (XP gagnés depuis le dernier passage de chapitre : gains moins retraits, les achats de cartes ne comptent pas). Dans le widget Cartes obtenues, chaque carte s'affiche dans sa propre couleur. Widget Média : choisis une image ou un PDF sur l'appareil, ou colle le lien d'intégration d'une présentation Canva (dans Canva : Partager, Plus, Intégrer ; le code complet fonctionne aussi). Les liens courts (canva.com/d/… ou canva.link/…) ne peuvent pas s'afficher dans le widget. Chaque classe a son propre média dans chaque emplacement. Le PDF se lit page par page avec les flèches, ou en choisissant la page dans la liste ; un PDF en portrait peut s'afficher sur deux pages côte à côte (bouton 2 pages). Les boutons − et + agrandissent ou réduisent l'image ou le PDF dans le widget (on fait glisser pour se déplacer), et le pourcentage remet la taille ajustée. Connexion Internet nécessaire la première fois pour lire un PDF. Le lien Canva s'affiche dans le widget sur la version GitHub ; dans l'artefact Claude, un bouton l'ouvre à part. La poubelle retire le média. Les images et les PDF restent sur cet appareil : ils ne sont pas dans la sauvegarde, il faut les remettre sur un autre appareil. Avec le thème Circuit, le bandeau affiche aussi l'heure, et le bouton Clair passe la présentation en version claire, plus lisible au vidéoprojecteur en plein jour (Sombre pour revenir)."], ["Bouton « Dernier élève »", "Sur iPhone et iPad en hauteur, en bas à droite, il rappelle le dernier élève modifié : un appui ouvre sa fiche. Sur iPad en largeur, quand aucune fiche n'est ouverte, le bouton Rouvrir la fiche fait la même chose."], ["Options de la classe", "Le bouton « … » ouvre le menu de la classe, en tuiles : Modifier la classe, Genre des élèves (pinceau Fille, Garçon ou Effacer, puis un appui par élève), Dupliquer la classe, Passer au chapitre suivant (et Annuler le passage de chapitre juste après), Exporter en PDF (période au choix, aux couleurs du thème en cours), Exporter la classe (fichier), Exporter le bilan (tableur) et Supprimer la classe. Le même menu s'ouvre avec le bouton « … » des cartes de l'accueil."], ["Étiquettes", "Le bouton Filtrer de la liste montre seulement les élèves qui ont une étiquette. Étiqueter passe en mode étiquetage en série : un appui sur un élève attribue ou retire l'étiquette choisie."], ["Questions flash", "Widget Question flash de la présentation : une question à la fois, en grand. Touche Réponse, puis Réussie ou À revoir : le widget affiche les prochaines dates de réactivation pour cette classe. Rythme, compté depuis le premier passage réussi : J+1, J+3, J+7, J+30, J+60, puis J+120, J+240 ; une question à revoir repart au début et revient le lendemain. Les questions dues passent en premier, puis les nouvelles de la séquence en cours (liste en haut du widget). Quand tout est fait, le widget affiche « Tout est fait pour aujourd'hui » avec la prochaine date de réactivation et le nombre de questions ; Revoir quand même tire des questions de la séquence pour s'entraîner, sans fin, et Banque ouvre la liste. Le bouton + ajoute une question et sa réponse à la banque du niveau. Le bouton Banque liste toutes les questions du niveau avec leur suivi pour cette classe : Afficher la montre tout de suite, Relancer la fait repartir à J+1 pour cette classe seulement. Chaque classe a son propre suivi. Un rappel « N questions à réactiver aujourd'hui » apparaît sur l'écran de la classe et dans le bloc « En ce moment » de l'accueil. Pas d'XP automatiques : c'est un entraînement. En présentation, un bandeau discret, sans son, propose une courte pause toutes les 20 minutes de cours (d'après l'emploi du temps) ; un toucher le ferme."]]], ["Élève", [["Solde et total", "En haut de la fiche : les XP à dépenser en grand, sur fond jaune, puis le total d'XP gagnés et les gains et retraits du jour. L'îlot et les étiquettes s'affichent en haut à droite."], ["Ajouter et Retirer des XP", "Deux gros boutons à côté du solde : Ajouter des XP (vert) et Retirer des XP (rouge). Ils ouvrent les panneaux décrits dans la rubrique Classe. Le bouton avec le prénom de l'élève ramène à la fiche."], ["Absent ou présent", "Marquer absent note l'absence du jour dans l'historique et grise l'élève dans la liste. Marquer présent l'annule."], ["Oubli d'affaires", "Bloque les gains d'XP pendant la durée réglée (1 heure par défaut), sans retirer d'XP. Le blocage s'affiche sur la fiche avec le temps restant et le bouton Lever le blocage."], ["Onglet Cartes", "Les cartes possédées : Utilisée la marque comme jouée, la flèche la rembourse après confirmation. Les cartes utilisées : Remettre la rend disponible. Puis les cartes à acheter, par couleur, avec leur prix. Une carte trop chère est grisée avec le nombre d'XP qui manque ; aucune autre règle ne bloque un achat. Tarif réduit : une carte supérieure de la même branche coûte son prix moins celui de la carte inférieure obtenue ce chapitre (le tarif réduit s'affiche), et la remplace. Une carte inférieure achetée après la supérieure est au prix normal. Les cartes spéciales demandent le nombre d'XP à déduire. Une carte masquée n'apparaît pas."], ["Onglet Profil", "Îlot (A à F ou Aucun), genre, Toujours avec (un duo qui ne se sépare pas), Ne pas mettre avec (liste à cocher, sans limite), étiquettes et notes diverses. Tout est enregistré tout de suite."], ["Onglet Historique", "Les 80 derniers mouvements : gains, retraits, cartes et absences. Le bouton du bas ouvre Historique et notes en plein écran."], ["Modifier, corriger, supprimer", "Le bouton « … » en haut de la fiche ouvre : Modifier l'élève (nom, prénom, genre), Corriger le solde, Historique et notes en plein écran, et Supprimer l'élève (corbeille pendant 7 ou 30 jours selon le réglage)."]]], ["Réglages", [["Données", "Sauvegarde et import : exporte un fichier JSON, ou importe-en un. Le bouton Fusionner une sauvegarde accepte aussi le fichier d'une seule classe (fusionnée si elle existe, ajoutée sinon) et celui d'un emploi du temps (qui remplace l'actuel). Quand tu fusionnes une sauvegarde complète, son emploi du temps (créneaux, semaines Q1 et Q2, date de départ, horaires) est repris si celui de l'appareil est vide ; s'il est différent, l'appli te demande lequel garder. Exporter le bilan de toutes les classes crée un tableau (CSV) avec une ligne par élève : classe, nom, prénom, solde, total, cartes. Le menu … d'une classe propose aussi Exporter la classe (fichier) et Exporter le bilan (tableur) pour cette classe seule ; la page Emploi du temps propose Exporter l'emploi du temps. Sauvegardes automatiques : copies gardées sur l'appareil. Corbeille : restaure ou supprime les élèves et classes supprimés. Classe d'essai : crée ou supprime une classe fictive pour tester, qui n'est pas comptée dans les totaux. Étiquettes des élèves. Synchronisation. Aide et tutoriel."], ["Thème", "Réglages, Apparence. Deux thèmes : Séance (clair, aplats de couleur, formes rondes) et Circuit (bleu nuit, panneaux de verre fumé, cuivre, chiffres en afficheur 7 segments ambre, voyants sur les boutons Ajouter et Retirer). Toutes les fonctions restent les mêmes ; le PDF exporté suit le thème. Le choix est enregistré sur cet appareil et l'appli se recharge pour l'appliquer. La couleur d'accentuation et la police choisies s'appliquent aux deux thèmes ; en Circuit, la couleur de base est le cuivre."], ["Couleur d'accentuation", "Réglages, Apparence. Elle colore les boutons principaux, l'onglet ou la puce choisis et l'élève sélectionné, soit environ un dixième de l'écran (règle 60/30/10) : le fond, les cartes, la couleur du niveau, le jaune des XP, le vert et le rouge ne changent pas. Choisis Couleur de base (l'encre du style Séance), une des six couleurs proposées, ou Personnalisée : nuancier ou code hexa. La luminosité l'éclaircit ou l'assombrit. Le texte posé dessus passe seul en blanc ou en noir. Si la couleur ressemble au vert des ajouts, au rouge des retraits ou au jaune des XP, un avertissement s'affiche. Le choix est enregistré sur cet appareil, pas dans la sauvegarde."], ["Police", "Réglages, Apparence. Une seule police pour les titres et le texte de toute l'appli, présentation comprise : Par défaut (Bricolage Grotesque et Figtree), Ubuntu, Noto Sans ou Luciole (intégrées à l'appli, elles s'affichent partout ; Luciole est une police française conçue pour les personnes malvoyantes, © Laurent Bourcellier et Jonathan Perez, licence CC BY 4.0), Helvetica ou San Francisco (les vraies sur iPad, iPhone et Mac ; sur un autre appareil, elles sont remplacées par deux polices intégrées très proches : TeX Gyre Heros et Inter). Chaque choix montre un exemple. Enregistrée sur cet appareil. Le PDF exporté reste en Helvetica."], ["Plan de classe", "Formule du plan : îlots ou personnalisé. Modèle de plan : enregistrer, modifier, changer ou supprimer le modèle par défaut."], ["XP et cartes", "Conditions pour gagner des XP : nom, catégorie, icône, couleur, montant (négatif = retrait), limite par chapitre. Cartes et branches : créer ou modifier une carte (nom, texte d'usage, couleur, icône, XP, cartes inférieures et supérieures de la même branche, affichée ou masquée), gérer les catégories. Les branches servent seulement au tarif réduit : elles ne bloquent aucun achat. Paliers du chrono : retraits automatiques au fil de la séance."], ["Sons", "Son du minuteur, son du tirage, alerte du chrono de séance, et niveau sonore. Chaque son se choisit parmi quatre ou plus, s'écoute avant d'être choisi, et sa puissance se règle de 1 à 5."], ["Widgets", "Mes citations (ajoute tes propres citations, une par ligne, l'auteur après un tiret), Horaires des créneaux (heures de début et de fin, pour le chrono de séance)."], ["Questions flash", "Réglages, Widgets, Questions flash : une banque par niveau (5e, 4e, 3e, Autre), rangée par séquence. Une question par ligne, la réponse après « / » (barre entourée d'espaces, pour que km/h ou 1/2 restent intacts). Colle toute une liste d'un coup ; les questions déjà là gardent leur suivi. Renomme ou supprime une séquence, ou crée-en une nouvelle. Les questions et le suivi sont dans la sauvegarde."]]]];
+const TUTO = [["Accueil", [["Liste des classes", "À gauche, le bloc du jour montre le cours en cours, ou le prochain cours de la journée, d'après ton emploi du temps : touche Ouvrir la classe pour y aller. Les cours suivants du jour sont listés dessous. Sans emploi du temps renseigné, le bloc propose de le remplir. Les classes sont groupées par niveau (5e en vert, 4e en bleu, 3e en rouge). En haut, la pastille jaune affiche le total d'XP de toutes les classes, sans la classe d'essai. Touche une carte pour ouvrir la classe. Sur la carte : le nom, le nombre d'élèves, le total d'XP, et une icône de siège quand le plan est fait. La présentation s'ouvre depuis l'écran de la classe, avec le bouton Projeter de la barre d'outils (voir la rubrique Classe). Le minuteur se trouve dans le widget Minuteur de la présentation. Une bannière jaune apparaît quand une sauvegarde est due : touche-la pour l'exporter."], ["Créer une classe", "La case Nouvelle classe, à la fin de la liste, crée une classe : nom, niveau, chapitre et professeur. Une classe peut aussi être dupliquée depuis son menu d'options."], ["Rechercher un élève", "Le champ Chercher un élève, en haut (une loupe sur téléphone), cherche un élève dans toutes les classes à la fois. Tape au moins deux lettres, les accents sont ignorés. Touche un résultat : la classe s'ouvre sur la fiche de l'élève."], ["Réglages", "Le bouton à curseurs, en haut à droite, ouvre les réglages en page plein écran. Sur iPad, la liste est à gauche (Données, Apparence, Plan de classe, XP et cartes, Sons, Widgets) et la page choisie à droite. Sur iPhone, la liste s'affiche d'abord, puis la page choisie en pleine page ; le bouton Réglages ramène à la liste. La croix ferme les réglages."], ["Gestes", "Toucher : ouvrir ou choisir. Appui long (environ une seconde) sur une carte ou une étiquette : afficher son nom. Glisser : déplacer un élève dans le plan. Pincer à deux doigts : zoomer dans le plan ou la présentation. Toucher la croix : fermer une fenêtre ou un écran."]]], ["Classe", [["Disposition", "Sur iPad en largeur, l'écran a trois colonnes : la barre d'outils à gauche, la liste des élèves au milieu et la fiche de l'élève touché à droite, sans fenêtre par-dessus. Sur iPad en hauteur, la fiche s'ouvre en pleine page. Sur iPhone, les outils sont dans une barre en bas de l'écran et la fiche s'ouvre en pleine page : le bouton avec le nom de la classe ramène à la liste."], ["Barre des outils", "De haut en bas : retour aux classes, Élèves (retour à la liste), Appel (le nombre d'absents du jour s'affiche dessus), XP classe, Histo, Plan et Import. En bas : Projeter ouvre la présentation, et « … » les options de la classe. Chaque outil ouvre son écran séparé, plein écran : un bandeau de la couleur du niveau en haut, avec le nom de l'outil et de la classe, et la croix blanche à droite pour fermer. Sur iPhone, Import se trouve dans le bouton + Élève, et « … » en haut à droite. Le tirage au sort se trouve dans le widget Tirage au sort de la présentation."], ["Top 5", "Sous le nom de la classe, la ligne Top 5 donne les cinq premiers selon le total d'XP gagnés depuis le début ; les ex æquo sont signalés par +1, +2. Touche-la pour voir le classement en grand. Pastilles de rang : 1 Émeraude, 2 Platine, 3 Or, 4 Argent, 5 Bronze. Sur iPhone, c'est le bouton Top 5 sous la recherche."], ["Liste des élèves", "Une ligne par élève : lettre d'îlot, nom et prénom, cartes en attente, étiquettes, jauge vers le prochain palier, XP disponibles, puis les boutons − (rouge) et + (vert). Un élève absent est grisé. Sous la recherche : Tri (A-Z, îlot, XP, cartes, élèves discrets), Filtrer par étiquette, Étiqueter en série et Codes des cartes. Le bouton + Élève ajoute un élève."], ["Gagner des XP", "Le bouton + d'une ligne, ou Ajouter des XP dans la fiche, ouvre le panneau Ajouter des XP : une tuile verte par condition, rangées par catégorie. Une condition qui a atteint sa limite est grisée : tu peux la toucher quand même, l'appli demande confirmation. Le panneau reste ouvert pour enchaîner les gains. Autre montant : un nombre d'XP et un motif facultatif, puis Ajouter. Un halo vert confirme le gain."], ["Retirer des XP", "Le bouton − d'une ligne, ou Retirer des XP dans la fiche, ouvre le panneau Retirer des XP : Oubli d'affaires en haut, puis le nombre d'XP (−1, −2, −3, −5, −10 ou un autre nombre), un motif facultatif et le bouton Retirer. Le haut du panneau passe de Ajouter à Retirer. Un halo rouge confirme le retrait."], ["Annuler", "Après un gain ou un retrait, un bouton Annuler apparaît en bas de l'écran pendant environ 6 secondes. Dans le panneau Ajouter des XP, le bouton Annuler le dernier gain retire le dernier gain de l'élève, même s'il date d'un autre cours, après confirmation : le solde, le total et le compteur de la condition sont corrigés."], ["Fiche", "Touche le nom d'un élève pour ouvrir sa fiche (voir la rubrique Élève). Sur iPad en largeur, la croix en haut de la fiche la referme."], ["Plan", "Le bouton Plan ouvre le plan de la classe dans un écran séparé, plein écran, fermé par la croix. Le type de plan (îlots A à F, ou personnalisé) se règle dans Réglages, Plan de classe, Formule du plan. Les élèves non placés sont dans la zone Non placés, au-dessus des îlots. Sur le plan classique : Générer propose une répartition selon les équilibres d'XP, les binômes et la mixité ; rien n'est écrit avant Appliquer. La capacité maximale par îlot se règle avec le bouton Max. Couleurs des îlots : A rouge, B orange, C jaune, D vert, E bleu, F violet. Dans la présentation, le widget Plan (lecture seule) ajuste la taille des noms pour qu'ils tiennent dans chaque îlot ; si le plan personnalisé n'est pas encore créé, il l'indique."], ["Présentation", "Le bouton Projeter ouvre la présentation, en paysage sur iPad : un bandeau de la couleur du niveau en haut, avec le nom de la classe, le total d'XP en jaune et Quitter, puis les widgets, chacun dans son aplat de couleur. La zone des noms est à gauche : tous les élèves y apparaissent dans des cases (prénom et nom), dont la taille s'adapte à l'effectif. Touche une case pour choisir Ajouter ou Retirer des XP, avec tes conditions habituelles. Le bouton Afficher l'XP montre l'XP de chaque élève dans les cases ; l'XP est masqué à chaque ouverture de la présentation, et il est aussi caché dans les fenêtres Ajouter et Retirer tant qu'il est masqué. Le bouton Réduire replie la zone en une bande étroite (bouton Noms), et les six widgets se partagent alors l'écran. Elle se rouvre avec le même bouton. Le choix du widget se fait dans la liste en haut à gauche de chaque emplacement. Le bouton en haut à droite (quatre coins) l'affiche en plein écran et masque la zone des noms ; Réduire le remet à sa place. Sur iPhone, chaque élève a une carte avec son prénom, ses XP et les boutons − et +. Widget Tirage au sort : en vignette, touche le widget pour tirer un élève ; le nom s'affiche en grand avec le nombre d'élèves restants. En plein écran, le nom tiré est à gauche (touche-le pour tirer à nouveau) et la liste des élèves à droite : coche ou décoche qui participe, les absents sont décochés par défaut, les élèves déjà tirés sont grisés, et Réinitialiser les noms remet tout le monde dans le tirage. Après une heure, l'appli demande si tu gardes les élèves déjà tirés. Le widget Texte personnalisé s'écrit et se met en forme en plein écran. La barre propose, dans l'ordre : Annuler et Rétablir ; gras, souligné, barré (un second appui retire le style) ; aligner à gauche, centrer, justifier ; liste à puces et liste numérotée ; la taille (champ en pixels, 24 à 96, ou Taille normale) ; la police (police de l'appli, Luciole, Manuscrite, OpenDyslexic) ; les couleurs du texte, puis les surlignages et Sans surlignage. Sélectionne d'abord le passage ; pour l'alignement et les listes, il suffit de toucher la ligne. Les styles déjà présents sont gardés. Les couleurs s'adaptent au thème pour rester lisibles. Un texte collé arrive sans sa mise en forme d'origine. Tu peux vider la zone : « Texte effacé » s'affiche avec Annuler. Un texte trop long n'est plus enregistré et un message te prévient. En vignette, le widget montre le même texte en réduit, mise en forme comprise, à la plus grande taille qui permet de tout voir. Quitter ferme la présentation. Deux widgets de classement : Top 5 général (total d'XP gagnés depuis le début) et Top 5 du chapitre (XP gagnés depuis le dernier passage de chapitre : gains moins retraits, les achats de cartes ne comptent pas). Dans le widget Cartes obtenues, chaque carte s'affiche dans sa propre couleur. Widget Média : choisis une image ou un PDF sur l'appareil, ou colle le lien d'intégration d'une présentation Canva (dans Canva : Partager, Plus, Intégrer ; le code complet fonctionne aussi). Les liens courts (canva.com/d/… ou canva.link/…) ne peuvent pas s'afficher dans le widget. Chaque classe a son propre média dans chaque emplacement. Le PDF se lit page par page avec les flèches, ou en choisissant la page dans la liste ; un PDF en portrait peut s'afficher sur deux pages côte à côte (bouton 2 pages). Les boutons − et + agrandissent ou réduisent l'image ou le PDF dans le widget (on fait glisser pour se déplacer), et le pourcentage remet la taille ajustée. Connexion Internet nécessaire la première fois pour lire un PDF. Le lien Canva s'affiche dans le widget sur la version GitHub ; dans l'artefact Claude, un bouton l'ouvre à part. La poubelle retire le média. Les images et les PDF restent sur cet appareil : ils ne sont pas dans la sauvegarde, il faut les remettre sur un autre appareil. Avec le thème Circuit, le bandeau affiche aussi l'heure, et le bouton Clair passe la présentation en version claire, plus lisible au vidéoprojecteur en plein jour (Sombre pour revenir)."], ["Bouton « Dernier élève »", "Sur iPhone et iPad en hauteur, en bas à droite, il rappelle le dernier élève modifié : un appui ouvre sa fiche. Sur iPad en largeur, quand aucune fiche n'est ouverte, le bouton Rouvrir la fiche fait la même chose."], ["Options de la classe", "Le bouton « … » ouvre le menu de la classe, en tuiles : Modifier la classe, Genre des élèves (pinceau Fille, Garçon ou Effacer, puis un appui par élève), Dupliquer la classe, Passer au chapitre suivant (et Annuler le passage de chapitre juste après), Exporter en PDF (période au choix, aux couleurs du thème en cours), Exporter la classe (fichier), Exporter le bilan (tableur) et Supprimer la classe. Le même menu s'ouvre avec le bouton « … » des cartes de l'accueil."], ["Étiquettes", "Le bouton Filtrer de la liste montre seulement les élèves qui ont une étiquette. Étiqueter passe en mode étiquetage en série : un appui sur un élève attribue ou retire l'étiquette choisie."], ["Questions flash", "Widget Question flash de la présentation : une question à la fois, en grand. Touche Réponse, puis Réussie ou À revoir : le widget affiche les prochaines dates de réactivation pour cette classe. Rythme, compté depuis le premier passage réussi : J+1, J+3, J+7, J+30, J+60, puis J+120, J+240 ; une question à revoir repart au début et revient le lendemain. Les questions dues passent en premier, puis les nouvelles de la séquence en cours (liste en haut du widget). Quand tout est fait, le widget affiche « Tout est fait pour aujourd'hui » avec la prochaine date de réactivation et le nombre de questions ; Revoir quand même tire des questions de la séquence pour s'entraîner, sans fin, et Banque ouvre la liste. Le bouton + ajoute une question et sa réponse à la banque du niveau. Le bouton Banque liste toutes les questions du niveau avec leur suivi pour cette classe : Afficher la montre tout de suite, Relancer la fait repartir à J+1 pour cette classe seulement. Chaque classe a son propre suivi. Un rappel « N questions à réactiver aujourd'hui » apparaît sur l'écran de la classe et dans le bloc « En ce moment » de l'accueil. Pas d'XP automatiques : c'est un entraînement. En présentation, un bandeau discret, sans son, propose une courte pause toutes les 20 minutes de cours (d'après l'emploi du temps) ; un toucher le ferme."]]], ["Élève", [["Solde et total", "En haut de la fiche : les XP à dépenser en grand, sur fond jaune, puis le total d'XP gagnés et les gains et retraits du jour. L'îlot et les étiquettes s'affichent en haut à droite."], ["Ajouter et Retirer des XP", "Deux gros boutons à côté du solde : Ajouter des XP (vert) et Retirer des XP (rouge). Ils ouvrent les panneaux décrits dans la rubrique Classe. Le bouton avec le prénom de l'élève ramène à la fiche."], ["Absent ou présent", "Marquer absent note l'absence du jour dans l'historique et grise l'élève dans la liste. Marquer présent l'annule."], ["Oubli d'affaires", "Bloque les gains d'XP pendant la durée réglée (1 heure par défaut), sans retirer d'XP. Le blocage s'affiche sur la fiche avec le temps restant et le bouton Lever le blocage."], ["Onglet Cartes", "Les cartes possédées : Utilisée la marque comme jouée, la flèche la rembourse après confirmation. Les cartes utilisées : Remettre la rend disponible. Puis les cartes à acheter, par couleur, avec leur prix. Une carte trop chère est grisée avec le nombre d'XP qui manque ; aucune autre règle ne bloque un achat. Tarif réduit : une carte supérieure de la même branche coûte son prix moins celui de la carte inférieure obtenue ce chapitre (le tarif réduit s'affiche), et la remplace. Une carte inférieure achetée après la supérieure est au prix normal. Les cartes spéciales demandent le nombre d'XP à déduire. Une carte masquée n'apparaît pas."], ["Onglet Profil", "Îlot (A à F ou Aucun), genre, Toujours avec (un duo qui ne se sépare pas), Ne pas mettre avec (liste à cocher, sans limite), étiquettes et notes diverses. Tout est enregistré tout de suite."], ["Onglet Historique", "Les 80 derniers mouvements : gains, retraits, cartes et absences. Le bouton du bas ouvre Historique et notes en plein écran."], ["Modifier, corriger, supprimer", "Le bouton « … » en haut de la fiche ouvre : Modifier l'élève (nom, prénom, genre), Corriger le solde, Historique et notes en plein écran, et Supprimer l'élève (corbeille pendant 7 ou 30 jours selon le réglage)."]]], ["Réglages", [["Données", "Sauvegarde et import : exporte un fichier JSON, ou importe-en un. Le bouton Fusionner une sauvegarde accepte aussi le fichier d'une seule classe (fusionnée si elle existe, ajoutée sinon) et celui d'un emploi du temps (qui remplace l'actuel). Quand tu fusionnes une sauvegarde complète, son emploi du temps (créneaux, semaines Q1 et Q2, date de départ, horaires) est repris si celui de l'appareil est vide ; s'il est différent, l'appli te demande lequel garder. Exporter le bilan de toutes les classes crée un tableau (CSV) avec une ligne par élève : classe, nom, prénom, solde, total, cartes. Le menu … d'une classe propose aussi Exporter la classe (fichier) et Exporter le bilan (tableur) pour cette classe seule ; la page Emploi du temps propose Exporter l'emploi du temps. Sauvegardes automatiques : copies gardées sur l'appareil. Corbeille : restaure ou supprime les élèves et classes supprimés. Classe d'essai : crée ou supprime une classe fictive pour tester, qui n'est pas comptée dans les totaux. Étiquettes des élèves. Synchronisation. Aide et tutoriel."], ["Thème", "Réglages, Apparence. Deux thèmes : Séance (clair, aplats de couleur, formes rondes) et Circuit (bleu nuit, panneaux de verre fumé, cuivre, chiffres en afficheur 7 segments ambre, voyants sur les boutons Ajouter et Retirer). Toutes les fonctions restent les mêmes ; le PDF exporté suit le thème. Le choix est enregistré sur cet appareil et l'appli se recharge pour l'appliquer. La couleur d'accentuation et la police choisies s'appliquent aux deux thèmes ; en Circuit, la couleur de base est le cuivre."], ["Couleur d'accentuation", "Réglages, Apparence. Elle colore les boutons principaux, l'onglet ou la puce choisis et l'élève sélectionné, soit environ un dixième de l'écran (règle 60/30/10) : le fond, les cartes, la couleur du niveau, le jaune des XP, le vert et le rouge ne changent pas. Choisis Couleur de base (l'encre du style Séance), une des six couleurs proposées, ou Personnalisée : nuancier ou code hexa. La luminosité l'éclaircit ou l'assombrit. Le texte posé dessus passe seul en blanc ou en noir. Si la couleur ressemble au vert des ajouts, au rouge des retraits ou au jaune des XP, un avertissement s'affiche. Le choix est enregistré sur cet appareil, pas dans la sauvegarde."], ["Police", "Réglages, Apparence. Une seule police pour les titres et le texte de toute l'appli, présentation comprise : Par défaut (Bricolage Grotesque et Figtree), Ubuntu, Noto Sans ou Luciole (intégrées à l'appli, elles s'affichent partout ; Luciole est une police française conçue pour les personnes malvoyantes, © Laurent Bourcellier et Jonathan Perez, licence CC BY 4.0), Helvetica ou San Francisco (les vraies sur iPad, iPhone et Mac ; sur un autre appareil, elles sont remplacées par deux polices intégrées très proches : TeX Gyre Heros et Inter). Chaque choix montre un exemple. Enregistrée sur cet appareil. Le PDF exporté reste en Helvetica."], ["Plan de classe", "Formule du plan : îlots ou personnalisé. Modèle de plan : enregistrer, modifier, changer ou supprimer le modèle par défaut."], ["XP et cartes", "Conditions pour gagner des XP : nom, catégorie, icône, couleur, montant (négatif = retrait), limite par chapitre. Cartes et branches : créer ou modifier une carte (nom, texte d'usage, couleur, icône, XP, cartes inférieures et supérieures de la même branche, affichée ou masquée), gérer les catégories. Les branches servent seulement au tarif réduit : elles ne bloquent aucun achat. Paliers du chrono : retraits automatiques au fil de la séance."], ["Sons", "Son du minuteur, son du tirage, alerte du chrono de séance, et niveau sonore. Chaque son se choisit parmi quatre ou plus, s'écoute avant d'être choisi, et sa puissance se règle de 1 à 5."], ["Widgets", "Mes citations (ajoute tes propres citations, une par ligne, l'auteur après un tiret), Horaires des créneaux (heures de début et de fin, pour le chrono de séance)."], ["Questions flash", "Réglages, Widgets, Questions flash : une banque par niveau (5e, 4e, 3e, Autre), rangée par séquence. Une question par ligne, la réponse après « / » (barre entourée d'espaces, pour que km/h ou 1/2 restent intacts). Colle toute une liste d'un coup ; les questions déjà là gardent leur suivi. Renomme ou supprime une séquence, ou crée-en une nouvelle. Les questions et le suivi sont dans la sauvegarde."]]]];
 let tutoIdx = 0;
 function setTutoIdx(i) { tutoIdx = i; openSettingsPage('tuto'); }
 function tutoHTML() {
@@ -5292,15 +5344,8 @@ function pressWidgetBody(k, c, labels, full) {
   if (k === 'sonore') return sonoreBody();
   if (k === 'consigne') {
     const html = (c.consigneHTML != null) ? c.consigneHTML : esc(state.consigne || '');
-    if (!full) { const plain = sanitizeRT(html).replace(/<br\s*\/?>/g, '\n').replace(/<[^>]+>/g, '').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&'); return `<div class="wtxt rt-plain" aria-label="Texte personnalisé">${esc(plain)}</div>`; }
-    return `<div class="rt-bar" role="toolbar" aria-label="Mise en forme">
-      <label class="rt-size">Taille <input type="number" class="rt-num" id="rt-size" min="12" max="200" step="2" value="36" aria-label="Taille du texte en pixels" onmousedown="event.stopPropagation()"></label><button class="rt-tog" onmousedown="event.preventDefault()" onclick="rtApply('z', document.getElementById('rt-size').value)" aria-label="Appliquer la taille">Aa</button>${[24, 36, 48, 72, 96].map(n => `<button class="rt-tog" onmousedown="event.preventDefault()" onclick="rtApply('z','${n}')" aria-label="Taille ${n}">${n}</button>`).join('')}<button class="rt-tog" onmousedown="event.preventDefault()" onclick="rtApply('z','')" aria-label="Taille normale">↺</button>
-      <select class="rt-sel" aria-label="Police" onchange="rtApply('f', this.value)"><option value="serif">Serif</option><option value="sans">Sans</option><option value="manu">Manuscrite</option><option value="dys">OpenDyslexic</option></select>
-      ${RT_TEXT.map(([v, hex]) => `<button class="rt-dot" style="background:${hex}" aria-label="Couleur ${v}" onmousedown="event.preventDefault()" onclick="rtApply('c','${v}')"></button>`).join('')}
-      ${RT_HI.map(([v, hex]) => `<button class="rt-dot rt-hi" style="background:${hex}" aria-label="Surlignage ${v}" onmousedown="event.preventDefault()" onclick="rtApply('h','${v}')"></button>`).join('')}
-      <button class="rt-tog" onmousedown="event.preventDefault()" onclick="rtApply('u')">S</button><button class="rt-tog" onmousedown="event.preventDefault()" onclick="rtApply('s')">B</button>
-    </div>
-    <div class="wtxt rt" contenteditable="true" data-cid="${c.id}" aria-label="Texte personnalisé" oninput="consigneRTLater('${c.id}', this.innerHTML)" onblur="consigneRT('${c.id}', this.innerHTML)">${html}</div>`;
+    if (!full) return rtMiniHTML(html);
+    return rtBarHTML() + `<div class="wtxt rt" contenteditable="true" spellcheck="true" data-cid="${c.id}" role="textbox" aria-multiline="true" aria-label="Texte personnalisé">${sanitizeRT(html) || '<div><br></div>'}</div>`;
   }
   if (k === 'cartes') {
     const ev = [];
@@ -5772,73 +5817,250 @@ function ensureQuote() {
   else pressQuoteIdx = (parseInt(saved[1], 10) || 0) % qpool().length;
 }
 
-/* Texte personnalisé par classe : HTML restreint (spans à classes connues), nettoyé à chaque enregistrement */
-const RT_TEXT = [['noir', '#111111'], ['vert', '#1E6B3A'], ['bleu', '#1F4E9A'], ['violet', '#6A3FA0'], ['rouge', '#B3261E'], ['orange', '#9A4A00']];
-const RT_HI = [['jaune', '#FFF0A8'], ['vert', '#CDEFD6'], ['bleu', '#CFE3FA'], ['violet', '#E4D6FA'], ['rouge', '#FFD2CC'], ['orange', '#FFE0BF']];
-const RT_FONT = ['serif', 'sans', 'manu', 'dys'];
-function sanitizeRT(html) {
-  const doc = new DOMParser().parseFromString('<div>' + String(html || '') + '</div>', 'text/html');
-  const root = doc.body.firstChild, out = doc.createElement('div');
-  const allowed = new Set(['rt-u', 'rt-s'].concat(RT_FONT.map(f => 'rt-f-' + f), RT_TEXT.map(([v]) => 'rt-c-' + v), RT_HI.map(([v]) => 'rt-h-' + v), ['1','2','3','4'].map(z => 'rt-z-' + z)));
-  const walk = (node, dest) => {
-    node.childNodes.forEach(ch => {
-      if (ch.nodeType === 3) { dest.appendChild(doc.createTextNode(ch.textContent)); return; }
-      if (ch.nodeType !== 1) return;
-      const tag = ch.tagName.toLowerCase();
-      if (tag === 'br') { dest.appendChild(doc.createElement('br')); return; }
-      if (tag === 'span' || tag === 'div' || tag === 'b' || tag === 'i' || tag === 'p') {
-        const keep = tag === 'span' ? doc.createElement('span') : doc.createElement('div');
-        if (tag === 'span') {
-          const cls = [...ch.classList].filter(c => allowed.has(c)); if (cls.length) keep.className = cls.join(' ');
-          const m = (ch.getAttribute('style') || '').match(/^\s*font-size:\s*(\d{2,3})px\s*;?\s*$/);
-          if (m && +m[1] >= 12 && +m[1] <= 200) keep.setAttribute('style', 'font-size:' + (+m[1]) + 'px');
-        }
-        walk(ch, keep); dest.appendChild(keep); return;
-      }
-      walk(ch, dest); /* balise inconnue : on garde le texte, pas la balise */
+/* ===== Texte personnalisé par classe =====
+   Stockage : une <div> par ligne (classes de bloc connues), des <span> à classes connues (+ font-size), nettoyé à chaque enregistrement.
+   Mise en forme : le texte est lu en modèle (blocs -> passages), modifié par position de caractère, puis réécrit à plat. */
+const RT_TEXT = [['noir', 'Couleur du texte'], ['vert', 'Vert'], ['bleu', 'Bleu'], ['violet', 'Violet'], ['rouge', 'Rouge'], ['orange', 'Orange']];
+const RT_HI = [['jaune', 'Jaune'], ['vert', 'Vert'], ['bleu', 'Bleu'], ['violet', 'Violet'], ['rouge', 'Rouge'], ['orange', 'Orange']];
+const RT_FONT = [['app', 'Police de l’appli'], ['luciole', 'Luciole'], ['manu', 'Manuscrite'], ['dys', 'OpenDyslexic']];
+const RT_MAX = 50000;
+const RT_SPAN_OK = new Set(['rt-b', 'rt-u', 'rt-s'].concat(['luciole', 'manu', 'dys', 'serif', 'sans'].map(f => 'rt-f-' + f), RT_TEXT.map(([v]) => 'rt-c-' + v), RT_HI.map(([v]) => 'rt-h-' + v), ['1', '2', '3', '4'].map(z => 'rt-z-' + z)));
+const RT_BLOCK_OK = new Set(['rt-al-c', 'rt-al-j', 'rt-li', 'rt-ol']);
+function rtFam(k) { const m = /^rt-(f|c|h|z|al)-/.exec(k); return m ? m[0] : (k === 'rt-li' || k === 'rt-ol') ? 'rt-list' : k; }
+function rtSetCls(list, add) { const f = rtFam(add); return list.filter(k => rtFam(k) !== f).concat(add).sort(); }
+function rtEsc(t) { return t.replace(/[&<>]/g, m => ({'&': '&amp;', '<': '&lt;', '>': '&gt;'})[m]); }
+/* Lecture : éditeur, fragment ou HTML enregistré -> [{cls, runs:[{t, cls, z}]}] */
+function rtRead(root) {
+  const blocks = []; let cur = null;
+  const open = bcls => { if (!cur) { cur = {cls: bcls.slice(), runs: []}; blocks.push(cur); } return cur; };
+  const add = (t, at, bcls) => {
+    t.replace(/ /g, ' ').replace(/\r/g, '').split('\n').forEach((piece, k) => {
+      if (k > 0) cur = null;
+      const b = open(bcls); if (!piece) return;
+      const last = b.runs[b.runs.length - 1], cls = at.cls.slice().sort();
+      if (last && last.z === at.z && last.cls.join(' ') === cls.join(' ')) last.t += piece; else b.runs.push({t: piece, cls, z: at.z});
     });
   };
-  walk(root, out);
-  return out.innerHTML.slice(0, 20000);
+  const walk = (node, at, bcls) => {
+    node.childNodes.forEach(ch => {
+      if (ch.nodeType === 3) { if (ch.nodeValue) add(ch.nodeValue, at, bcls); return; }
+      if (ch.nodeType !== 1) return;
+      const tag = ch.tagName;
+      if (tag === 'BR') { open(bcls); cur = null; return; }
+      if (/^(SCRIPT|STYLE|TEMPLATE)$/.test(tag)) return;
+      if (/^(DIV|P|LI|UL|OL|H[1-6]|BLOCKQUOTE|SECTION|ARTICLE|TR)$/.test(tag)) {
+        let nb = bcls.slice();
+        (ch.classList ? [...ch.classList] : []).filter(k => RT_BLOCK_OK.has(k)).forEach(k => { nb = rtSetCls(nb, k); });
+        cur = null; const n0 = blocks.length;
+        walk(ch, at, nb);
+        if (blocks.length === n0) { cur = null; open(nb); }
+        cur = null; return;
+      }
+      let na = at;
+      const mod = k => { na = {cls: rtSetCls(na.cls, k), z: na.z}; };
+      if (tag === 'B' || tag === 'STRONG') mod('rt-b');
+      else if (tag === 'U' || tag === 'INS') mod('rt-u');
+      else if (tag === 'S' || tag === 'STRIKE' || tag === 'DEL') mod('rt-s');
+      if (tag === 'SPAN' || tag === 'FONT') {
+        (ch.classList ? [...ch.classList] : []).filter(k => RT_SPAN_OK.has(k)).forEach(mod);
+        const m = /font-size:\s*(\d{1,3})px/.exec(ch.getAttribute('style') || '');
+        if (m && +m[1] >= 12 && +m[1] <= 200) na = {cls: na.cls.filter(k => !/^rt-z-/.test(k)), z: +m[1]};
+        else if (na.cls.some(k => /^rt-z-/.test(k))) na = {cls: na.cls, z: null};
+      }
+      walk(ch, na, bcls);
+    });
+  };
+  walk(root, {cls: [], z: null}, []);
+  return blocks;
 }
-let rtTimer = null;
-function consigneRT(cid, html) {
+function rtLen(blocks) { return blocks.length ? blocks.reduce((n, b) => n + b.runs.reduce((m, r) => m + r.t.length, 0), 0) + blocks.length - 1 : 0; }
+function rtHTML(blocks) {
+  return blocks.map(b => `<div${b.cls.length ? ` class="${b.cls.join(' ')}"` : ''}>${b.runs.filter(r => r.t).length ? b.runs.filter(r => r.t).map(r => (r.cls.length || r.z) ? `<span${r.cls.length ? ` class="${r.cls.join(' ')}"` : ''}${r.z ? ` style="font-size:${r.z}px"` : ''}>${rtEsc(r.t)}</span>` : rtEsc(r.t)).join('') : '<br>'}</div>`).join('');
+}
+function rtParse(html) { return new DOMParser().parseFromString('<div>' + String(html || '') + '</div>', 'text/html').body.firstChild; }
+function sanitizeRT(html) { const b = rtRead(rtParse(html)); return (b.length === 1 && !b[0].runs.length && !b[0].cls.length) ? '' : rtHTML(b); }
+function rtPlain(html) { return rtRead(rtParse(html)).map(b => b.runs.map(r => r.t).join('')).join('\n'); }
+/* Positions : caractère n° depuis le début (un saut de ligne compte pour 1) */
+function rtHost() { return document.querySelector('.rt[contenteditable="true"]'); }
+function rtOffset(host, node, off) { const r = document.createRange(); r.setStart(host, 0); r.setEnd(node, off); return rtLen(rtRead(r.cloneContents())); }
+function rtSelOffsets(host) {
+  const sel = getSelection(); if (!sel || !sel.rangeCount) return null;
+  const r = sel.getRangeAt(0); if (!host.contains(r.startContainer) || !host.contains(r.endContainer)) return null;
+  const a = rtOffset(host, r.startContainer, r.startOffset), b = r.collapsed ? a : rtOffset(host, r.endContainer, r.endOffset);
+  return [Math.min(a, b), Math.max(a, b)];
+}
+function rtSetSel(host, a, b) {
+  const pos = off => {
+    const divs = [...host.children]; let rem = off;
+    for (const d of divs) {
+      const len = d.textContent.length;
+      if (rem <= len) { const w = document.createTreeWalker(d, NodeFilter.SHOW_TEXT); let n; while ((n = w.nextNode())) { if (rem <= n.nodeValue.length) return [n, rem]; rem -= n.nodeValue.length; } return [d, 0]; }
+      rem -= len + 1;
+    }
+    const last = divs[divs.length - 1]; return last ? [last, last.childNodes.length] : [host, 0];
+  };
+  try { const r = document.createRange(), p = pos(a), q = pos(b); r.setStart(p[0], p[1]); r.setEnd(q[0], q[1]); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); } catch (e) {}
+}
+/* Dernière sélection dans la zone : sert quand la taille ou la police prend le focus */
+let rtLastRange = null;
+document.addEventListener('selectionchange', () => {
+  const host = rtHost(); if (!host) return;
+  const o = rtSelOffsets(host); if (o && o[0] !== o[1]) rtLastRange = {cid: host.dataset.cid, a: o[0], b: o[1]};
+});
+/* Découpe les passages aux bornes [a, b) et applique fn à ceux qui sont dedans */
+function rtEachRun(blocks, a, b, fn) {
+  let pos = 0;
+  blocks.forEach(bl => {
+    const out = [];
+    bl.runs.forEach(r => {
+      const s = pos, e = pos + r.t.length; pos = e;
+      const i = Math.max(s, a), j = Math.min(e, b);
+      if (i >= j) { out.push(r); return; }
+      if (i > s) out.push({t: r.t.slice(0, i - s), cls: r.cls.slice(), z: r.z});
+      const mid = {t: r.t.slice(i - s, j - s), cls: r.cls.slice(), z: r.z}; fn(mid); out.push(mid);
+      if (j < e) out.push({t: r.t.slice(j - s), cls: r.cls.slice(), z: r.z});
+    });
+    bl.runs = out; pos += 1;
+  });
+}
+function rtBlockRange(blocks, a, b) {
+  let pos = 0, i0 = -1, i1 = -1;
+  blocks.forEach((bl, i) => { const len = bl.runs.reduce((m, r) => m + r.t.length, 0); if (i0 < 0 && a <= pos + len) i0 = i; if (i1 < 0 && b <= pos + len) i1 = i; pos += len + 1; });
+  if (i0 < 0) i0 = blocks.length - 1; if (i1 < 0) i1 = blocks.length - 1;
+  return [Math.max(0, i0), Math.max(0, i1)];
+}
+/* Mise en forme. Passage : b gras, u souligné, s barré, f police, c couleur, h surlignage, z taille. Ligne : al alignement, list liste. */
+function rtApply(kind, val) {
+  const host = rtHost(); if (!host) return;
+  const cid = host.dataset.cid, block = kind === 'al' || kind === 'list';
+  let o = rtSelOffsets(host);
+  if (!o && rtLastRange && rtLastRange.cid === cid) o = [rtLastRange.a, rtLastRange.b];
+  if (!o) { toast(block ? 'Touche d’abord la ligne à modifier' : 'Sélectionne d’abord du texte'); return; }
+  const [a, b] = o;
+  if (!block && a === b) { toast('Sélectionne d’abord du texte'); return; }
+  let blocks = rtRead(host); if (!blocks.length) blocks = [{cls: [], runs: []}];
+  if (block) {
+    const [i0, i1] = rtBlockRange(blocks, a, b), sel = blocks.slice(i0, i1 + 1);
+    if (kind === 'al') sel.forEach(bl => { bl.cls = bl.cls.filter(k => !/^rt-al-/.test(k)); if (val === 'c' || val === 'j') bl.cls = rtSetCls(bl.cls, 'rt-al-' + val); });
+    else { const k = 'rt-' + val, all = sel.every(bl => bl.cls.includes(k)); sel.forEach(bl => { bl.cls = bl.cls.filter(x => x !== 'rt-li' && x !== 'rt-ol'); if (!all) bl.cls = rtSetCls(bl.cls, k); }); }
+  } else {
+    let on = false;
+    if (kind === 'b' || kind === 'u' || kind === 's') { const k = 'rt-' + kind; let all = true; rtEachRun(rtRead(host), a, b, r => { if (r.t.trim() && !r.cls.includes(k)) all = false; }); on = !all; }
+    rtEachRun(blocks, a, b, r => {
+      if (kind === 'b' || kind === 'u' || kind === 's') { const k = 'rt-' + kind; r.cls = r.cls.filter(x => x !== k); if (on) r.cls = rtSetCls(r.cls, k); }
+      else if (kind === 'z') { r.cls = r.cls.filter(x => !/^rt-z-/.test(x)); const n = parseInt(val, 10); r.z = (val === '' || val == null || !n) ? null : Math.max(12, Math.min(200, n)); }
+      else { const fam = 'rt-' + kind + '-'; r.cls = r.cls.filter(x => !x.startsWith(fam)); if (val && val !== 'none' && val !== 'app' && !(kind === 'c' && val === 'noir')) r.cls = rtSetCls(r.cls, fam + val); }
+    });
+  }
+  host.innerHTML = rtHTML(blocks) || '<div><br></div>';
+  if (document.activeElement !== host) host.focus({preventScroll: true});
+  rtSetSel(host, a, b); if (a !== b) rtLastRange = {cid, a, b};
+  host.dataset.dirty = '1'; rtHistPush(host); consigneRT(cid, host.innerHTML, true);
+}
+/* Annuler / Rétablir (par classe, 100 étapes) */
+const rtHist = {};
+function rtSnap(host) { const o = rtSelOffsets(host) || [0, 0]; return {h: rtHTML(rtRead(host)), a: o[0], b: o[1]}; }
+function rtHistPush(host) {
+  const cid = host.dataset.cid, sn = rtSnap(host); let H = rtHist[cid];
+  if (!H) H = rtHist[cid] = {s: [], i: -1};
+  if (H.i >= 0 && H.s[H.i].h === sn.h) { H.s[H.i].a = sn.a; H.s[H.i].b = sn.b; rtBtns(); return; }
+  H.s = H.s.slice(0, H.i + 1); H.s.push(sn); if (H.s.length > 100) H.s.shift(); H.i = H.s.length - 1; rtBtns();
+}
+function rtBtns() {
+  const host = rtHost(), H = host && rtHist[host.dataset.cid];
+  document.querySelectorAll('[data-rt="undo"]').forEach(x => { x.disabled = !H || H.i <= 0; });
+  document.querySelectorAll('[data-rt="redo"]').forEach(x => { x.disabled = !H || H.i >= H.s.length - 1; });
+}
+function rtUndo(step) {
+  const host = rtHost(); if (!host) return;
+  clearTimeout(rtTimer); rtHistPush(host);
+  const H = rtHist[host.dataset.cid], j = H.i + step; if (j < 0 || j >= H.s.length) return;
+  H.i = j; const sn = H.s[j];
+  host.innerHTML = sn.h || '<div><br></div>'; host.focus({preventScroll: true}); rtSetSel(host, sn.a, sn.b);
+  host.dataset.dirty = '1'; consigneRT(host.dataset.cid, host.innerHTML, true); rtBtns();
+}
+/* Branchements de la zone de saisie (après chaque affichage de la présentation) */
+function rtWire() {
+  const host = rtHost();
+  if (host && !host._rt) {
+    host._rt = true;
+    const cid = host.dataset.cid, h0 = rtHTML(rtRead(host)), H = rtHist[cid];
+    if (!H || H.s[H.i].h !== h0) rtHist[cid] = {s: [{h: h0, a: 0, b: 0}], i: 0};
+    host.addEventListener('input', () => { host.dataset.dirty = '1'; clearTimeout(rtTimer); rtTimer = setTimeout(() => { rtHistPush(host); consigneRT(cid, host.innerHTML, true); }, 400); });
+    host.addEventListener('blur', () => consigneRT(cid, host.innerHTML, host.dataset.dirty === '1'));
+    host.addEventListener('paste', e => {
+      const t = e.clipboardData && e.clipboardData.getData('text/plain'); if (t == null) return;
+      e.preventDefault(); document.execCommand('insertText', false, t);
+    });
+    host.addEventListener('drop', e => e.preventDefault());
+    host.addEventListener('beforeinput', e => {
+      const map = {historyUndo: () => rtUndo(-1), historyRedo: () => rtUndo(1), formatBold: () => rtApply('b'), formatUnderline: () => rtApply('u'), formatStrikeThrough: () => rtApply('s'), formatItalic: () => {}};
+      if (map[e.inputType]) { e.preventDefault(); map[e.inputType](); }
+    });
+    host.addEventListener('keydown', e => {
+      if (!(e.metaKey || e.ctrlKey) || e.altKey) return;
+      const k = e.key.toLowerCase();
+      if (k === 'z') { e.preventDefault(); rtUndo(e.shiftKey ? 1 : -1); }
+      else if (k === 'y') { e.preventDefault(); rtUndo(1); }
+      else if (k === 'b' || k === 'u') { e.preventDefault(); rtApply(k); }
+      else if (k === 'i') e.preventDefault();
+    });
+  }
+  rtBtns(); rtFit();
+}
+/* Enregistrement : nettoyé, jamais tronqué ; vider la zone est possible (avec Annuler) */
+let rtTimer = null, rtWarned = false;
+function consigneRT(cid, html, user) {
   const c = getClass(cid); if (!c) return;
   const clean = sanitizeRT(html);
-  if (!clean.replace(/<[^>]+>/g, '').trim() && c.consigneHTML && c.consigneHTML.replace(/<[^>]+>/g, '').trim()) return; /* zone vidée par erreur : on ne remplace pas le texte */
-  if (clean === c.consigneHTML) return;
+  if (clean.length > RT_MAX) { if (!rtWarned) toast('Texte trop long : il n’est plus enregistré. Raccourcis-le.'); rtWarned = true; return; }
+  rtWarned = false;
+  const prev = c.consigneHTML != null ? c.consigneHTML : '', empty = !rtPlain(clean).trim(), had = !!rtPlain(prev).trim();
+  if (empty && had && !user) return; /* zone vide sans saisie de ta part : on garde le texte */
+  if (clean === prev) return;
   c.consigneHTML = clean; c.consigneT = Date.now(); save();
+  if (empty && had) showUndo('Texte effacé', {restore: () => { c.consigneHTML = prev; c.consigneT = Date.now(); save(); delete rtHist[cid]; if (pressCid) renderPress(); }});
 }
-function consigneRTLater(cid, html) { clearTimeout(rtTimer); rtTimer = setTimeout(() => consigneRT(cid, html), 400); }
-function consigneRTFlush() { const el = document.querySelector('.rt[contenteditable="true"]'); if (el && el.dataset.cid) consigneRT(el.dataset.cid, el.innerHTML); }
+function consigneRTFlush() { const el = rtHost(); if (el && el.dataset.cid) consigneRT(el.dataset.cid, el.innerHTML, el.dataset.dirty === '1'); }
 document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') consigneRTFlush(); });
 window.addEventListener('pagehide', consigneRTFlush);
-/* Applique une mise en forme à la sélection : f = police, c = couleur, h = surlignage, u = souligné, s = barré */
-function rtApply(kind, val) {
-  const sel = window.getSelection(); if (!sel || sel.rangeCount === 0 || sel.isCollapsed) { toast('Sélectionne d\'abord du texte'); return; }
-  const range = sel.getRangeAt(0), host = document.querySelector('.rt[contenteditable="true"]');
-  if (!host || !host.contains(range.commonAncestorContainer)) { toast('Sélectionne le texte dans la zone'); return; }
-  /* On garde les mises en forme déjà présentes dans le texte sélectionné ; une même famille est remplacée */
-  const node = range.commonAncestorContainer.nodeType === 1 ? range.commonAncestorContainer : range.commonAncestorContainer.parentElement;
-  const have = new Set(); let size = null;
-  for (let el = node; el && el !== host; el = el.parentElement) if (el.tagName === 'SPAN') {
-    el.classList.forEach(c => have.add(c));
-    if (size === null && el.style && el.style.fontSize && /px$/.test(el.style.fontSize)) size = parseInt(el.style.fontSize, 10);
-  }
-  const group = kind === 'f' ? 'rt-f-' : kind === 'c' ? 'rt-c-' : kind === 'h' ? 'rt-h-' : kind === 'z' ? 'rt-z-' : null;
-  const next = [...have].filter(c => group ? !c.startsWith(group) : c !== (kind === 'u' ? 'rt-u' : 'rt-s'));
-  if (kind === 'z') size = (val === '' || val == null) ? null : (Math.max(12, Math.min(200, parseInt(val, 10) || 0)) || null);
-  else if ((kind === 'u' || kind === 's') && have.has(kind === 'u' ? 'rt-u' : 'rt-s')) { /* bascule : on retire */ }
-  else next.push(kind === 'f' ? 'rt-f-' + val : kind === 'c' ? 'rt-c-' + val : kind === 'h' ? 'rt-h-' + val : kind === 'u' ? 'rt-u' : 'rt-s');
-  const plain = range.toString();
-  const text = plain.replace(/[<>&]/g, m => ({'<': '&lt;', '>': '&gt;', '&': '&amp;'})[m]);
-  const attrs = (next.length ? ' class="' + next.join(' ') + '"' : '') + (size ? ' style="font-size:' + size + 'px"' : '');
-  document.execCommand('insertHTML', false, '<span' + attrs + '>' + text + '</span>');
-  /* on re-sélectionne le passage pour pouvoir enchaîner les mises en forme */
-  const made = [...host.querySelectorAll('span')].reverse().find(sp => sp.textContent === plain);
-  if (made) { const r2 = document.createRange(); r2.selectNodeContents(made); sel.removeAllRanges(); sel.addRange(r2); }
-  host.dispatchEvent(new Event('blur'));
+/* Barre d'outils (plein écran) */
+function rtBtn(act, label, icon, extra) { return `<button class="rt-tog" type="button" ${extra || ''} aria-label="${label}" title="${label}" onpointerdown="event.preventDefault()" onmousedown="event.preventDefault()" onclick="${act}">${ico(icon)}</button>`; }
+function rtBarHTML() {
+  const g = x => `<span class="rt-grp">${x}</span>`;
+  return `<div class="rt-bar" role="toolbar" aria-label="Mise en forme">
+    ${g(rtBtn('rtUndo(-1)', 'Annuler', 'undo', 'data-rt="undo"') + rtBtn('rtUndo(1)', 'Rétablir', 'redo', 'data-rt="redo"'))}
+    ${g(rtBtn("rtApply('b')", 'Gras', 'bold') + rtBtn("rtApply('u')", 'Souligné', 'underline') + rtBtn("rtApply('s')", 'Barré', 'strike'))}
+    ${g(rtBtn("rtApply('al','g')", 'Aligner à gauche', 'alignleft') + rtBtn("rtApply('al','c')", 'Centrer', 'aligncenter') + rtBtn("rtApply('al','j')", 'Justifier', 'alignjustify'))}
+    ${g(rtBtn("rtApply('list','li')", 'Liste à puces', 'list') + rtBtn("rtApply('list','ol')", 'Liste numérotée', 'listnum'))}
+    ${g(`<label class="rt-size">Taille <input type="number" class="rt-num" id="rt-size" min="12" max="200" step="2" value="36" inputmode="numeric" aria-label="Taille du texte en pixels" onchange="rtApply('z', this.value)"></label>` + [24, 36, 48, 72, 96].map(n => `<button class="rt-tog rt-n" type="button" onpointerdown="event.preventDefault()" onmousedown="event.preventDefault()" onclick="rtApply('z','${n}')" aria-label="Taille ${n}">${n}</button>`).join('') + rtBtn("rtApply('z','')", 'Taille normale', 'sizereset'))}
+    ${g(`<select class="rt-sel" aria-label="Police" onchange="rtApply('f', this.value); this.selectedIndex = 0"><option value="" disabled selected>Police</option>${RT_FONT.map(([v, l]) => `<option value="${v}">${l}</option>`).join('')}</select>`)}
+    ${g(RT_TEXT.map(([v, l]) => `<button class="rt-dot rt-dc-${v}" type="button" aria-label="${l}" title="${l}" onpointerdown="event.preventDefault()" onmousedown="event.preventDefault()" onclick="rtApply('c','${v}')"></button>`).join(''))}
+    ${g(RT_HI.map(([v, l]) => `<button class="rt-dot rt-hi rt-dh-${v}" type="button" aria-label="Surlignage ${l.toLowerCase()}" title="Surlignage ${l.toLowerCase()}" onpointerdown="event.preventDefault()" onmousedown="event.preventDefault()" onclick="rtApply('h','${v}')"></button>`).join('') + rtBtn("rtApply('h','none')", 'Sans surlignage', 'eraser'))}
+  </div>`;
 }
+/* Petit widget : le texte en version réduite, mis à l'échelle pour tout faire tenir */
+function rtMiniHTML(html) {
+  const clean = sanitizeRT(html);
+  if (!rtPlain(clean).trim()) return `<div class="fempty"><p class="muted">Texte vide. Passe le widget en plein écran pour écrire.</p></div>`;
+  return `<div class="rt-mini" aria-label="Texte personnalisé"><div class="rt rt-view">${clean}</div></div>`;
+}
+let rtRO = null;
+function rtFit() {
+  const minis = document.querySelectorAll('.rt-mini'); if (!minis.length) return;
+  minis.forEach(m => {
+    const v = m.firstElementChild, w = m.clientWidth, h = m.clientHeight; if (!v || !w || !h) return;
+    /* Plus grande réduction k (au plus la taille réelle) pour laquelle tout le texte tient dans le widget */
+    const fits = k => { v.style.width = (w / k) + 'px'; return v.scrollHeight * k <= h; };
+    let lo = 0.12, hi = 1;
+    if (fits(hi)) lo = hi; else for (let n = 0; n < 9; n++) { const mid = (lo + hi) / 2; if (fits(mid)) lo = mid; else hi = mid; }
+    v.style.width = (w / lo) + 'px'; v.style.transform = `scale(${lo})`;
+    if (typeof ResizeObserver !== 'undefined') { if (!rtRO) rtRO = new ResizeObserver(() => requestAnimationFrame(rtFit)); if (!m._ro) { m._ro = true; rtRO.observe(m); } }
+  });
+}
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => rtFit());
+const renderPressTexteBase = renderPress;
+renderPress = function () { renderPressTexteBase.apply(this, arguments); rtWire(); };
 function pressNextQuote() { pressQuoteIdx = (pressQuoteIdx + 1) % qpool().length; lsSet('jokers_xp_quote', quotePeriod() + '|' + pressQuoteIdx); pressQuoteScale = 1; if (pressCid) renderPress(); }
 function setPressWidget(i, v) {
   const cur = pressWidgetKinds().slice(); cur[i] = v;
