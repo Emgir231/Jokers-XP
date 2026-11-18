@@ -1,14 +1,14 @@
 {
-  "name": "Jokers XP",
-  "short_name": "Jokers",
+  "name": "Atout",
+  "short_name": "Atout",
   "description": "Suivi des XP et des cartes des élèves",
   "start_url": "./",
   "scope": "./",
   "id": "./",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "#182430",
-  "theme_color": "#182430",
+  "background_color": "#F1F3FA",
+  "theme_color": "#F1F3FA",
   "lang": "fr",
   "icons": [
     { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
