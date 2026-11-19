@@ -1,7 +1,7 @@
 /* Atout hors ligne : les fichiers de l'appli sont gardés sur l'appareil.
    Réseau d'abord (les mises à jour arrivent), copie locale ensuite.
    Le lecteur de PDF (PDF.js, cdnjs) est aussi gardé après sa première utilisation. */
-const CACHE = 'atout-cache-v1';
+const CACHE = 'atout-cache-v2';
 const FILES = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 const PDFJS = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/';
 self.addEventListener('install', e => {
